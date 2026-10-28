@@ -21,7 +21,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 # Ensure project root is in sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -29,17 +29,15 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 import chromadb
-from chromadb.utils import embedding_functions
 import numpy as np
 import pandas as pd
+from chromadb.utils import embedding_functions
 from sentence_transformers import CrossEncoder
 
 from src.config import settings
 from src.evaluation.metrics import (
     bootstrap_confidence_interval,
     ndcg_at_k,
-    recall_at_k,
-    reciprocal_rank,
 )
 from src.retrieval.sparse import SparseRetriever
 
@@ -49,7 +47,7 @@ def normalize_text(text: str) -> str:
     return re.sub(r"\s+", " ", str(text)).strip().lower()
 
 
-def parse_ground_truth_contexts(raw_val: Any) -> List[str]:
+def parse_ground_truth_contexts(raw_val: Any) -> list[str]:
     """Extract normalized ground truth context strings."""
     try:
         parsed = ast.literal_eval(str(raw_val))
@@ -60,7 +58,7 @@ def parse_ground_truth_contexts(raw_val: Any) -> List[str]:
         return [normalize_text(raw_val)]
 
 
-def is_chunk_relevant(chunk_text: str, gt_contexts: List[str]) -> bool:
+def is_chunk_relevant(chunk_text: str, gt_contexts: list[str]) -> bool:
     """Determine binary relevance of chunk against ground truth contexts."""
     doc_clean = normalize_text(chunk_text)
     for gt in gt_contexts:
@@ -71,14 +69,14 @@ def is_chunk_relevant(chunk_text: str, gt_contexts: List[str]) -> bool:
 
 
 def run_rrf_fusion(
-    dense_results: List[Dict[str, Any]],
-    sparse_results: List[Dict[str, Any]],
+    dense_results: list[dict[str, Any]],
+    sparse_results: list[dict[str, Any]],
     rrf_k: int = 60,
     top_k: int = 100,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Reciprocal Rank Fusion (Cormack et al. 2009) with constant k=60."""
-    scores: Dict[str, float] = {}
-    doc_map: Dict[str, Dict[str, Any]] = {}
+    scores: dict[str, float] = {}
+    doc_map: dict[str, dict[str, Any]] = {}
 
     for rank, item in enumerate(dense_results, start=1):
         cid = item["chunk_id"]
@@ -100,7 +98,7 @@ def run_rrf_fusion(
     return fused_candidates
 
 
-def evaluate_all_retrievers() -> Dict[str, Any]:
+def evaluate_all_retrievers() -> dict[str, Any]:
     print("=" * 80)
     print("STARTING FORMAL BEIR-STYLE RETRIEVAL EVALUATION (SUITE 1: 30 QUERIES)")
     print("=" * 80)
@@ -114,9 +112,9 @@ def evaluate_all_retrievers() -> Dict[str, Any]:
     # 2. Initialize Retrievers
     print("Initializing ChromaDB clients (MiniLM and BGE)...")
     chroma_client = chromadb.PersistentClient(path=settings.chroma_path)
-    
+
     col_minilm = chroma_client.get_collection(name="fiqa_full_corpus")
-    
+
     st_bge = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en-v1.5")
     col_bge = chroma_client.get_collection(name="fiqa_bge_corpus", embedding_function=st_bge)
 
@@ -242,7 +240,7 @@ def evaluate_all_retrievers() -> Dict[str, Any]:
     # -------------------------------------------------------------------------
     # Aggregate Metrics and Compute 95% Bootstrap Confidence Intervals
     # -------------------------------------------------------------------------
-    final_report: Dict[str, Any] = {}
+    final_report: dict[str, Any] = {}
 
     for cfg in configs:
         acc = metric_accumulators[cfg]

@@ -1,6 +1,9 @@
+from typing import Any
+
 import chromadb
-from typing import List, Dict, Any
+
 from src.config import settings
+
 
 class DenseRetriever:
     """
@@ -10,7 +13,7 @@ class DenseRetriever:
         self.client = chromadb.PersistentClient(path=chroma_path)
         self.collection = self.client.get_collection(name=collection_name)
 
-    def retrieve(self, query: str, top_k: int = settings.dense_k) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, top_k: int = settings.dense_k) -> list[dict[str, Any]]:
         """
         Retrieves Top-K dense semantic candidates.
         """

@@ -1,10 +1,11 @@
-import time
 import re
 import threading
+import time
 from collections import OrderedDict
-from typing import Optional
+
 from src.config import settings
 from src.schemas import QueryResponse
+
 
 class InMemoryQueryCache:
     """
@@ -28,7 +29,7 @@ class InMemoryQueryCache:
         text = re.sub(r'[^\w\s]', '', text)
         return text
 
-    def get(self, query: str) -> Optional[QueryResponse]:
+    def get(self, query: str) -> QueryResponse | None:
         if not settings.cache_enabled:
             return None
 
@@ -45,7 +46,7 @@ class InMemoryQueryCache:
 
             # Move to end (most recently used)
             self._cache.move_to_end(key)
-            
+
             # Return response marked as cached
             cached_resp: QueryResponse = entry["response"].model_copy(deep=True)
             cached_resp.is_cached = True

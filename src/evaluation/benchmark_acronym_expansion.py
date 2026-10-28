@@ -8,13 +8,12 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-import numpy as np
 import pandas as pd
 from sentence_transformers import CrossEncoder
 
@@ -22,9 +21,9 @@ from src.retrieval.hybrid import HybridRetriever
 from src.retrieval.query_expansion import FinancialAcronymExpander
 
 
-def run_acronym_benchmark() -> Dict[str, Any]:
+def run_acronym_benchmark() -> dict[str, Any]:
     golden_path = BASE_DIR / "data" / "golden_eval_set.json"
-    with open(golden_path, "r", encoding="utf-8") as f:
+    with open(golden_path, encoding="utf-8") as f:
         golden_set = json.load(f)
 
     acronym_queries = [d for d in golden_set if d.get("category") == "ACRONYM_GAP"]
@@ -48,7 +47,6 @@ def run_acronym_benchmark() -> Dict[str, Any]:
         raw_scores = reranker.predict(raw_pairs)
         t_raw = (time.perf_counter() - t0) * 1000
         best_raw_score = float(max(raw_scores)) if len(raw_scores) > 0 else -99.0
-        best_raw_doc = raw_cands[int(np.argmax(raw_scores))]["text"][:80]
 
         # 2. Treatment: Acronym Expanded Query
         t0 = time.perf_counter()
@@ -57,7 +55,6 @@ def run_acronym_benchmark() -> Dict[str, Any]:
         exp_scores = reranker.predict(exp_pairs)
         t_exp = (time.perf_counter() - t0) * 1000
         best_exp_score = float(max(exp_scores)) if len(exp_scores) > 0 else -99.0
-        best_exp_doc = exp_cands[int(np.argmax(exp_scores))]["text"][:80]
 
         score_diff = best_exp_score - best_raw_score
 

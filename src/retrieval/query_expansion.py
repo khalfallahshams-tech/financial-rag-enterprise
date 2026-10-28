@@ -4,9 +4,8 @@ Bridges lexical-semantic disconnects by augmenting financial abbreviations with 
 """
 
 import re
-from typing import Dict, List, Tuple
 
-FINANCIAL_ACRONYM_MAP: Dict[str, str] = {
+FINANCIAL_ACRONYM_MAP: dict[str, str] = {
     "DBA": "Doing Business As",
     "EIN": "Employer Identification Number",
     "APR": "Annual Percentage Rate",
@@ -35,17 +34,17 @@ class FinancialAcronymExpander:
     Example:
         'Can a DBA open a 401k?' -> 'Can a DBA (Doing Business As) open a 401k?'
     """
-    def __init__(self, acronym_map: Dict[str, str] = None):
+    def __init__(self, acronym_map: dict[str, str] = None):
         self.acronym_map = acronym_map or FINANCIAL_ACRONYM_MAP
 
-    def expand(self, query: str) -> Tuple[str, List[str]]:
+    def expand(self, query: str) -> tuple[str, list[str]]:
         """
         Expands recognized financial acronyms in the query.
         Returns:
             (expanded_query, list_of_expanded_acronyms)
         """
         expanded_acronyms = []
-        
+
         def replace_match(match: re.Match) -> str:
             token = match.group(0)
             token_upper = token.upper()

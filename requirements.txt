@@ -25,6 +25,7 @@ python-dotenv>=1.0.0
 # --- Testing & Quality ---
 pytest>=8.0.0
 pytest-cov>=4.1.0
+ruff>=0.1.0
 
 # --- Evaluation & Tracking ---
 ragas>=0.1.0

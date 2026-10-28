@@ -96,11 +96,11 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 6.1 | `Makefile` (setup, data, eval, test, run, docker-up) | ⏳ TODO | |
-| 6.2 | `Dockerfile` (multi-stage, non-root) | ⏳ TODO | |
-| 6.3 | `docker-compose.yml` (API + UI + MLflow) | ⏳ TODO | |
-| 6.4 | GitHub Actions: lint + test + Docker build | ⏳ TODO | |
-| 6.5 | CI uploads eval report as artifact | ⏳ TODO | |
+| 6.1 | `Makefile` (setup, data, eval, test, run, ui, docker) | ✅ DONE | Cross-platform Makefile with 11 targets |
+| 6.2 | `Dockerfile` (multi-stage, non-root) | ✅ DONE | Hardened builder/runtime stages with UID 10001 (`appuser`) |
+| 6.3 | `docker-compose.yml` (API + UI + MLflow) | ✅ DONE | Orchestrates FastAPI, Streamlit, and MLflow with healthchecks |
+| 6.4 | GitHub Actions: lint + test + Docker build | ✅ DONE | `.github/workflows/ci.yml` runs Ruff, Pytest, and Docker buildx |
+| 6.5 | CI uploads eval report as artifact | ✅ DONE | Uploads `executive_evaluation_report.md` & `summary_metrics.json` |
 
 ---
 

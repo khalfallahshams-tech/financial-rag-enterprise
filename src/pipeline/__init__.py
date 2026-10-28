@@ -6,17 +6,17 @@ Exports:
 - CLI runners: run_full_pipeline, run_eval_pipeline
 """
 
+from src.pipeline.cli import run_eval_pipeline, run_full_pipeline
 from src.pipeline.orchestrator import FinancialRAGPipeline
 from src.pipeline.stages import (
-    stage_verify_data,
+    stage_build_index,
+    stage_build_report,
     stage_chunk,
     stage_embed,
-    stage_build_index,
-    stage_evaluate_retrieval,
     stage_evaluate_generation,
-    stage_build_report,
+    stage_evaluate_retrieval,
+    stage_verify_data,
 )
-from src.pipeline.cli import run_full_pipeline, run_eval_pipeline
 
 __all__ = [
     "FinancialRAGPipeline",

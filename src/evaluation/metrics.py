@@ -8,7 +8,9 @@ Implements:
 - Non-parametric Bootstrap Confidence Intervals (95% CI)
 """
 
-from typing import Any, List, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
+
 import numpy as np
 
 
@@ -66,7 +68,7 @@ def bootstrap_confidence_interval(
     n_bootstraps: int = 1000,
     ci: float = 0.95,
     seed: int = 42,
-) -> Tuple[float, float, float]:
+) -> tuple[float, float, float]:
     """
     Calculates the mean and non-parametric bootstrap confidence interval for a metric sample.
     

@@ -15,7 +15,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 # Ensure project root is in sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -41,23 +41,23 @@ INPUT_TOKEN_COST_PER_M = 0.075
 OUTPUT_TOKEN_COST_PER_M = 0.300
 
 
-def get_cache_key(query: str, contexts: List[str], model: str) -> str:
+def get_cache_key(query: str, contexts: list[str], model: str) -> str:
     """Generate deterministic hash key for prompt and context."""
     payload = f"{query}___{'|'.join(contexts)}___{model}"
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
-def load_llm_cache() -> Dict[str, Any]:
+def load_llm_cache() -> dict[str, Any]:
     if CACHE_FILE.exists():
         try:
-            with open(CACHE_FILE, "r", encoding="utf-8") as f:
+            with open(CACHE_FILE, encoding="utf-8") as f:
                 return json.load(f)
         except Exception:
             return {}
     return {}
 
 
-def save_llm_cache(cache: Dict[str, Any]):
+def save_llm_cache(cache: dict[str, Any]):
     CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(CACHE_FILE, "w", encoding="utf-8") as f:
         json.dump(cache, f, indent=2)
@@ -111,7 +111,7 @@ def evaluate_relevancy_heuristic(answer: str, question: str) -> float:
     return min(1.0, float(coverage * 1.5))
 
 
-def run_generation_evaluation(limit: int = 50) -> Dict[str, Any]:
+def run_generation_evaluation(limit: int = 50) -> dict[str, Any]:
     print("=" * 80)
     print(f"STARTING GENERATION & GUARDRAILS EVALUATION (GOLDEN SET LIMIT: {limit})")
     print("=" * 80)
@@ -120,7 +120,7 @@ def run_generation_evaluation(limit: int = 50) -> Dict[str, Any]:
     if not golden_set_path.exists():
         raise FileNotFoundError(f"Golden set not found at {golden_set_path}")
 
-    with open(golden_set_path, "r", encoding="utf-8") as f:
+    with open(golden_set_path, encoding="utf-8") as f:
         golden_set = json.load(f)[:limit]
 
     print(f"Loaded {len(golden_set)} test items.")
@@ -139,16 +139,14 @@ def run_generation_evaluation(limit: int = 50) -> Dict[str, Any]:
     abstention_correct = []
     gate_trip_correct = []
     latencies = []
-    
+
     total_prompt_tokens = 0
     total_completion_tokens = 0
     cache_hits = 0
 
     for idx, item in enumerate(golden_set):
-        qid = item["question_id"]
         q = item["question"]
         is_answerable = item.get("is_answerable", True)
-        cat = item.get("category", "UNKNOWN")
 
         t0 = time.perf_counter()
 
@@ -194,7 +192,7 @@ def run_generation_evaluation(limit: int = 50) -> Dict[str, Any]:
                 total_completion_tokens += c_tokens
 
         # Step 5: Citation Audit
-        audit_res = auditor.audit(answer, reranked)
+        _ = auditor.audit(answer, reranked)
 
         # Scoring
         is_abstained = "cannot answer" in answer.lower() or "not contain sufficient information" in answer.lower()

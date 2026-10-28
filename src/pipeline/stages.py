@@ -12,47 +12,45 @@ Stages:
 
 import hashlib
 import json
-import subprocess
-import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 MANIFEST_FILE = BASE_DIR / ".cache_manifest.json"
 
 
-def load_manifest() -> Dict[str, str]:
+def load_manifest() -> dict[str, str]:
     if MANIFEST_FILE.exists():
         try:
-            with open(MANIFEST_FILE, "r", encoding="utf-8") as f:
+            with open(MANIFEST_FILE, encoding="utf-8") as f:
                 return json.load(f)
         except Exception:
             return {}
     return {}
 
 
-def save_manifest(manifest: Dict[str, str]):
+def save_manifest(manifest: dict[str, str]):
     with open(MANIFEST_FILE, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
 
-def compute_stage_hash(input_files: List[Path], config_dict: Dict[str, Any]) -> str:
+def compute_stage_hash(input_files: list[Path], config_dict: dict[str, Any]) -> str:
     """Computes deterministic hash from input files modification times/sizes and config."""
     hasher = hashlib.sha256()
     for fp in input_files:
         if fp.exists():
             stat = fp.stat()
-            hasher.update(f"{fp.name}_{stat.st_size}_{stat.st_mtime}".encode("utf-8"))
+            hasher.update(f"{fp.name}_{stat.st_size}_{stat.st_mtime}".encode())
         else:
-            hasher.update(f"{fp.name}_missing".encode("utf-8"))
+            hasher.update(f"{fp.name}_missing".encode())
 
     config_str = json.dumps(config_dict, sort_keys=True)
     hasher.update(config_str.encode("utf-8"))
     return hasher.hexdigest()
 
 
-def stage_verify_data(force: bool = False) -> Dict[str, Any]:
+def stage_verify_data(force: bool = False) -> dict[str, Any]:
     """Stage 1: Verify data integrity, schemas, and checksums."""
     print("\n[STAGE 1/7] VERIFY DATA")
     raw_dir = BASE_DIR / "data" / "raw"
@@ -67,8 +65,8 @@ def stage_verify_data(force: bool = False) -> Dict[str, Any]:
     manifest = load_manifest()
 
     if not force and manifest.get("verify_data") == stage_hash and out_file.exists():
-        print(f"  -> [CACHE HIT] Data verification up-to-date. Skipping.")
-        with open(out_file, "r", encoding="utf-8") as f:
+        print("  -> [CACHE HIT] Data verification up-to-date. Skipping.")
+        with open(out_file, encoding="utf-8") as f:
             return json.load(f)
 
     from src.data.verify_data import run_full_data_audit
@@ -83,7 +81,7 @@ def stage_verify_data(force: bool = False) -> Dict[str, Any]:
     return report
 
 
-def stage_chunk(force: bool = False) -> Dict[str, Any]:
+def stage_chunk(force: bool = False) -> dict[str, Any]:
     """Stage 2: Text splitting and chunking audit."""
     print("\n[STAGE 2/7] CHUNK")
     corpus_csv = BASE_DIR / "data" / "raw" / "fiqa_corpus.csv"
@@ -94,8 +92,8 @@ def stage_chunk(force: bool = False) -> Dict[str, Any]:
     manifest = load_manifest()
 
     if not force and manifest.get("chunk") == stage_hash and out_file.exists():
-        print(f"  -> [CACHE HIT] Chunking audit up-to-date. Skipping.")
-        with open(out_file, "r", encoding="utf-8") as f:
+        print("  -> [CACHE HIT] Chunking audit up-to-date. Skipping.")
+        with open(out_file, encoding="utf-8") as f:
             return json.load(f)
 
     # Verify chunk structure from ChromaDB count
@@ -120,7 +118,7 @@ def stage_chunk(force: bool = False) -> Dict[str, Any]:
     return report
 
 
-def stage_embed(force: bool = False) -> Dict[str, Any]:
+def stage_embed(force: bool = False) -> dict[str, Any]:
     """Stage 3: Embedding model verification."""
     print("\n[STAGE 3/7] EMBED")
     chroma_dir = BASE_DIR / "data" / "chroma_db"
@@ -131,8 +129,8 @@ def stage_embed(force: bool = False) -> Dict[str, Any]:
     manifest = load_manifest()
 
     if not force and manifest.get("embed") == stage_hash and out_file.exists():
-        print(f"  -> [CACHE HIT] Embedding verification up-to-date. Skipping.")
-        with open(out_file, "r", encoding="utf-8") as f:
+        print("  -> [CACHE HIT] Embedding verification up-to-date. Skipping.")
+        with open(out_file, encoding="utf-8") as f:
             return json.load(f)
 
     import chromadb
@@ -154,7 +152,7 @@ def stage_embed(force: bool = False) -> Dict[str, Any]:
     return report
 
 
-def stage_build_index(force: bool = False) -> Dict[str, Any]:
+def stage_build_index(force: bool = False) -> dict[str, Any]:
     """Stage 4: BM25 sparse index validation/construction."""
     print("\n[STAGE 4/7] BUILD INDEX")
     bm25_file = BASE_DIR / "data" / "bm25_index.pkl"
@@ -164,8 +162,8 @@ def stage_build_index(force: bool = False) -> Dict[str, Any]:
     manifest = load_manifest()
 
     if not force and manifest.get("build_index") == stage_hash and out_file.exists():
-        print(f"  -> [CACHE HIT] BM25 Index verified up-to-date. Skipping.")
-        with open(out_file, "r", encoding="utf-8") as f:
+        print("  -> [CACHE HIT] BM25 Index verified up-to-date. Skipping.")
+        with open(out_file, encoding="utf-8") as f:
             return json.load(f)
 
     from src.retrieval.sparse import SparseRetriever
@@ -185,7 +183,7 @@ def stage_build_index(force: bool = False) -> Dict[str, Any]:
     return report
 
 
-def stage_evaluate_retrieval(force: bool = False) -> Dict[str, Any]:
+def stage_evaluate_retrieval(force: bool = False) -> dict[str, Any]:
     """Stage 5: BEIR retrieval benchmark with 95% bootstrap CIs."""
     print("\n[STAGE 5/7] EVALUATE RETRIEVAL")
     eval_csv = BASE_DIR / "data" / "raw" / "fiqa_eval.csv"
@@ -196,8 +194,8 @@ def stage_evaluate_retrieval(force: bool = False) -> Dict[str, Any]:
     manifest = load_manifest()
 
     if not force and manifest.get("evaluate_retrieval") == stage_hash and out_file.exists():
-        print(f"  -> [CACHE HIT] BEIR retrieval benchmark up-to-date. Skipping.")
-        with open(out_file, "r", encoding="utf-8") as f:
+        print("  -> [CACHE HIT] BEIR retrieval benchmark up-to-date. Skipping.")
+        with open(out_file, encoding="utf-8") as f:
             return json.load(f)
 
     from src.evaluation.retrieval_eval import evaluate_all_retrievers
@@ -212,19 +210,19 @@ def stage_evaluate_retrieval(force: bool = False) -> Dict[str, Any]:
     return report
 
 
-def stage_evaluate_generation(force: bool = False, limit: int = 50) -> Dict[str, Any]:
+def stage_evaluate_generation(force: bool = False, limit: int = 50) -> dict[str, Any]:
     """Stage 6: Generation & Guardrails evaluation with Gemini."""
     print(f"\n[STAGE 6/7] EVALUATE GENERATION (limit={limit})")
     golden_file = BASE_DIR / "data" / "golden_eval_set.json"
     cache_file = BASE_DIR / "results" / "generation_cache.json"
     out_file = BASE_DIR / "results" / "generation_evaluation_results.json"
 
-    stage_hash = compute_stage_hash([golden_file], {"limit": limit, "model": "gemini-3.5-flash-lite"})
+    stage_hash = compute_stage_hash([golden_file, cache_file], {"limit": limit, "model": "gemini-3.5-flash-lite"})
     manifest = load_manifest()
 
     if not force and manifest.get("evaluate_generation") == stage_hash and out_file.exists():
-        print(f"  -> [CACHE HIT] Generation evaluation up-to-date. Skipping.")
-        with open(out_file, "r", encoding="utf-8") as f:
+        print("  -> [CACHE HIT] Generation evaluation up-to-date. Skipping.")
+        with open(out_file, encoding="utf-8") as f:
             return json.load(f)
 
     from src.evaluation.generation_eval import run_generation_evaluation
@@ -239,7 +237,7 @@ def stage_evaluate_generation(force: bool = False, limit: int = 50) -> Dict[str,
     return report
 
 
-def stage_build_report(force: bool = False) -> Dict[str, Any]:
+def stage_build_report(force: bool = False) -> dict[str, Any]:
     """Stage 7: Build Executive Summary Report and log to MLflow."""
     print("\n[STAGE 7/7] BUILD REPORT & LOG EXPERIMENT")
     retrieval_file = BASE_DIR / "results" / "beir_retrieval_benchmark_results.json"
@@ -249,12 +247,12 @@ def stage_build_report(force: bool = False) -> Dict[str, Any]:
 
     retrieval_data = {}
     if retrieval_file.exists():
-        with open(retrieval_file, "r", encoding="utf-8") as f:
+        with open(retrieval_file, encoding="utf-8") as f:
             retrieval_data = json.load(f)
 
     generation_data = {}
     if generation_file.exists():
-        with open(generation_file, "r", encoding="utf-8") as f:
+        with open(generation_file, encoding="utf-8") as f:
             generation_data = json.load(f)
 
     # Log to MLflow

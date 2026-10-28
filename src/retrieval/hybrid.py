@@ -1,19 +1,22 @@
-from typing import List, Dict, Any
+from typing import Any
+
 from src.config import settings
+
 from .dense import DenseRetriever
 from .sparse import SparseRetriever
 
+
 def reciprocal_rank_fusion(
-    ranked_lists: List[List[Dict[str, Any]]],
+    ranked_lists: list[list[dict[str, Any]]],
     k: int = 60
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Computes standard Reciprocal Rank Fusion (RRF) across multiple candidate lists:
         RRF_score(d) = sum_{l in lists} 1.0 / (k + rank_l(d))
     where rank is 1-indexed.
     """
-    rrf_scores: Dict[str, float] = {}
-    doc_map: Dict[str, Dict[str, Any]] = {}
+    rrf_scores: dict[str, float] = {}
+    doc_map: dict[str, dict[str, Any]] = {}
 
     for rank_list in ranked_lists:
         for rank_1idx, item in enumerate(rank_list, start=1):
@@ -42,7 +45,7 @@ class HybridRetriever:
         self.dense = dense_retriever or DenseRetriever()
         self.sparse = sparse_retriever or SparseRetriever()
 
-    def retrieve(self, query: str, dense_k: int = settings.dense_k, bm25_k: int = settings.bm25_k) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, dense_k: int = settings.dense_k, bm25_k: int = settings.bm25_k) -> list[dict[str, Any]]:
         # 1. Retrieve dense semantic candidates
         dense_candidates = self.dense.retrieve(query, top_k=dense_k)
 

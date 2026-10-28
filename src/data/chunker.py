@@ -1,6 +1,6 @@
-from typing import List
 
-def chunk_text(text: str, chunk_size: int = 500, chunk_overlap: int = 50) -> List[str]:
+
+def chunk_text(text: str, chunk_size: int = 500, chunk_overlap: int = 50) -> list[str]:
     """
     Splits text into overlapping sliding window chunks.
     Ensures deterministic, lossless chunking with boundary safety.

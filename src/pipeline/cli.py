@@ -17,13 +17,13 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 from src.pipeline.stages import (
-    stage_verify_data,
+    stage_build_index,
+    stage_build_report,
     stage_chunk,
     stage_embed,
-    stage_build_index,
-    stage_evaluate_retrieval,
     stage_evaluate_generation,
-    stage_build_report,
+    stage_evaluate_retrieval,
+    stage_verify_data,
 )
 from src.pipeline.tracker import MLflowTracker
 

@@ -5,10 +5,9 @@ Performs deterministic audits of corpus files, evaluation suites, and pre-comput
 
 import hashlib
 import json
-import os
 import pickle
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import chromadb
 import pandas as pd
@@ -23,7 +22,7 @@ def compute_file_sha256(filepath: Path) -> str:
     return sha256.hexdigest()
 
 
-def verify_corpus(corpus_path: Path) -> Dict[str, Any]:
+def verify_corpus(corpus_path: Path) -> dict[str, Any]:
     """Verify raw corpus CSV integrity, nulls, duplicates, and token length profile."""
     if not corpus_path.exists():
         raise FileNotFoundError(f"Corpus file not found at {corpus_path}")
@@ -34,7 +33,7 @@ def verify_corpus(corpus_path: Path) -> Dict[str, Any]:
     df = pd.read_csv(corpus_path)
     total_rows = len(df)
     null_rows = int(df["doc"].isnull().sum())
-    
+
     # Cleaned rows
     df_clean = df.dropna(subset=["doc"])
     duplicate_rows = int(df_clean.duplicated(subset=["doc"]).sum())
@@ -60,7 +59,7 @@ def verify_corpus(corpus_path: Path) -> Dict[str, Any]:
     }
 
 
-def verify_academic_eval(eval_path: Path) -> Dict[str, Any]:
+def verify_academic_eval(eval_path: Path) -> dict[str, Any]:
     """Verify Suite 1: Academic 30-query evaluation dataset (fiqa_eval.csv)."""
     if not eval_path.exists():
         raise FileNotFoundError(f"Evaluation benchmark file not found at {eval_path}")
@@ -89,7 +88,7 @@ def verify_academic_eval(eval_path: Path) -> Dict[str, Any]:
     }
 
 
-def verify_enterprise_stress_eval(eval_json_path: Path) -> Dict[str, Any]:
+def verify_enterprise_stress_eval(eval_json_path: Path) -> dict[str, Any]:
     """Verify Suite 2: Enterprise 45-query multi-category stress test (fiqa_eval_new.json)."""
     if not eval_json_path.exists():
         raise FileNotFoundError(f"Stress test JSON not found at {eval_json_path}")
@@ -97,14 +96,14 @@ def verify_enterprise_stress_eval(eval_json_path: Path) -> Dict[str, Any]:
     file_size_kb = eval_json_path.stat().st_size / 1024
     file_hash = compute_file_sha256(eval_json_path)
 
-    with open(eval_json_path, "r", encoding="utf-8") as f:
+    with open(eval_json_path, encoding="utf-8") as f:
         data = json.load(f)
 
     if not isinstance(data, list):
         raise ValueError(f"Expected JSON list of queries in {eval_json_path}")
 
-    categories: Dict[str, int] = {}
-    gate_decisions: Dict[str, int] = {}
+    categories: dict[str, int] = {}
+    gate_decisions: dict[str, int] = {}
     answerable_count = 0
 
     for item in data:
@@ -129,7 +128,7 @@ def verify_enterprise_stress_eval(eval_json_path: Path) -> Dict[str, Any]:
     }
 
 
-def verify_chromadb(chroma_dir: Path) -> Dict[str, Any]:
+def verify_chromadb(chroma_dir: Path) -> dict[str, Any]:
     """Verify ChromaDB collections and vector counts."""
     if not chroma_dir.exists():
         raise FileNotFoundError(f"ChromaDB directory not found at {chroma_dir}")
@@ -149,7 +148,7 @@ def verify_chromadb(chroma_dir: Path) -> Dict[str, Any]:
     }
 
 
-def verify_bm25_index(bm25_path: Path) -> Dict[str, Any]:
+def verify_bm25_index(bm25_path: Path) -> dict[str, Any]:
     """Verify BM25 precomputed pickle index."""
     if not bm25_path.exists():
         return {"status": "MISSING", "path": str(bm25_path)}
@@ -167,7 +166,7 @@ def verify_bm25_index(bm25_path: Path) -> Dict[str, Any]:
     }
 
 
-def run_full_data_audit() -> Dict[str, Any]:
+def run_full_data_audit() -> dict[str, Any]:
     """Execute complete data audit and return structured summary."""
     base_dir = Path(__file__).resolve().parent.parent.parent
     raw_dir = base_dir / "data" / "raw"

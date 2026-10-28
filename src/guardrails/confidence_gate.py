@@ -1,6 +1,8 @@
-from typing import Tuple, List, Dict, Any
+from typing import Any
+
 from src.config import settings
 from src.schemas import GateStatus
+
 
 class ConfidenceGate:
     """
@@ -11,7 +13,7 @@ class ConfidenceGate:
     def __init__(self, threshold: float = settings.confidence_threshold):
         self.threshold = threshold
 
-    def evaluate(self, ranked_candidates: List[Dict[str, Any]]) -> Tuple[GateStatus, float, str]:
+    def evaluate(self, ranked_candidates: list[dict[str, Any]]) -> tuple[GateStatus, float, str]:
         """
         Evaluates the top candidate's cross-encoder score.
         Returns:

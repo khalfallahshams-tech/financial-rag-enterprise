@@ -1,7 +1,10 @@
 from enum import Enum
-from typing import List, Optional, Dict, Any
+from typing import Any
+
 from pydantic import BaseModel, Field, field_validator
+
 from src.config import settings
+
 
 class GateStatus(str, Enum):
     PASSED = "PASSED (Gate Open)"
@@ -87,18 +90,18 @@ class QueryResponse(BaseModel):
     question: str
     answer: str
     abstained: bool = Field(default=False, description="Whether the system abstained due to circuit breaker or low relevance.")
-    sources: List[SourceItem] = Field(default_factory=list, description="Grounding source passages according to API spec.")
+    sources: list[SourceItem] = Field(default_factory=list, description="Grounding source passages according to API spec.")
     latency_ms: float = Field(default=0.0, description="Total latency in milliseconds.")
-    config: Dict[str, Any] = Field(default_factory=dict, description="Active runtime configuration used for this query.")
+    config: dict[str, Any] = Field(default_factory=dict, description="Active runtime configuration used for this query.")
 
     # Deep attribution & latency decomposition
     gate_decision: GateStatus = GateStatus.PASSED
     confidence_score: float = Field(default=0.0, description="Top candidate's confidence score.")
-    citations: List[SourceCitation] = Field(default_factory=list)
+    citations: list[SourceCitation] = Field(default_factory=list)
     citation_audit: CitationAuditReport = Field(default_factory=CitationAuditReport)
-    expanded_acronyms: List[str] = Field(default_factory=list, description="Financial acronyms expanded prior to retrieval.")
+    expanded_acronyms: list[str] = Field(default_factory=list, description="Financial acronyms expanded prior to retrieval.")
     is_cached: bool = Field(default=False, description="Whether the response was served from memory cache.")
-    
+
     # Latency decomposition in milliseconds
     retrieval_latency_ms: float = 0.0
     rerank_latency_ms: float = 0.0
@@ -132,7 +135,7 @@ class ConfigResponse(BaseModel):
     cache_max_size: int
     api_timeout_seconds: float
     default_retriever: str
-    supported_retrievers: List[str]
+    supported_retrievers: list[str]
     min_query_len: int
     max_query_len: int
 

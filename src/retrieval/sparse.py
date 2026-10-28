@@ -1,10 +1,12 @@
 import os
-import re
 import pickle
-from typing import List, Dict, Any
-from rank_bm25 import BM25Okapi
+import re
+from typing import Any
+
 import chromadb
-from src.config import settings, DATA_DIR
+from rank_bm25 import BM25Okapi
+
+from src.config import DATA_DIR, settings
 
 BM25_CACHE_PATH = DATA_DIR / "bm25_index.pkl"
 
@@ -17,13 +19,13 @@ class SparseRetriever:
     def __init__(self, chroma_path: str = settings.chroma_path, collection_name: str = settings.dense_collection_name):
         self.chroma_path = chroma_path
         self.collection_name = collection_name
-        self.corpus_documents: List[str] = []
-        self.corpus_ids: List[str] = []
+        self.corpus_documents: list[str] = []
+        self.corpus_ids: list[str] = []
         self.bm25: BM25Okapi = None
         self._load_or_build_index()
 
     @staticmethod
-    def tokenize(text: str) -> List[str]:
+    def tokenize(text: str) -> list[str]:
         return re.findall(r'\w+', text.lower())
 
     def _load_or_build_index(self):
@@ -59,7 +61,7 @@ class SparseRetriever:
         except Exception:
             pass
 
-    def retrieve(self, query: str, top_k: int = settings.bm25_k) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, top_k: int = settings.bm25_k) -> list[dict[str, Any]]:
         query_tokens = self.tokenize(query)
         top_indices = self.bm25.get_top_n(
             query_tokens,

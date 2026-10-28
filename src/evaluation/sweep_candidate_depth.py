@@ -9,7 +9,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 if str(BASE_DIR) not in sys.path:
@@ -28,7 +28,7 @@ def norm(text: str) -> str:
     return re.sub(r"\s+", " ", str(text)).strip().lower()
 
 
-def parse_gt(raw_val: Any) -> List[str]:
+def parse_gt(raw_val: Any) -> list[str]:
     try:
         parsed = ast.literal_eval(str(raw_val))
         if isinstance(parsed, list):
@@ -38,7 +38,7 @@ def parse_gt(raw_val: Any) -> List[str]:
         return [norm(raw_val)]
 
 
-def check_hit_rank(retrieved_docs: List[str], gt_contexts: List[str]) -> int | None:
+def check_hit_rank(retrieved_docs: list[str], gt_contexts: list[str]) -> int | None:
     for rank, doc in enumerate(retrieved_docs, start=1):
         doc_clean = norm(doc)
         for gt in gt_contexts:

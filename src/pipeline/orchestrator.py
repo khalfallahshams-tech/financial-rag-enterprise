@@ -1,6 +1,5 @@
 import asyncio
 import time
-from typing import Optional
 
 from src.cache import InMemoryQueryCache, query_cache
 from src.config import settings
@@ -30,12 +29,12 @@ class FinancialRAGPipeline:
     """
     def __init__(
         self,
-        retriever: Optional[HybridRetriever] = None,
-        reranker: Optional[CrossEncoderReranker] = None,
-        gate: Optional[ConfidenceGate] = None,
-        generator: Optional[DefensiveGenerator] = None,
-        cache: Optional[InMemoryQueryCache] = None,
-        expander: Optional[FinancialAcronymExpander] = None,
+        retriever: HybridRetriever | None = None,
+        reranker: CrossEncoderReranker | None = None,
+        gate: ConfidenceGate | None = None,
+        generator: DefensiveGenerator | None = None,
+        cache: InMemoryQueryCache | None = None,
+        expander: FinancialAcronymExpander | None = None,
     ):
         self.retriever = retriever or HybridRetriever()
         self.reranker = reranker or CrossEncoderReranker()

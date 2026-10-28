@@ -5,10 +5,9 @@ Also imports historical legacy runs into MLflow for visual comparison in MLflow 
 """
 
 import json
-import os
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import mlflow
 
@@ -49,10 +48,10 @@ class MLflowTracker:
     def log_retrieval_run(
         self,
         config_name: str,
-        metrics_dict: Dict[str, Any],
-        params: Optional[Dict[str, Any]] = None,
-        artifact_path: Optional[Path] = None,
-        tags: Optional[Dict[str, str]] = None,
+        metrics_dict: dict[str, Any],
+        params: dict[str, Any] | None = None,
+        artifact_path: Path | None = None,
+        tags: dict[str, str] | None = None,
     ):
         """Log a retrieval benchmark configuration as a distinct MLflow run."""
         with mlflow.start_run(run_name=f"Retrieval_{config_name}"):
@@ -89,9 +88,9 @@ class MLflowTracker:
 
     def log_generation_run(
         self,
-        generation_results: Dict[str, Any],
-        params: Optional[Dict[str, Any]] = None,
-        artifact_path: Optional[Path] = None,
+        generation_results: dict[str, Any],
+        params: dict[str, Any] | None = None,
+        artifact_path: Path | None = None,
     ):
         """Log generation and guardrail evaluation run."""
         with mlflow.start_run(run_name="Generation_Defensive_Gemini"):
@@ -140,7 +139,7 @@ class MLflowTracker:
         # 1. BEIR Retrieval Benchmark
         beir_file = results_dir / "beir_retrieval_benchmark_results.json"
         if beir_file.exists():
-            with open(beir_file, "r", encoding="utf-8") as f:
+            with open(beir_file, encoding="utf-8") as f:
                 data = json.load(f)
             for cfg_name, metrics in data.items():
                 self.log_retrieval_run(
@@ -155,7 +154,7 @@ class MLflowTracker:
         # 2. Candidate Depth Sweep
         sweep_file = results_dir / "candidate_depth_sweep.json"
         if sweep_file.exists():
-            with open(sweep_file, "r", encoding="utf-8") as f:
+            with open(sweep_file, encoding="utf-8") as f:
                 data = json.load(f)
             for k_name, row in data.items():
                 with mlflow.start_run(run_name=f"Ablation_CandidateDepth_{k_name}"):
@@ -174,7 +173,7 @@ class MLflowTracker:
         # 3. Acronym Expansion Benchmark
         acronym_file = results_dir / "acronym_expansion_benchmark.json"
         if acronym_file.exists():
-            with open(acronym_file, "r", encoding="utf-8") as f:
+            with open(acronym_file, encoding="utf-8") as f:
                 data = json.load(f)
             with mlflow.start_run(run_name="Ablation_Acronym_Expansion"):
                 mlflow.set_tags({"component": "query_expansion", "legacy": "true", "phase": "1"})
@@ -189,7 +188,7 @@ class MLflowTracker:
         # 4. Generation Evaluation
         gen_file = results_dir / "generation_evaluation_results.json"
         if gen_file.exists():
-            with open(gen_file, "r", encoding="utf-8") as f:
+            with open(gen_file, encoding="utf-8") as f:
                 data = json.load(f)
             self.log_generation_run(
                 generation_results=data,

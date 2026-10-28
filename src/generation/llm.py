@@ -1,6 +1,8 @@
 import time
-from typing import List, Dict, Any, Tuple
+from typing import Any
+
 from google import genai
+
 from src.config import settings
 
 DEFENSIVE_PROMPT_TEMPLATE = """You are a strict, factual financial intelligence assistant.
@@ -29,7 +31,7 @@ class DefensiveGenerator:
         self.client = genai.Client(api_key=api_key)
         self.model_name = model_name
 
-    def generate(self, question: str, sources: List[Dict[str, Any]]) -> Tuple[str, float]:
+    def generate(self, question: str, sources: list[dict[str, Any]]) -> tuple[str, float]:
         """
         Generates a defensive, citation-attributed financial response.
         Returns:

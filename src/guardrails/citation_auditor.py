@@ -1,6 +1,8 @@
 import re
-from typing import List, Dict, Any
+from typing import Any
+
 from src.schemas import CitationAuditReport
+
 
 class CitationAuditor:
     """
@@ -9,7 +11,7 @@ class CitationAuditor:
     Verifies that 100% of bracketed source tags point to authentic database chunk IDs.
     """
     @staticmethod
-    def audit(text: str, retrieved_sources: List[Dict[str, Any]]) -> CitationAuditReport:
+    def audit(text: str, retrieved_sources: list[dict[str, Any]]) -> CitationAuditReport:
         valid_source_tags = {s.get("source_tag", "") for s in retrieved_sources if s.get("source_tag")}
         valid_chunk_ids = {s.get("chunk_id", "") for s in retrieved_sources if s.get("chunk_id")}
 

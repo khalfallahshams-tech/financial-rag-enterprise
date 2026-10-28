@@ -14,7 +14,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Ensure project root is in sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -24,7 +24,6 @@ if str(BASE_DIR) not in sys.path:
 import numpy as np
 import pandas as pd
 
-from src.config import settings
 from src.ranking.reranker import CrossEncoderReranker
 from src.retrieval.dense import DenseRetriever
 from src.retrieval.hybrid import HybridRetriever
@@ -36,7 +35,7 @@ def normalize_text(text: str) -> str:
     return re.sub(r"\s+", " ", str(text)).strip().lower()
 
 
-def parse_ground_truth_contexts(raw_val: Any) -> List[str]:
+def parse_ground_truth_contexts(raw_val: Any) -> list[str]:
     """Safely extract normalized ground-truth context strings."""
     try:
         parsed = ast.literal_eval(str(raw_val))
@@ -47,7 +46,7 @@ def parse_ground_truth_contexts(raw_val: Any) -> List[str]:
         return [normalize_text(raw_val)]
 
 
-def check_hit_rank(retrieved_docs: List[str], ground_truth_contexts: List[str]) -> int | None:
+def check_hit_rank(retrieved_docs: list[str], ground_truth_contexts: list[str]) -> int | None:
     """
     Check if any ground-truth context matches retrieved chunks under whitespace normalization.
     Uses robust 50-char sliding prefix/containment check.
@@ -67,9 +66,9 @@ def evaluate_retriever_pipeline(
     sparse_retriever: SparseRetriever,
     hybrid_retriever: HybridRetriever,
     reranker: CrossEncoderReranker,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Execute evaluation across the 30 queries for all 4 retrieval strategies."""
-    
+
     strategies = ["Dense (K=8)", "BM25 (K=8)", "Hybrid Union (K=16)", "Hybrid + Re-Ranker (Top-3)"]
     records = {s: [] for s in strategies}
     latencies = {s: [] for s in strategies}

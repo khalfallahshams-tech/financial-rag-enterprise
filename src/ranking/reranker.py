@@ -1,6 +1,9 @@
-from typing import List, Dict, Any
+from typing import Any
+
 from sentence_transformers import CrossEncoder
+
 from src.config import settings
+
 
 class CrossEncoderReranker:
     """
@@ -11,7 +14,7 @@ class CrossEncoderReranker:
     def __init__(self, model_name: str = settings.reranker_model_name):
         self.model = CrossEncoder(model_name)
 
-    def rerank(self, query: str, candidates: List[Dict[str, Any]], top_n: int = settings.top_n_final) -> List[Dict[str, Any]]:
+    def rerank(self, query: str, candidates: list[dict[str, Any]], top_n: int = settings.top_n_final) -> list[dict[str, Any]]:
         if not candidates:
             return []
 
