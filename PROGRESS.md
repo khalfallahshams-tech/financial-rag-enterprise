@@ -108,14 +108,14 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 7.1 | `README.md` with real metrics + CIs | 🔄 IN PROGRESS | Needs metric update |
-| 7.2 | `PROJECT_KNOWLEDGE.md` | ⏳ TODO | |
-| 7.3 | `docs/PIPELINE.md` | ⏳ TODO | |
-| 7.4 | `docs/RESULTS.md` | ⏳ TODO | |
-| 7.5 | `docs/ARCHITECTURE.md` | ⏳ TODO | |
-| 7.6 | `docs/TESTING.md` | ⏳ TODO | |
-| 7.7 | `docs/INTERVIEW_NOTES.md` (25+ Q&A) | ⏳ TODO | |
-| 7.8 | `AUDIT.md` kept up to date | 🔄 IN PROGRESS | |
+| 7.1 | `README.md` with real metrics + CIs | ✅ DONE | Business case, architecture diagram, 5-command quickstart, empirical tables, limitations |
+| 7.2 | `PROJECT_KNOWLEDGE.md` | ✅ DONE | Comprehensive knowledge base with raw counts, splits, and completed milestones |
+| 7.3 | `docs/PIPELINE.md` | ✅ DONE | Mermaid stage pipeline, idempotency caching, and MLflow UI guide |
+| 7.4 | `docs/RESULTS.md` | ✅ DONE | Empirical BEIR tables with 95% CIs, candidate sweep, 10 categorized failure modes |
+| 7.5 | `docs/ARCHITECTURE.md` | ✅ DONE | System components, sequence diagram, design decisions & trade-offs |
+| 7.6 | `docs/TESTING.md` | ✅ DONE | 55 unit/regression/API tests passing, 73% coverage report, regression guard explanation |
+| 7.7 | `docs/INTERVIEW_NOTES.md` (30 Q&A) | ✅ DONE | 30 technical DS/MLOps interview questions across architecture, pipelines, and evaluation |
+| 7.8 | `AUDIT.md` kept up to date | ✅ DONE | Complete audit trail, assumptions log, and Airflow DAG decision |
 
 ---
 

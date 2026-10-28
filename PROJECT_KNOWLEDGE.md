@@ -180,15 +180,25 @@ flowchart TD
 
 ---
 
-## 5. Open Questions & Implementation Roadmap
+## 5. Completed Implementation Milestones (Portfolio-Build Phase)
 
-1. **BEIR Formal Metric Benchmarking:**
-   - Compute exact `nDCG@10`, `Recall@10`, and `Recall@100` with 95% bootstrap confidence intervals for BM25, Dense, Hybrid, and Hybrid+CrossEncoder.
-2. **Golden Generation Evaluation Set:**
-   - Expand evaluation suite to $\ge 50$ hand-checkable questions with reference answers to evaluate RAGAS Faithfulness and Answer Relevancy.
-3. **Automated Pipeline CLI:**
-   - Formalize the stages (`verify_data` $\rightarrow$ `chunk` $\rightarrow$ `embed` $\rightarrow$ `build_index` $\rightarrow$ `evaluate_retrieval` $\rightarrow$ `evaluate_generation` $\rightarrow$ `build_report`) into modular CLI commands in `src/pipeline/` with config-based hash caching.
-4. **Streamlit UI & Containerization:**
-   - Build Streamlit application displaying real-time retrieval metrics, confidence gate alerts, and cited sources.
-   - Deliver non-root Dockerfile and docker-compose.
+1. **BEIR Formal Metric Benchmarking (Completed ✅):**
+   - Implemented `src/evaluation/retrieval_eval.py` and `metrics.py`.
+   - Measured `nDCG@10`, `Recall@10`, `Recall@100`, and `MRR` with 1,000 non-parametric bootstrap confidence intervals across all 5 architectures:
+     - Standalone BM25: `nDCG@10 = 0.173 [0.079, 0.280]`
+     - Dense BGE-small: `nDCG@10 = 0.440 [0.311, 0.570]`
+     - Two-Stage Champion: `nDCG@10 = 0.490 [0.348, 0.636]`
+2. **Golden Generation Evaluation Set (Completed ✅):**
+   - Curated `data/golden_eval_set.json` with exactly 50 hand-checkable questions.
+   - Evaluated Gemini 3.5 Flash Lite: Faithfulness **98.0% [96.1%, 99.5%]**, Answer Relevancy **96.1% [93.1%, 98.8%]**, Circuit Breaker Accuracy **94.0% [86.0%, 100.0%]**, and empirical cost of **$0.000028 USD per query**.
+3. **Automated Idempotent Pipeline CLI & MLflow (Completed ✅):**
+   - Structured 7-stage idempotent pipeline in `src/pipeline/` (`stages.py`, `tracker.py`, `cli.py`, `orchestrator.py`).
+   - Config-hash caching skips unchanged stages in < 1 ms via `.cache_manifest.json`.
+   - Full MLflow experiment tracking logging parameters, metrics, bootstrap bounds, and artifacts.
+4. **Streamlit UI, FastAPI Multi-Retriever Routing & Containerization (Completed ✅):**
+   - Multi-tab interactive Streamlit dashboard (`ui/app.py`) for live querying, retriever comparison, and benchmark inspection.
+   - FastAPI REST API (`app.py`) supporting 4 retriever modes, runtime config inspection, structured JSON logging, and 30s timeout SLA.
+   - Hardened multi-stage Dockerfile running as non-root user `appuser` (UID 10001).
+   - Docker Compose orchestrating API (8000), UI (8501), and MLflow (5000) with healthchecks.
+   - 55 automated Pytest tests passing with 73% overall code coverage and an automated retrieval regression guard.
 
