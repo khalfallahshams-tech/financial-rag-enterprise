@@ -1,0 +1,42 @@
+{
+  "Dense (K=8)": {
+    "Hit@1": 26.7,
+    "Hit@3": 46.7,
+    "Hit@5": 60.0,
+    "MRR": 0.395,
+    "Avg_Latency_ms": 126.3,
+    "P95_Latency_ms": 18.2,
+    "Hit@1_Count": "8/30",
+    "Hit@3_Count": "14/30"
+  },
+  "BM25 (K=8)": {
+    "Hit@1": 10.0,
+    "Hit@3": 23.3,
+    "Hit@5": 30.0,
+    "MRR": 0.172,
+    "Avg_Latency_ms": 260.6,
+    "P95_Latency_ms": 390.6,
+    "Hit@1_Count": "3/30",
+    "Hit@3_Count": "7/30"
+  },
+  "Hybrid Union (K=16)": {
+    "Hit@1": 26.7,
+    "Hit@3": 46.7,
+    "Hit@5": 60.0,
+    "MRR": 0.395,
+    "Avg_Latency_ms": 268.2,
+    "P95_Latency_ms": 386.7,
+    "Hit@1_Count": "8/30",
+    "Hit@3_Count": "14/30"
+  },
+  "Hybrid + Re-Ranker (Top-3)": {
+    "Hit@1": 43.3,
+    "Hit@3": 53.3,
+    "Hit@5": 53.3,
+    "MRR": 0.478,
+    "Avg_Latency_ms": 761.6,
+    "P95_Latency_ms": 953.1,
+    "Hit@1_Count": "13/30",
+    "Hit@3_Count": "16/30"
+  }
+}

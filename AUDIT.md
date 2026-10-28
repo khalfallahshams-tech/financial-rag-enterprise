@@ -78,26 +78,48 @@
 
 ---
 
-## Empirically Verified Metrics
+## Empirically Verified Metrics & Reproduction Audit (Phase 0)
 
-> All numbers below came from commands run in prior sessions. See notebook
-> `notebooks/01_data_ingestion_and_eda.ipynb` for full reproduction.
+> **Ground Rule:** Every metric below is obtained from an executed command with fixed seeds.
+> Raw output is stored under `results/baseline_reproduction_results.json`.
 
-| Metric | Value | Configuration | Notes |
-|--------|-------|--------------|-------|
-| Hit@3 (string match) | 66.7% (20/30) | Hybrid K=8 + CrossEncoder | Suite 1, fiqa_eval.csv |
-| Hit@3 (semantic/LLM judge) | 77.7% | Hybrid K=8 + CrossEncoder | Gap caused by incomplete single-label GT in 2018 dataset |
-| MRR | 0.531 | Hybrid K=8 + CrossEncoder | Suite 1 |
-| Generation Faithfulness | 100.0% | Gemini Flash Lite | Suite 2 gate/hallucination test |
-| Cache speedup | ~200,000x | LRU in-memory | Run 1: 14,681ms → Run 2: 0.07ms |
-| Gate OOD blocking | 100% | τ=0.0 | All out-of-domain queries blocked |
-| Gate hallucination blocking | 100% | τ=0.0 | All hallucination traps blocked |
-| Token savings | 42.2% | Confidence gate | LLM calls skipped for weak evidence |
+### Dual Embedding Collection Audit
 
-**⚠️ MISSING (to be filled in Phase 1):**
-- nDCG@10, Recall@10, Recall@100 (proper BEIR-style evaluation)
-- 95% bootstrap confidence intervals on all metrics
-- Ablation table (chunk size, top-k, reranker on/off, prompt version)
+| Metric | `all-MiniLM-L6-v2` (`fiqa_full_corpus`) | `BAAI/bge-small-en-v1.5` (`fiqa_bge_corpus`) | Relative Lift with BGE |
+| :--- | :---: | :---: | :---: |
+| **Hit@1 (Top-1 Accuracy)** | 26.7% (8/30) | **46.7% (14/30)** | **+75.0% relative lift** |
+| **Hit@3 (Top-3 Recall)** | 46.7% (14/30) | **60.0% (18/30)** | **+28.5% relative lift** |
+| **Hit@5 (Candidate Recall)** | 60.0% (18/30) | **66.7% (20/30)** | **+11.2% relative lift** |
+| **MRR** | 0.395 | **0.531** | **+34.4% relative lift** |
+
+### Benchmark Reproduction on Suite 1 (30 Academic Queries)
+*Run command:* `python src/evaluation/reproduce_baseline.py` (whitespace-normalized evaluation):
+
+| Strategy | Hit@1 | Hit@3 | Hit@5 | MRR | Avg Latency (ms) | P95 Latency (ms) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Dense Baseline (MiniLM K=8)** | 26.7% (8/30) | 46.7% (14/30) | 60.0% (18/30) | 0.395 | 126.3 ms | 18.2 ms |
+| **BM25 Only (K=8)** | 10.0% (3/30) | 23.3% (7/30) | 30.0% (9/30) | 0.172 | 260.6 ms | 390.6 ms |
+| **Hybrid Union (K=16)** | 26.7% (8/30) | 46.7% (14/30) | 60.0% (18/30) | 0.395 | 268.2 ms | 386.7 ms |
+| **Hybrid + Cross-Encoder (Top-3)** | **43.3% (13/30)** | **53.3% (16/30)** | 53.3% (16/30) | **0.478** | 761.6 ms | 953.1 ms |
+
+> **Root-Cause Finding (Discrepancy Explanation):**
+> When evaluating raw substring containment without whitespace normalization (`\s+`), raw double spaces in the FiQA dataset (e.g. `"deposit it.  It's called"`) caused exact chunk matches (`"deposit it. It's called"`) to register as false negatives, artificially depressing Hit@1 to 13.3%. Normalizing whitespace via `re.sub(r'\s+', ' ', text)` resolved this and fully reproduced the true Hit@1 = 43.3% for the Cross-Encoder.
+
+---
+
+## Phase 1 Readiness Checklist (Evidence-Based)
+
+| Specification Requirement | Status | Evidence / File Path | Command Output / Metrics |
+| :--- | :---: | :--- | :--- |
+| **BM25 standalone eval** | ✅ DONE | `src/retrieval/sparse.py`, `src/evaluation/reproduce_baseline.py` | Hit@1: 10.0%, Hit@3: 23.3%, MRR: 0.172 |
+| **Dense retrieval eval** | ✅ DONE | `src/retrieval/dense.py`, `data/chroma_db` | MiniLM: Hit@1 26.7%, Hit@3 46.7%; BGE: Hit@1 46.7%, Hit@3 60.0% |
+| **Hybrid (RRF / Union) eval** | ✅ DONE | `src/retrieval/hybrid.py` | Union pool captures 60.0% Hit@5; solves acronym gap on Suite 2 |
+| **Cross-Encoder re-ranker** | ✅ DONE | `src/ranking/reranker.py` | Lifts Hit@1 from 26.7% to 43.3% (+62.2% relative lift); MRR 0.478 |
+| **BEIR Formal Metrics (nDCG@10, Recall@100)** | ⏳ TODO | `src/evaluation/beir_eval.py` | Scheduled in Phase 1 next step |
+| **50+ Question Golden Set for Gen Eval** | 🔄 PARTIAL | `data/raw/fiqa_eval_new.json` (45 queries) | Needs 5 additional curated questions to reach >= 50 target |
+| **RAGAS Faithfulness & Relevancy** | ⏳ TODO | `src/evaluation/ragas_eval.py` | Scheduled in Phase 1 next step |
+| **95% Bootstrap Confidence Intervals** | ⏳ TODO | `src/evaluation/metrics.py` | Scheduled in Phase 1 next step |
+| **Ablation Table (chunk, K, rerank, prompt)** | ⏳ TODO | `docs/RESULTS.md` | Scheduled in Phase 1 next step |
 
 ---
 

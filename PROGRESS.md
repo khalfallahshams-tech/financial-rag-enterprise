@@ -10,14 +10,14 @@
 
 | # | Task | Status | Commit / Notes |
 |---|------|--------|----------------|
-| 0.1 | Git init + `.gitignore` | ✅ DONE | Initial commit |
-| 0.2 | Clean `requirements.txt` (direct deps only) | ✅ DONE | Initial commit |
-| 0.3 | `PROGRESS.md` created | ✅ DONE | Initial commit |
-| 0.4 | `AUDIT.md` created | ✅ DONE | Initial commit |
-| 0.5 | `PROJECT_KNOWLEDGE.md` written | ⏳ TODO | |
-| 0.6 | Data integrity check (corpus/query/qrels) | ⏳ TODO | |
-| 0.7 | Reproduce key results with fixed seeds | ⏳ TODO | |
-| 0.8 | `portfolio-build` branch created | ✅ DONE | Initial commit |
+| 0.1 | Git init + `.gitignore` | ✅ DONE | Commit `93d561d` + ignore rules for SQLite, pickle, virtualenv |
+| 0.2 | Clean `requirements.txt` (direct deps only) | ✅ DONE | Cleaned to 16 direct core dependencies |
+| 0.3 | `PROGRESS.md` created | ✅ DONE | Living tracker created |
+| 0.4 | `AUDIT.md` created | ✅ DONE | Baseline audit completed with evidence |
+| 0.5 | `PROJECT_KNOWLEDGE.md` written | ✅ DONE | Comprehensive knowledge base with data topology & all milestones |
+| 0.6 | Data integrity check (`src/data/verify_data.py`) | ✅ DONE | SHA-256 hashes, null checks, duplicates, collection verification |
+| 0.7 | Reproduce key results with fixed seeds | ✅ DONE | `reproduce_baseline.py` executed; whitespace normalization bug solved |
+| 0.8 | `portfolio-build` branch created | ✅ DONE | Active working branch |
 
 ---
 
