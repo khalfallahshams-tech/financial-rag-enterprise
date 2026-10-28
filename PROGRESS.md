@@ -42,10 +42,10 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 2.1 | `src/pipeline/` stage functions | ⏳ TODO | |
-| 2.2 | MLflow experiment tracking | ⏳ TODO | |
-| 2.3 | `make pipeline` end-to-end | ⏳ TODO | |
-| 2.4 | Import legacy results as MLflow runs | ⏳ TODO | |
+| 2.1 | `src/pipeline/` stage functions | ✅ DONE | 7 idempotent stages in `src/pipeline/stages.py` |
+| 2.2 | MLflow experiment tracking | ✅ DONE | `MLflowTracker` logs parameters, bootstrap metrics, artifacts |
+| 2.3 | `make pipeline` end-to-end | ✅ DONE | Orchestrated via `src.pipeline.cli all` and `Makefile` |
+| 2.4 | Import legacy results as MLflow runs | ✅ DONE | `tracker.import_legacy_experiments()` imports 10 runs |
 
 ---
 

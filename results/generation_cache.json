@@ -58,5 +58,125 @@
     "latency_ms": 12804.447800008347,
     "prompt_tokens": 915,
     "completion_tokens": 152
+  },
+  "9e0fa11f610d827b33408760abfe101e19c1c8c7bebb90259146614652f72121": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 31844.408000004478,
+    "prompt_tokens": 497,
+    "completion_tokens": 12
+  },
+  "6a9ff39884b38f7535b6381f13fe6d107b34f28c1b171b7c8333d7d03a1975d1": {
+    "answer": "The provided context does not contain sufficient information to answer this question [Source: doc_23002_c0, Source: doc_9708_c0, Source: doc_23913_c0].",
+    "latency_ms": 21678.504700001213,
+    "prompt_tokens": 917,
+    "completion_tokens": 18
+  },
+  "abb44e9a6026a46efdc974cfd9b8be6f428754530bbfb8946a8235b387c21956": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 15241.574400002719,
+    "prompt_tokens": 749,
+    "completion_tokens": 12
+  },
+  "5cb66bb50fb402d58db3f29eaec3ae31a57a33c20611a3810ed65f8a7a4d6f48": {
+    "answer": "Under the federal Homeowners' Protection Act, to cancel PMI when you have paid down your mortgage to 80% of the loan, you must meet the following requirements:\n* Have a good record of payment and compliance with the terms of your mortgage [Source: doc_56015_c0].\n* Make a written request [Source: doc_56015_c0].\n* Show that the value of the property has not gone down [Source: doc_56015_c0].\n\nIn contrast, when the mortgage is paid down to 78% of the original loan, the lender must automatically cancel your PMI, and in this case, an appraisal is in order to prove the property value has not gone down [Source: doc_56015_c0].",
+    "latency_ms": 17163.924999986193,
+    "prompt_tokens": 665,
+    "completion_tokens": 106
+  },
+  "fc168b4098e3fc8b892b194d6870953d022a57b4ac220d33619c6f1215708ca2": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 30933.51000000257,
+    "prompt_tokens": 559,
+    "completion_tokens": 12
+  },
+  "88e84d6ae8e283388022f8bf4f078e721e2bff921cd5504aa2fcb16277abafef": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 20763.853299999028,
+    "prompt_tokens": 719,
+    "completion_tokens": 12
+  },
+  "36a6fd92de25ee2d5a3e006fa77cff9bdf552300cd5a815db23567b78d41d55c": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 21608.06230000162,
+    "prompt_tokens": 773,
+    "completion_tokens": 12
+  },
+  "2a67db73ebb9d0bd84318848ee55bb390815bed1564d16afd3188d2ff79f17cd": {
+    "answer": "When an order to buy or sell a mutual fund is placed at 11:00 AM, there is no continuous pricing throughout the day, and the order will be executed based on the Net Asset Value (NAV) calculated at the end of that trading day, regardless of the time the order was placed [Source: doc_48936_c0, Source: doc_46051_c0]. \n\nIn contrast, an Exchange-Traded Fund (ETF) is transacted on the open market during market hours at a market price [Source: doc_10362_c0]. Some ETFs allow you to buy or sell shares at any time at the price at the instant your order is executed [Source: doc_46051_c0]. Additionally, during market hours, an ETF will trade at a premium or discount to the NAV calculated on the previous day [Source: doc_10362_c0].",
+    "latency_ms": 3295.421799994074,
+    "prompt_tokens": 823,
+    "completion_tokens": 124
+  },
+  "2a4f6a7edccf662ef3bfb28d859f4a4290c919e2acac10417205eafdd65098d2": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 12943.204700000933,
+    "prompt_tokens": 1206,
+    "completion_tokens": 12
+  },
+  "c00328e04e82b98ad08440fb82d3ffbbcb96d654b7629f9db010926d9b8168d3": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 30622.535099988454,
+    "prompt_tokens": 852,
+    "completion_tokens": 12
+  },
+  "c98ba27ce671a652fd1f2824ea21f53c97b2e11197d675fcd9a04fc262d5c013": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 17342.402199996286,
+    "prompt_tokens": 877,
+    "completion_tokens": 12
+  },
+  "4bf576552c00d7a4be7505b1f68e1dcc8d5cd4b5b466b5e2e3df4e2ba5fcd5ef": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 20074.401399993803,
+    "prompt_tokens": 626,
+    "completion_tokens": 12
+  },
+  "ae1a507232d8b60324bb3b1db668c395900cb3d68825375494ea80415e865bb7": {
+    "answer": "Based on the provided sources, the details regarding these rules are as follows:\n\n* **Indirect 401(k) Rollover Rules:** \n  * In most, if not all, cases the IRS now requires a 20% withholding on indirect 401(k) rollovers [Source: doc_45148_c0]. This mandatory 20% withholding occurs because the funds are sent to you first [Source: doc_4085_c0], and it is practice for these withdrawals to have 20% withheld for taxes [Source: doc_52522_c0]. \n  * If you do an indirect rollover, you still have to deposit the full amount (including adding back the 20% withheld) into the new account; otherwise, the withheld amount becomes a distribution subject to tax and penalties, meaning you must come up with that money from other accounts [Source: doc_45148_c0, Source: doc_52522_c0]. \n  * You have 60 calendar days from the date of distribution (or the time the money came out) to get the full amount into the new plan/IRA [Source: doc_4085_c0, Source: doc_52522_c0]. A rollover is considered a tax-reportable, but not necessarily a taxable event, provided you deposit the funds within this allotted timeframe [Source: doc_4085_c0].\n* **Direct Trustee-to-Trustee Transfer:** \n  * A Direct Rollover (or institution-to-institution transfer) skips you completely as the funds go directly into the new plan or IRA [Source: doc_45148_c0, Source: doc_4085_c0]. \n  * This method eliminates the mandatory 20% withholding that applies to indirect rollovers sent to you first [Source: doc_4085_c0]. Even if a check is made out to the receiving institution (such as Vanguard) but sent to you to resend to them, it is still considered a trustee-to-trustee transfer and should not be an issue [Source: doc_45148_c0].",
+    "latency_ms": 13915.575199993327,
+    "prompt_tokens": 715,
+    "completion_tokens": 259
+  },
+  "1797c3d4529c70e6aaf52bab59c99e05cf1ebd0a9801eb725e3ed2fdec29d4e7": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 17244.760899993707,
+    "prompt_tokens": 665,
+    "completion_tokens": 12
+  },
+  "89393e491af30eaf39f414c9ff6d00aff5298eeed421444a1443714084645a7d": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 24627.826700001606,
+    "prompt_tokens": 470,
+    "completion_tokens": 12
+  },
+  "522cb087af3cc741331889ff3f68ab6e912196c60a1b475f3a449abd0a107311": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 13202.969699996174,
+    "prompt_tokens": 799,
+    "completion_tokens": 12
+  },
+  "9bca88830511d6e7dc5e60fee2319cbe1f37b26c41159fd3e03afd30124f4d58": {
+    "answer": "If neither you nor your spouse is covered by a retirement plan, there is no AGI limit [Source: doc_31753_c0]. However, if your company does not provide a retirement plan but your spouse's does, the AGI phase-out limit is $178K [Source: doc_31753_c0].",
+    "latency_ms": 14224.184999999125,
+    "prompt_tokens": 1036,
+    "completion_tokens": 41
+  },
+  "f1d34ad79ec1f4b54fe63e2cfedba2ca81d7c94c4c3cbc34f0aa2e7b2c4ab711": {
+    "answer": "The provided context does not contain sufficient information to answer this question.",
+    "latency_ms": 54459.45979999669,
+    "prompt_tokens": 905,
+    "completion_tokens": 12
+  },
+  "d1e957d35025fd044bb4d31723dd04f0d6f78b0227be509f781c8ebae2ea22f2": {
+    "answer": "Based on the provided sources, if you sell an S&P 500 ETF at a loss and buy a total stock market ETF (such as a 'viper' total stock market ETF), it should be different enough not to trigger the wash sale rule [Source: doc_18839_c0].",
+    "latency_ms": 12590.653999999631,
+    "prompt_tokens": 943,
+    "completion_tokens": 44
+  },
+  "258805389f9ae95863902586aeb507701cdf46cb18fec3387ce030577b4d1929": {
+    "answer": "Based on the provided sources, the structural differences between the two are as follows:\n\n* **Backdoor Roth IRA:** The goal is to contribute to a Roth IRA even when over the income limits [Source: doc_21447_c0]. This is structurally accomplished by contributing to a non-deductible Traditional IRA and then converting that amount to a Roth IRA [Source: doc_21447_c0]. Both of these steps have no income limits, and only the earnings are taxed [Source: doc_21447_c0]. \n* **Mega Backdoor Roth:** The goal is to get a large amount of money into Roth accounts through salary deferral [Source: doc_21447_c0]. This is structurally accomplished by making non-Roth after-tax contributions to an employer 401(k) after exhausting the limit for pre-tax plus Roth employee contributions (which was $18,000 in 2017) [Source: doc_21447_c0]. These after-tax contributions (potentially up to $36,000 for 2017) can then be rolled over to a Roth 401(k) or to a Roth IRA [Source: doc_21447_c0]. Meanwhile, the earnings can be rolled over to a pre-tax 401(k) or a Traditional IRA, or taxed like regular income and converted to a Roth along with the contributions [Source: doc_21447_c0].",
+    "latency_ms": 56226.790599990636,
+    "prompt_tokens": 476,
+    "completion_tokens": 181
   }
 }

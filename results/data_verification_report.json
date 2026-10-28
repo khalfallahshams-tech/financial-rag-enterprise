@@ -1,0 +1,83 @@
+{
+  "corpus": {
+    "file_path": "C:\\Users\\chemss\\Desktop\\new\\data\\raw\\fiqa_corpus.csv",
+    "file_size_mb": 42.56,
+    "sha256": "845ffe435600921e840110b3562ba26ded841fcee1ac6d6ec3f6b50f7b757a8d",
+    "total_rows": 57638,
+    "null_rows": 38,
+    "duplicate_rows": 2,
+    "unique_valid_docs": 57598,
+    "avg_char_length": 767.7,
+    "median_char_length": 522.0,
+    "max_char_length": 16990,
+    "min_char_length": 6,
+    "avg_word_count": 133.0
+  },
+  "academic_eval": {
+    "file_path": "C:\\Users\\chemss\\Desktop\\new\\data\\raw\\fiqa_eval.csv",
+    "file_size_kb": 145.87,
+    "sha256": "f137e85af9165a884b58fe060e0bb007e767f5a47c8d191d955c886f55e589f7",
+    "total_queries": 30,
+    "unique_queries": 30,
+    "null_counts": {
+      "question": 0,
+      "ground_truths": 0,
+      "answer": 0,
+      "contexts": 0
+    },
+    "columns": [
+      "question",
+      "ground_truths",
+      "answer",
+      "contexts"
+    ]
+  },
+  "enterprise_stress_eval": {
+    "file_path": "C:\\Users\\chemss\\Desktop\\new\\data\\raw\\fiqa_eval_new.json",
+    "file_size_kb": 72.86,
+    "sha256": "13720c4a7a25c6001a0eb69c974ef0990e6fac922e53ce8737184e551d5fa761",
+    "total_queries": 45,
+    "category_breakdown": {
+      "FACTUAL": 10,
+      "MULTI_SOURCE": 10,
+      "ACRONYM_GAP": 10,
+      "OUT_OF_DOMAIN": 5,
+      "HALLUCINATION_TRAP": 10
+    },
+    "expected_gate_decisions": {
+      "PASSED (Gate Open)": 39,
+      "BLOCKED (Circuit Breaker Tripped)": 6
+    },
+    "answerable_count": 30,
+    "unanswerable_count": 15
+  },
+  "chromadb": {
+    "chroma_dir": "C:\\Users\\chemss\\Desktop\\new\\data\\chroma_db",
+    "collections": {
+      "fiqa_bge_corpus": {
+        "count": 59926,
+        "metadata": {
+          "hnsw:space": "cosine"
+        }
+      },
+      "fiqa_full_corpus": {
+        "count": 59926,
+        "metadata": {
+          "hnsw:space": "cosine"
+        }
+      },
+      "fiqa_sample_chunks": {
+        "count": 1042,
+        "metadata": {
+          "hnsw:space": "cosine"
+        }
+      }
+    }
+  },
+  "bm25_index": {
+    "status": "VALID",
+    "file_path": "C:\\Users\\chemss\\Desktop\\new\\data\\bm25_index.pkl",
+    "file_size_mb": 91.34,
+    "corpus_size": null
+  }
+}

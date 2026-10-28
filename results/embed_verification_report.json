@@ -1,0 +1,8 @@
+{
+  "verified_collections": {
+    "fiqa_bge_corpus": 59926,
+    "fiqa_full_corpus": 59926,
+    "fiqa_sample_chunks": 1042
+  },
+  "status": "READY"
+}

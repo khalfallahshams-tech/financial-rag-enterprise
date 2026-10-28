@@ -1,49 +1,49 @@
 {
-  "sample_size": 10,
-  "cache_hits": 0,
-  "new_api_calls": 10,
+  "sample_size": 50,
+  "cache_hits": 10,
+  "new_api_calls": 40,
   "token_usage": {
-    "estimated_prompt_tokens": 7511,
-    "estimated_completion_tokens": 591,
-    "estimated_cost_usd": 0.000741
+    "estimated_prompt_tokens": 15272,
+    "estimated_completion_tokens": 929,
+    "estimated_cost_usd": 0.001424
   },
   "metrics": {
     "Faithfulness": {
-      "mean": 0.9675,
+      "mean": 0.9803,
       "ci_95": [
-        0.9199,
-        1.0
+        0.9606,
+        0.995
       ],
-      "formatted": "96.8% [92.0%, 100.0%]"
+      "formatted": "98.0% [96.1%, 99.5%]"
     },
     "Answer_Relevancy": {
-      "mean": 0.9501,
+      "mean": 0.9611,
       "ci_95": [
-        0.9002,
+        0.9312,
         0.9878
       ],
-      "formatted": "95.0% [90.0%, 98.8%]"
+      "formatted": "96.1% [93.1%, 98.8%]"
     },
     "Abstention_Accuracy": {
-      "mean": 0.5,
+      "mean": 0.56,
       "ci_95": [
-        0.2,
-        0.8
+        0.42,
+        0.7
       ],
-      "formatted": "50.0% [20.0%, 80.0%]"
+      "formatted": "56.0% [42.0%, 70.0%]"
     },
     "Gate_Accuracy": {
-      "mean": 1.0,
+      "mean": 0.94,
       "ci_95": [
-        1.0,
+        0.86,
         1.0
       ],
-      "formatted": "100.0% [100.0%, 100.0%]"
+      "formatted": "94.0% [86.0%, 100.0%]"
     }
   },
   "latency_ms": {
-    "mean": 12701.9,
-    "p50": 12129.9,
-    "p95": 18825.5
+    "mean": 12098.7,
+    "p50": 11022.4,
+    "p95": 31434.5
   }
 }

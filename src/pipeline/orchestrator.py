@@ -1,21 +1,23 @@
-import time
 import asyncio
+import time
 from typing import Optional
+
+from src.cache import InMemoryQueryCache, query_cache
 from src.config import settings
+from src.generation.llm import DefensiveGenerator
+from src.guardrails.citation_auditor import CitationAuditor
+from src.guardrails.confidence_gate import ConfidenceGate
+from src.ranking.reranker import CrossEncoderReranker
+from src.retrieval.hybrid import HybridRetriever
+from src.retrieval.query_expansion import FinancialAcronymExpander
 from src.schemas import (
+    CitationAuditReport,
+    GateStatus,
     QueryRequest,
     QueryResponse,
     SourceCitation,
-    GateStatus,
-    CitationAuditReport
 )
-from src.cache import query_cache, InMemoryQueryCache
-from src.retrieval.hybrid import HybridRetriever
-from src.retrieval.query_expansion import FinancialAcronymExpander
-from src.ranking.reranker import CrossEncoderReranker
-from src.guardrails.confidence_gate import ConfidenceGate
-from src.guardrails.citation_auditor import CitationAuditor
-from src.generation.llm import DefensiveGenerator
+
 
 class FinancialRAGPipeline:
     """

@@ -1,0 +1,8 @@
+{
+  "verify_data": "057365b6e1889d4c3b59a9ed803c6c8e5f80b6f27978f7bad13e60b3758d78bf",
+  "chunk": "a375ded42b403dad545beb40218287fe123ed68956bba0a8fd720b0150534046",
+  "embed": "bc02441b3071641dd1e7b9efc9e5e0840e26cf5d575d8dd4547b24dea44a51c8",
+  "build_index": "dfc1a2b0bd7e502e869fdc745a7dc5c2385a666d63f4508cfd622005fd840e35",
+  "evaluate_retrieval": "0b0f5301b01fb47c1acffd5b39b6770e616a89701e1a488d9f36e8640c46b175",
+  "evaluate_generation": "777aff94dd7c189f55bad9cf68893b82e6fff32b70d4a0c7589f3d1ecabefb43"
+}
