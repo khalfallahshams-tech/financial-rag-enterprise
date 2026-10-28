@@ -43,3 +43,4 @@ def test_pipeline_orchestrator_execution():
     assert resp.gate_decision in (GateStatus.PASSED, GateStatus.BLOCKED)
     assert len(resp.citations) <= 3
     assert resp.total_latency_ms > 0
+

@@ -51,6 +51,8 @@ class Settings:
     # 7. Server Settings
     api_host: str = "0.0.0.0"
     api_port: int = 8000
+    api_timeout_seconds: float = 30.0  # Maximum request timeout SLA before 504
+    default_retriever: str = "hybrid_rerank"
 
 # Global immutable settings instance
 settings = Settings()
