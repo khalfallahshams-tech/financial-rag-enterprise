@@ -13,7 +13,7 @@ else
     PYTHON_CMD = $(if $(wildcard ./venv/bin/python),./venv/bin/python,$(PYTHON))
 endif
 
-.PHONY: help setup data pipeline eval test run mlflow-ui docker-up lint clean
+.PHONY: help setup data pipeline eval test run ui mlflow-ui docker-up lint clean
 
 help:
 	@echo "========================================================================"
@@ -23,8 +23,9 @@ help:
 	@echo "  make data        Download raw FiQA corpus and verify checksums"
 	@echo "  make pipeline    Run end-to-end 7-stage pipeline with idempotency cache"
 	@echo "  make eval        Rerun evaluation stages only (BEIR + Generation + Report)"
-	@echo "  make test        Execute full pytest test suite (27 unit/regression tests)"
+	@echo "  make test        Execute full pytest test suite"
 	@echo "  make run         Start FastAPI production REST service on port 8000"
+	@echo "  make ui          Launch Streamlit Financial RAG Intelligence Interface"
 	@echo "  make mlflow-ui   Launch local MLflow Experiment Tracking dashboard"
 	@echo "  make docker-up   Start full Docker Compose container stack (API + UI + MLflow)"
 	@echo "  make lint        Run ruff linter and style check"
@@ -49,6 +50,9 @@ test:
 
 run:
 	$(PYTHON_CMD) -m uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+
+ui:
+	$(PYTHON_CMD) -m streamlit run ui/app.py --server.port 8501
 
 mlflow-ui:
 	$(PYTHON_CMD) -m mlflow ui --host 127.0.0.1 --port 5000

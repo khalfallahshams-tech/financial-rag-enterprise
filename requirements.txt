@@ -13,9 +13,11 @@ sentence-transformers>=3.0.0
 # --- LLM Provider ---
 google-genai>=1.0.0
 
-# --- API ---
+# --- API & UI ---
 fastapi>=0.110.0
 uvicorn[standard]>=0.29.0
+streamlit>=1.30.0
+httpx>=0.27.0
 pydantic>=2.6.0
 pydantic-settings>=2.2.0
 python-dotenv>=1.0.0

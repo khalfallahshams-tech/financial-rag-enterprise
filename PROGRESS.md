@@ -53,12 +53,12 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 3.1 | `GET /health` and `GET /v1/health` | ✅ DONE | `app.py` — Vector DB count, models, cache size |
-| 3.2 | `POST /query` & `POST /v1/query` multi-retriever | ✅ DONE | `app.py` — Supports `bm25`, `dense`, `hybrid`, `hybrid_rerank` |
-| 3.3 | `GET /config` and `GET /v1/config` endpoint | ✅ DONE | `app.py` — Returns hyperparameters, active models, timeout SLA |
-| 3.4 | Structured JSON logging | ✅ DONE | `JSONFormatter` + HTTP request/response JSON middleware |
-| 3.5 | Request timeout handling | ✅ DONE | `asyncio.wait_for` SLA with HTTP 504 Gateway Timeout |
-| 3.6 | Pydantic v2 validation on all inputs | ✅ DONE | `src/schemas.py` — `QueryRequest`, `QueryResponse`, `ConfigResponse` |
+| 3.1 | `GET /health` | ✅ DONE | `app.py` |
+| 3.2 | `POST /v1/query` with retriever selector | ✅ DONE | `app.py` |
+| 3.3 | `GET /config` endpoint | ⏳ TODO | |
+| 3.4 | Structured JSON logging | ⏳ TODO | |
+| 3.5 | Request timeout handling | ⏳ TODO | |
+| 3.6 | Pydantic v2 validation on all inputs | ✅ DONE | `schemas.py` |
 
 ---
 
@@ -66,10 +66,10 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 4.1 | Question box + retriever selector | ⏳ TODO | |
-| 4.2 | Answer with cited sources + latency | ⏳ TODO | |
-| 4.3 | "Compare retrievers" view | ⏳ TODO | |
-| 4.4 | "Evaluation results" tab | ⏳ TODO | |
+| 4.1 | Question box + retriever selector | ✅ DONE | `ui/app.py` — Prompt suggestions & strategy selector |
+| 4.2 | Answer with cited sources + latency | ✅ DONE | `ui/app.py` — Metrics row, abstention banner, latency breakdown |
+| 4.3 | "Compare retrievers" view | ✅ DONE | `ui/app.py` Tab 2 — Side-by-side comparison & latency bar chart |
+| 4.4 | "Evaluation results" tab | ✅ DONE | `ui/app.py` Tab 3 — Dynamic visualizer of all saved benchmark JSONs |
 
 ---
 
