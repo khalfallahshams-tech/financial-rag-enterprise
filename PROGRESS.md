@@ -55,9 +55,9 @@
 |---|------|--------|-------|
 | 3.1 | `GET /health` | ✅ DONE | `app.py` |
 | 3.2 | `POST /v1/query` with retriever selector | ✅ DONE | `app.py` |
-| 3.3 | `GET /config` endpoint | ⏳ TODO | |
-| 3.4 | Structured JSON logging | ⏳ TODO | |
-| 3.5 | Request timeout handling | ⏳ TODO | |
+| 3.3 | `GET /config` endpoint | ✅ DONE | `app.py` exposes runtime settings, model names, and retriever modes |
+| 3.4 | Structured JSON logging | ✅ DONE | `JSONFormatter` middleware capturing request_id, latency, method, and status |
+| 3.5 | Request timeout handling | ✅ DONE | `asyncio.wait_for` 30s timeout SLA with HTTP 504 Gateway Timeout |
 | 3.6 | Pydantic v2 validation on all inputs | ✅ DONE | `schemas.py` |
 
 ---
