@@ -80,15 +80,15 @@
 | 5.1 | Unit: schemas validation | ✅ DONE | `tests/test_schemas.py` — 5/5 |
 | 5.2 | Unit: LRU cache (set/get, TTL, LRU eviction) | ✅ DONE | `tests/test_cache.py` — 4/4 |
 | 5.3 | Unit: guardrails (gate, citation) | ✅ DONE | `tests/test_guardrails.py` — 5/5 |
-| 5.4 | Unit: chunking function | ⏳ TODO | |
-| 5.5 | Unit: RRF fusion | ⏳ TODO | |
-| 5.6 | Unit: pipeline stage caching | ⏳ TODO | |
-| 5.7 | Data: no split overlap, no empty docs | ⏳ TODO | |
-| 5.8 | API: health, valid query, 422, abstention (mock LLM) | ⏳ TODO | |
-| 5.9 | Eval regression: nDCG@10 baseline guard | ⏳ TODO | |
-| 5.10 | Coverage report ≥ 70% | ⏳ TODO | |
+| 5.4 | Unit: chunking function | ✅ DONE | `tests/test_retrieval_and_chunking.py` — 4/4 |
+| 5.5 | Unit: RRF fusion (hand-computed math) | ✅ DONE | `tests/test_retrieval_and_chunking.py` — 1/1 ($1/(60+r)$) |
+| 5.6 | Unit: pipeline stage caching | ✅ DONE | `tests/test_pipeline_stages.py` — 4/4 |
+| 5.7 | Data: no split overlap, no empty docs | ✅ DONE | `tests/test_data_integrity.py` — 4/4 (57,598 unique docs) |
+| 5.8 | API: health, valid query, 422, abstention (mock LLM) | ✅ DONE | `tests/test_api.py` — 9/9 |
+| 5.9 | Eval regression: nDCG@10 baseline guard | ✅ DONE | `tests/test_eval_regression.py` (baseline: 0.6708, tol: 0.05) |
+| 5.10 | Coverage report ≥ 70% | ✅ DONE | **73% Total Code Coverage** across 55 test cases |
 
-**Current: 14 / 14 existing tests passing ✅**
+**Current: 55 / 55 tests passing ✅ (73% Code Coverage)**
 
 ---
 

@@ -76,7 +76,8 @@ def run_eval_pipeline(force: bool = False, gen_limit: int = 50):
     print("=" * 80)
 
 
-def main():
+def build_parser() -> argparse.ArgumentParser:
+    """Builds and returns the CLI argument parser."""
     parser = argparse.ArgumentParser(description="Financial RAG Pipeline CLI")
     subparsers = parser.add_subparsers(dest="command", help="Pipeline execution command")
 
@@ -97,7 +98,11 @@ def main():
 
     # Command: import-legacy
     subparsers.add_parser("import-legacy", help="Import legacy benchmark results into MLflow")
+    return parser
 
+
+def main():
+    parser = build_parser()
     args = parser.parse_args()
 
     if args.command in ("all", "pipeline", None):

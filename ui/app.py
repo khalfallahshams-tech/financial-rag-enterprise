@@ -382,3 +382,4 @@ with tab_eval:
         with st.expander("📄 View Full Executive Evaluation Report Markdown", expanded=False):
             with open(rep_path, "r", encoding="utf-8") as f:
                 st.markdown(f.read())
+

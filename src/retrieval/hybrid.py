@@ -3,6 +3,36 @@ from src.config import settings
 from .dense import DenseRetriever
 from .sparse import SparseRetriever
 
+def reciprocal_rank_fusion(
+    ranked_lists: List[List[Dict[str, Any]]],
+    k: int = 60
+) -> List[Dict[str, Any]]:
+    """
+    Computes standard Reciprocal Rank Fusion (RRF) across multiple candidate lists:
+        RRF_score(d) = sum_{l in lists} 1.0 / (k + rank_l(d))
+    where rank is 1-indexed.
+    """
+    rrf_scores: Dict[str, float] = {}
+    doc_map: Dict[str, Dict[str, Any]] = {}
+
+    for rank_list in ranked_lists:
+        for rank_1idx, item in enumerate(rank_list, start=1):
+            doc_id = item["chunk_id"]
+            if doc_id not in doc_map:
+                doc_map[doc_id] = dict(item)
+            rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank_1idx))
+
+    # Sort descending by fused RRF score
+    sorted_ids = sorted(rrf_scores.keys(), key=lambda did: rrf_scores[did], reverse=True)
+    fused_results = []
+    for doc_id in sorted_ids:
+        item = doc_map[doc_id]
+        item["rrf_score"] = rrf_scores[doc_id]
+        item["score"] = rrf_scores[doc_id]
+        fused_results.append(item)
+
+    return fused_results
+
 class HybridRetriever:
     """
     Candidate Pool Generator combining Dense Vector Search (K=8) and BM25 Lexical Search (K=8).
@@ -33,4 +63,3 @@ class HybridRetriever:
                 pool_dict[cid]["source_channel"] = "hybrid_overlap"
 
         return list(pool_dict.values())
-
