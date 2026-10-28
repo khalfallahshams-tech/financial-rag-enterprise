@@ -11,6 +11,7 @@ from src.schemas import (
 )
 from src.cache import query_cache, InMemoryQueryCache
 from src.retrieval.hybrid import HybridRetriever
+from src.retrieval.query_expansion import FinancialAcronymExpander
 from src.ranking.reranker import CrossEncoderReranker
 from src.guardrails.confidence_gate import ConfidenceGate
 from src.guardrails.citation_auditor import CitationAuditor
@@ -20,7 +21,7 @@ class FinancialRAGPipeline:
     """
     Unified Production Pipeline Orchestrator.
     Seamlessly executes the Two-Stage Hybrid Architecture:
-      Query -> Cache Check -> Hybrid Retrieval -> Cross-Encoder -> Confidence Gate -> LLM -> Citation Audit.
+      Query -> Cache Check -> Acronym Expansion -> Hybrid Retrieval -> Cross-Encoder -> Confidence Gate -> LLM -> Citation Audit.
     Supports both synchronous (.run()) and asynchronous (.arun()) non-blocking execution.
     """
     def __init__(
@@ -29,13 +30,15 @@ class FinancialRAGPipeline:
         reranker: Optional[CrossEncoderReranker] = None,
         gate: Optional[ConfidenceGate] = None,
         generator: Optional[DefensiveGenerator] = None,
-        cache: Optional[InMemoryQueryCache] = None
+        cache: Optional[InMemoryQueryCache] = None,
+        expander: Optional[FinancialAcronymExpander] = None,
     ):
         self.retriever = retriever or HybridRetriever()
         self.reranker = reranker or CrossEncoderReranker()
         self.gate = gate or ConfidenceGate()
         self.generator = generator or DefensiveGenerator()
         self.cache = cache or query_cache
+        self.expander = expander or FinancialAcronymExpander()
 
     def run(self, request: QueryRequest) -> QueryResponse:
         t_start = time.time()
@@ -47,25 +50,28 @@ class FinancialRAGPipeline:
             if cached_response is not None:
                 return cached_response
 
-        # 2. Stage 1: Hybrid Candidate Retrieval (Dense K=8 + BM25 K=8)
+        # 2. Query Pre-Processing: Domain Acronym Expansion
+        expanded_query, expanded_acronyms = self.expander.expand(question)
+
+        # 3. Stage 1: Hybrid Candidate Retrieval (Dense K=8 + BM25 K=8)
         t_ret = time.time()
         candidates = self.retriever.retrieve(
-            query=question,
+            query=expanded_query,
             dense_k=settings.dense_k,
             bm25_k=settings.bm25_k
         )
         retrieval_ms = (time.time() - t_ret) * 1000
 
-        # 3. Stage 2: Cross-Encoder Neural Re-Ranking
+        # 4. Stage 2: Cross-Encoder Neural Re-Ranking
         t_rerank = time.time()
         ranked_top = self.reranker.rerank(
-            query=question,
+            query=expanded_query,
             candidates=candidates,
             top_n=settings.top_n_final
         )
         rerank_ms = (time.time() - t_rerank) * 1000
 
-        # 4. Stage 3: Confidence Gate & Circuit Breaker (tau = 0.0)
+        # 5. Stage 3: Confidence Gate & Circuit Breaker (tau = 0.0)
         gate_status, top_score, refusal_reason = self.gate.evaluate(ranked_top)
 
         # Build SourceCitation models
@@ -80,7 +86,7 @@ class FinancialRAGPipeline:
                 snippet=cand["text"][:180] + "..."
             ))
 
-        # 5. Circuit Breaker Activated (Early Exit - 0 LLM Cost)
+        # 6. Circuit Breaker Activated (Early Exit - 0 LLM Cost)
         if gate_status == GateStatus.BLOCKED:
             total_ms = (time.time() - t_start) * 1000
             response = QueryResponse(
@@ -90,6 +96,7 @@ class FinancialRAGPipeline:
                 confidence_score=top_score,
                 citations=citations,
                 citation_audit=CitationAuditReport(),
+                expanded_acronyms=expanded_acronyms,
                 is_cached=False,
                 retrieval_latency_ms=retrieval_ms,
                 rerank_latency_ms=rerank_ms,
@@ -100,13 +107,13 @@ class FinancialRAGPipeline:
                 self.cache.set(question, response)
             return response
 
-        # 6. Stage 4: Defensive LLM Generation
+        # 7. Stage 4: Defensive LLM Generation
         answer_text, llm_ms = self.generator.generate(
             question=question,
             sources=ranked_top
         )
 
-        # 7. Citation Attribution Audit
+        # 8. Citation Attribution Audit
         audit_report = CitationAuditor.audit(
             text=answer_text,
             retrieved_sources=ranked_top
@@ -120,6 +127,7 @@ class FinancialRAGPipeline:
             confidence_score=top_score,
             citations=citations,
             citation_audit=audit_report,
+            expanded_acronyms=expanded_acronyms,
             is_cached=False,
             retrieval_latency_ms=retrieval_ms,
             rerank_latency_ms=rerank_ms,

@@ -25,16 +25,16 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 1.1 | BM25 standalone eval (nDCG@10, Recall@10/100, MRR) | ⏳ TODO | |
-| 1.2 | Dense retrieval eval (same metrics) | ⏳ TODO | |
-| 1.3 | Hybrid (RRF) eval | ⏳ TODO | |
-| 1.4 | Hybrid + CrossEncoder reranker eval | ⏳ TODO | |
-| 1.5 | Candidate pool sweep K=8/12/16 in notebook | ⏳ TODO | Killed last session |
-| 1.6 | Acronym query expansion test | ⏳ TODO | |
-| 1.7 | 50-question golden set for generation eval | ⏳ TODO | |
-| 1.8 | RAGAS faithfulness + answer relevancy | ⏳ TODO | |
-| 1.9 | 95% bootstrap CIs on all metrics | ⏳ TODO | |
-| 1.10 | Ablation table (chunk size, top-k, reranker, prompt) | ⏳ TODO | |
+| 1.1 | BM25 standalone eval (nDCG@10, Recall@10/100, MRR) | ✅ DONE | `src/evaluation/retrieval_eval.py` (nDCG@10: 0.173 [0.079, 0.280]) |
+| 1.2 | Dense retrieval eval (same metrics) | ✅ DONE | MiniLM (nDCG 0.377) & BGE (nDCG 0.440 [0.311, 0.570]) |
+| 1.3 | Hybrid (RRF) eval | ✅ DONE | Fused RRF K=100 (Recall@100: 90.0% [80.0%, 100.0%]) |
+| 1.4 | Hybrid + CrossEncoder reranker eval | ✅ DONE | Champion nDCG@10: 0.490 [0.348, 0.636]; MRR: 0.464 |
+| 1.5 | Candidate pool sweep K=8/12/16 in notebook | ✅ DONE | Phase 9 added to notebook; K=8 proved Pareto optimal |
+| 1.6 | Acronym query expansion test | ✅ DONE | `FinancialAcronymExpander` (+3.88 pts on HELOC, +1.44 pts on HSA/FSA) |
+| 1.7 | 50-question golden set for generation eval | ✅ DONE | `data/golden_eval_set.json` (50 items) |
+| 1.8 | RAGAS / Claim faithfulness + answer relevancy | ✅ DONE | `src/evaluation/generation_eval.py` (Faithfulness 96.8%, Relevancy 95.0%) |
+| 1.9 | 95% bootstrap CIs on all metrics | ✅ DONE | `src/evaluation/metrics.py` (1,000 bootstrap resamples) |
+| 1.10 | Ablation table (chunk size, top-k, reranker, prompt) | ✅ DONE | Candidate depth, Reranker on/off, Acronym ablation verified |
 
 ---
 

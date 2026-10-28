@@ -1,0 +1,29 @@
+{
+  "K=8": {
+    "Candidate_K_Per_Channel": 8,
+    "Total_Union_Pool_Size": "8 to 16",
+    "Hit@1": 43.3,
+    "Hit@3": 53.3,
+    "MRR": 0.478,
+    "Avg_Latency_ms": 1328.7,
+    "P95_Latency_ms": 1478.5
+  },
+  "K=12": {
+    "Candidate_K_Per_Channel": 12,
+    "Total_Union_Pool_Size": "12 to 24",
+    "Hit@1": 43.3,
+    "Hit@3": 50.0,
+    "MRR": 0.461,
+    "Avg_Latency_ms": 1750.9,
+    "P95_Latency_ms": 1993.9
+  },
+  "K=16": {
+    "Candidate_K_Per_Channel": 16,
+    "Total_Union_Pool_Size": "16 to 32",
+    "Hit@1": 43.3,
+    "Hit@3": 50.0,
+    "MRR": 0.467,
+    "Avg_Latency_ms": 2317.9,
+    "P95_Latency_ms": 2632.5
+  }
+}

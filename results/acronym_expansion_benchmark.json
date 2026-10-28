@@ -1,0 +1,130 @@
+{
+  "total_acronym_queries": 11,
+  "mean_baseline_confidence": 2.295,
+  "mean_expanded_confidence": 2.6,
+  "net_confidence_lift": 0.305,
+  "queries_with_positive_lift": "2/11 (18.2%)",
+  "detailed_results": [
+    {
+      "question_id": "EVAL_021",
+      "raw_query": "Does registering a DBA for my sole proprietorship ...",
+      "expanded_terms": "DBA, EIN",
+      "baseline_score": 4.703,
+      "expanded_score": 4.595,
+      "confidence_lift": -0.108,
+      "improved": false,
+      "raw_latency_ms": 4227.2,
+      "exp_latency_ms": 1536.0
+    },
+    {
+      "question_id": "EVAL_022",
+      "raw_query": "How is independent contractor pay reported on Form...",
+      "expanded_terms": "",
+      "baseline_score": 4.616,
+      "expanded_score": 4.616,
+      "confidence_lift": 0.0,
+      "improved": false,
+      "raw_latency_ms": 1547.9,
+      "exp_latency_ms": 1394.0
+    },
+    {
+      "question_id": "EVAL_023",
+      "raw_query": "How does IRC Section 179 immediate expensing diffe...",
+      "expanded_terms": "",
+      "baseline_score": -1.679,
+      "expanded_score": -1.679,
+      "confidence_lift": 0.0,
+      "improved": false,
+      "raw_latency_ms": 1054.8,
+      "exp_latency_ms": 1108.3
+    },
+    {
+      "question_id": "EVAL_024",
+      "raw_query": "What are the IRS 20% withholding and 60-day deposi...",
+      "expanded_terms": "",
+      "baseline_score": 2.826,
+      "expanded_score": 2.826,
+      "confidence_lift": 0.0,
+      "improved": false,
+      "raw_latency_ms": 1466.2,
+      "exp_latency_ms": 1526.7
+    },
+    {
+      "question_id": "EVAL_025",
+      "raw_query": "What distinguishes an HSA from a Healthcare FSA in...",
+      "expanded_terms": "HSA, FSA",
+      "baseline_score": -0.064,
+      "expanded_score": 1.372,
+      "confidence_lift": 1.436,
+      "improved": true,
+      "raw_latency_ms": 1275.0,
+      "exp_latency_ms": 1510.1
+    },
+    {
+      "question_id": "EVAL_026",
+      "raw_query": "Why does filing an IRC Section 83(b) election with...",
+      "expanded_terms": "",
+      "baseline_score": 3.137,
+      "expanded_score": 3.137,
+      "confidence_lift": 0.0,
+      "improved": false,
+      "raw_latency_ms": 1201.8,
+      "exp_latency_ms": 1211.1
+    },
+    {
+      "question_id": "EVAL_027",
+      "raw_query": "How does exercising Incentive Stock Options (ISOs)...",
+      "expanded_terms": "",
+      "baseline_score": 5.121,
+      "expanded_score": 5.121,
+      "confidence_lift": 0.0,
+      "improved": false,
+      "raw_latency_ms": 1316.6,
+      "exp_latency_ms": 1343.8
+    },
+    {
+      "question_id": "EVAL_028",
+      "raw_query": "When underwriting a HELOC, how do mortgage lenders...",
+      "expanded_terms": "HELOC",
+      "baseline_score": -1.54,
+      "expanded_score": 2.338,
+      "confidence_lift": 3.877,
+      "improved": true,
+      "raw_latency_ms": 1294.8,
+      "exp_latency_ms": 1382.5
+    },
+    {
+      "question_id": "EVAL_029",
+      "raw_query": "Why does holding a Master Limited Partnership (MLP...",
+      "expanded_terms": "IRA",
+      "baseline_score": 1.443,
+      "expanded_score": 1.208,
+      "confidence_lift": -0.235,
+      "improved": false,
+      "raw_latency_ms": 1432.7,
+      "exp_latency_ms": 1963.7
+    },
+    {
+      "question_id": "EVAL_030",
+      "raw_query": "How do MAGI phase-out limits for deducting a Tradi...",
+      "expanded_terms": "IRA",
+      "baseline_score": 2.478,
+      "expanded_score": 2.042,
+      "confidence_lift": -0.436,
+      "improved": false,
+      "raw_latency_ms": 1812.9,
+      "exp_latency_ms": 1729.2
+    },
+    {
+      "question_id": "EVAL_048",
+      "raw_query": "What is the structural difference between a standa...",
+      "expanded_terms": "IRA, IRA",
+      "baseline_score": 4.202,
+      "expanded_score": 3.021,
+      "confidence_lift": -1.181,
+      "improved": false,
+      "raw_latency_ms": 1448.9,
+      "exp_latency_ms": 1502.1
+    }
+  ]
+}

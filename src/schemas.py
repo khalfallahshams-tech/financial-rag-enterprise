@@ -63,6 +63,7 @@ class QueryResponse(BaseModel):
     confidence_score: float = Field(..., description="Top candidate's Cross-Encoder logit score.")
     citations: List[SourceCitation] = Field(default_factory=list)
     citation_audit: CitationAuditReport = Field(default_factory=CitationAuditReport)
+    expanded_acronyms: List[str] = Field(default_factory=list, description="Financial acronyms expanded prior to retrieval.")
     is_cached: bool = Field(default=False, description="Whether the response was served from memory cache.")
     
     # Latency decomposition in milliseconds

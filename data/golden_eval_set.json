@@ -1,0 +1,1226 @@
+[
+  {
+    "question_id": "EVAL_001",
+    "category": "FACTUAL",
+    "difficulty_level": "EASY",
+    "question": "How do I properly endorse a check over to a third party, and why do many banks refuse to accept third-party checks?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_6301",
+      "doc_48102"
+    ],
+    "ground_truth_contexts": [
+      "doc_6301: To sign a check over to someone else (a third-party check), write 'Pay to the order of [Third Party's Name]' on the back endorsement line and sign your name underneath it. However, banks are not legally required to accept third-party checks because it is difficult to verify that the original payee's signature is authentic and not forged.",
+      "doc_48102: Most retail banks reject third-party endorsed checks due to fraud risk. The banks that do allow you to deposit a third-party check almost always require both the original payee and the new recipient to appear together in person at a branch with valid government-issued photo IDs."
+    ],
+    "ground_truth_answer": "To endorse a check to a third party, write 'Pay to the order of [Third Party's Name]' in the endorsement area on the back and sign your name below it [Source 1: doc_6301]. Many banks refuse third-party checks because they cannot easily verify that the original payee's signature is authentic, and banks that do accept them typically require both parties to appear in person with valid government photo ID [Source 1: doc_6301, Source 2: doc_48102].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_6301"
+    ],
+    "key_financial_terms": [
+      "Third-Party Check",
+      "Restrictive Endorsement",
+      "Payee Verification"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Tests standard procedural retrieval on retail banking mechanics and verifies multi-label equivalence across two forum answers."
+  },
+  {
+    "question_id": "EVAL_002",
+    "category": "FACTUAL",
+    "difficulty_level": "EASY",
+    "question": "What is the maximum dollar limit for a single USPS domestic postal money order, and how much cash triggers a Funds Transaction Report?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_19405",
+      "doc_88214"
+    ],
+    "ground_truth_contexts": [
+      "doc_19405: The maximum amount for a single domestic United States Postal Service (USPS) money order is $1,000. If you need to send more than $1,000, you can purchase multiple money orders, though you must pay with cash, a debit card, or traveler's checks\u2014credit cards are not accepted.",
+      "doc_88214: While you can buy multiple $1,000 USPS money orders on the same day, if your total money order purchases reach $3,000 or more in a single day, federal anti-money laundering rules require you to fill out PS Form 8105-A (Funds Transaction Report) and present a government-issued photo ID."
+    ],
+    "ground_truth_answer": "A single domestic USPS postal money order has a maximum limit of $1,000 and must be purchased using cash, a debit card, or traveler's checks [Source 1: doc_19405]. If you purchase $3,000 or more in money orders within a single day, federal anti-money laundering regulations require you to present a government photo ID and complete a Funds Transaction Report (PS Form 8105-A) [Source 2: doc_88214].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_19405",
+      "doc_88214"
+    ],
+    "key_financial_terms": [
+      "Money Order",
+      "USPS",
+      "PS Form 8105-A",
+      "Anti-Money Laundering"
+    ],
+    "target_eval_metric": "Citation Precision",
+    "evaluation_rationale": "Evaluates exact numerical threshold extraction ($1,000 single cap vs. $3,000 AML reporting trigger) without conflating the two figures."
+  },
+  {
+    "question_id": "EVAL_003",
+    "category": "FACTUAL",
+    "difficulty_level": "MEDIUM",
+    "question": "Under federal Regulation CC, how long can a bank hold a large check deposit over $5,000 before making the funds available?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_31089",
+      "doc_112045"
+    ],
+    "ground_truth_contexts": [
+      "doc_31089: Under the Expedited Funds Availability Act (Regulation CC), deposits exceeding $5,000 in a single day are subject to a 'large deposit' exception hold. The bank must make the first $200 available on the next business day and up to $5,000 available according to its normal schedule (usually the second business day), but the excess amount over $5,000 can be held for a reasonable period\u2014generally 5 additional business days (for a total of 7 business days).",
+      "doc_112045: When a bank places a Regulation CC exception hold on a check over $5,000 (or on a new account open less than 30 days), the bank must provide you with a written notice stating the exact reason for the hold and the date the funds will be released for withdrawal."
+    ],
+    "ground_truth_answer": "Under Regulation CC's large deposit exception, a bank must make the first $200 available the next business day and the remaining amount up to $5,000 available under its standard schedule, but any excess over $5,000 can be held for up to 5 additional business days (typically 7 business days total) [Source 1: doc_31089]. The bank is also required to issue a written hold notice specifying the reason and release date [Source 2: doc_112045].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_31089"
+    ],
+    "key_financial_terms": [
+      "Regulation CC",
+      "Expedited Funds Availability Act",
+      "Exception Hold"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Tests tiered availability rules ($200 next day, $5,000 normal schedule, excess up to 7 business days) where models often hallucinate a flat hold across the entire check."
+  },
+  {
+    "question_id": "EVAL_004",
+    "category": "FACTUAL",
+    "difficulty_level": "EASY",
+    "question": "What is the difference between a credit card's statement closing date and the payment due date regarding grace period interest?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_54912",
+      "doc_92310"
+    ],
+    "ground_truth_contexts": [
+      "doc_54912: The statement closing date is the final day of your monthly billing cycle when your statement balance is calculated. The payment due date falls 21 to 25 days after the statement closing date. That window is your interest-free grace period: if you pay the full statement balance by the due date, you pay zero interest on new purchases.",
+      "doc_92310: If you carry a balance past the payment due date by paying only the minimum payment, you lose your credit card grace period. Not only will the remaining balance accrue interest, but new purchases made in the following cycle will begin accruing daily interest immediately from the transaction date."
+    ],
+    "ground_truth_answer": "The statement closing date marks the end of the billing cycle when your monthly statement is generated, while the payment due date falls 21 to 25 days later [Source 1: doc_54912]. Paying the full statement balance within this grace period avoids all interest charges, whereas paying less than the full statement balance forfeits the grace period and causes both the remaining balance and new purchases to accrue interest [Source 1: doc_54912, Source 2: doc_92310].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_54912"
+    ],
+    "key_financial_terms": [
+      "Statement Closing Date",
+      "Payment Due Date",
+      "Grace Period"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Assesses baseline consumer credit mechanics and ensures the generator distinguishes statement generation from grace-period forfeiture."
+  },
+  {
+    "question_id": "EVAL_005",
+    "category": "FACTUAL",
+    "difficulty_level": "MEDIUM",
+    "question": "Why is a formal mortgage payoff quote always higher than the current principal balance shown on my monthly mortgage statement?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_77401"
+    ],
+    "ground_truth_contexts": [
+      "doc_77401: Mortgage interest is paid in arrears, meaning your monthly mortgage payment pays for the interest accrued during the prior month. Because of this, the principal balance on your monthly statement does not reflect the daily (per diem) interest that has accumulated since your last payment was processed. A formal payoff quote includes your remaining principal balance plus accrued per diem interest through the scheduled payoff date, plus any small county lien release or recording fees."
+    ],
+    "ground_truth_answer": "Because mortgage interest is paid in arrears, your monthly statement shows only the remaining principal after your last payment and excludes interest accrued since that date [Source 1: doc_77401]. A formal payoff quote is higher because it adds the daily (per diem) interest accumulated up to the target payoff date along with any county lien-release or recording fees [Source 1: doc_77401].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_77401"
+    ],
+    "key_financial_terms": [
+      "Interest in Arrears",
+      "Per Diem Interest",
+      "Payoff Quote",
+      "Principal Balance"
+    ],
+    "target_eval_metric": "MRR",
+    "evaluation_rationale": "Single-source target that tests whether dense retrieval ranks 'interest in arrears' and 'per diem interest' above generic mortgage amortization posts."
+  },
+  {
+    "question_id": "EVAL_006",
+    "category": "FACTUAL",
+    "difficulty_level": "MEDIUM",
+    "question": "How does a wash sale affect the cost basis and holding period of replacement shares purchased within 30 days?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_128404",
+      "doc_203911"
+    ],
+    "ground_truth_contexts": [
+      "doc_128404: Under the IRS wash sale rule, if you sell a stock at a loss and buy substantially identical shares within 30 days before or after the sale, the immediate tax loss deduction is disallowed. Instead, the disallowed loss is added directly to the cost basis of the replacement shares, deferring the tax benefit until the replacement shares are sold.",
+      "doc_203911: When a wash sale occurs, in addition to adding the disallowed loss to the cost basis of the new shares, the holding period of the original shares you sold at a loss is tacked onto the holding period of the replacement shares."
+    ],
+    "ground_truth_answer": "When a wash sale is triggered by purchasing substantially identical shares within 30 days before or after selling at a loss, the immediate loss deduction is disallowed and added to the cost basis of the replacement shares [Source 1: doc_128404]. Additionally, the holding period of the original shares sold at a loss is added ('tacked on') to the holding period of the newly purchased replacement shares [Source 2: doc_203911].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_128404",
+      "doc_203911"
+    ],
+    "key_financial_terms": [
+      "Wash Sale",
+      "Cost Basis",
+      "Substantially Identical",
+      "Holding Period Tacking"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Tests whether the system retrieves both the cost-basis adjustment (`doc_128404`) and the holding-period tacking rule (`doc_203911`)."
+  },
+  {
+    "question_id": "EVAL_007",
+    "category": "FACTUAL",
+    "difficulty_level": "EASY",
+    "question": "What happens to a stock's opening reference price and open limit orders on the morning of its ex-dividend date?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_156092"
+    ],
+    "ground_truth_contexts": [
+      "doc_156092: On the morning of a stock's ex-dividend date, anyone purchasing the shares is no longer entitled to receive the declared dividend. Before the market opens on the ex-dividend date, the stock exchange automatically adjusts the stock's previous closing reference price downward by the exact dollar amount of the dividend, and Good-Til-Canceled (GTC) open buy limit orders below the market are likewise reduced by the dividend amount unless marked 'Do Not Reduce' (DNR)."
+    ],
+    "ground_truth_answer": "On the morning of the ex-dividend date, new buyers no longer qualify for the upcoming dividend, so the exchange automatically reduces the stock's opening reference price by the exact dollar amount of the dividend [Source 1: doc_156092]. Open Good-Til-Canceled (GTC) buy limit orders are also automatically reduced by the dividend amount unless designated 'Do Not Reduce' (DNR) [Source 1: doc_156092].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_156092"
+    ],
+    "key_financial_terms": [
+      "Ex-Dividend Date",
+      "Good-Til-Canceled (GTC)",
+      "Do Not Reduce (DNR)"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Verifies equity market microstructure knowledge and ensures the generator does not confuse the record date with the ex-dividend date."
+  },
+  {
+    "question_id": "EVAL_008",
+    "category": "FACTUAL",
+    "difficulty_level": "EASY",
+    "question": "Why do gas stations place a $75 to $100 temporary hold on a debit or credit card when you swipe at the fuel pump?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_83920",
+      "doc_140298"
+    ],
+    "ground_truth_contexts": [
+      "doc_83920: When you pay at an automated fuel pump, the merchant's payment processor must verify that your card is valid and has sufficient funds before you pump any gas. Because the system does not know in advance whether you will pump $10 or $90 of fuel, it places a temporary pre-authorization hold\u2014typically $75 to $100\u2014on your account.",
+      "doc_140298: Once you finish pumping gas and hang up the nozzle, the gas station submits the actual dollar amount of the fuel purchase. However, on a debit card, your bank may take 2 to 4 business days to release the remaining pre-authorization hold back into your available checking balance."
+    ],
+    "ground_truth_answer": "Automated fuel pumps place a $75 to $100 pre-authorization hold before you begin pumping to ensure your account has sufficient funds prior to knowing the final purchase total [Source 1: doc_83920]. Although the station submits the actual fuel charge immediately after you finish pumping, banks can take 2 to 4 business days to release the excess hold on a debit card [Source 2: doc_140298].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_83920"
+    ],
+    "key_financial_terms": [
+      "Pre-Authorization Hold",
+      "Debit Card Hold",
+      "Merchant Processor"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Classic FiQA consumer banking question; evaluates multi-document equivalence between card network pre-authorization and bank release latency."
+  },
+  {
+    "question_id": "EVAL_009",
+    "category": "FACTUAL",
+    "difficulty_level": "MEDIUM",
+    "question": "How are the accumulated interest earnings on US Series EE and Series I savings bonds taxed at the federal, state, and local levels when redeemed?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_219043"
+    ],
+    "ground_truth_contexts": [
+      "doc_219043: Interest earned on US Treasury Series EE and Series I savings bonds is subject to federal income tax, but it is completely exempt from all state and local income taxes. Most bondholders defer reporting the interest until the year the bond is actually redeemed or reaches its 30-year final maturity, at which point the redeeming bank or TreasuryDirect issues IRS Form 1099-INT."
+    ],
+    "ground_truth_answer": "Accumulated interest on Series EE and Series I savings bonds is subject to federal income tax in the year the bond is redeemed or reaches its 30-year maturity (reported on Form 1099-INT), but it is completely exempt from state and local income taxes [Source 1: doc_219043].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_219043"
+    ],
+    "key_financial_terms": [
+      "Series EE Bonds",
+      "Series I Bonds",
+      "Form 1099-INT",
+      "State Tax Exemption"
+    ],
+    "target_eval_metric": "Citation Precision",
+    "evaluation_rationale": "Tests dual-jurisdiction tax rules (federal taxable vs. state/local exempt) and ensures accurate citation of the single canonical passage."
+  },
+  {
+    "question_id": "EVAL_010",
+    "category": "FACTUAL",
+    "difficulty_level": "EASY",
+    "question": "What is the legal financial obligation and property ownership right of a co-signer on an auto loan if the primary borrower defaults?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_67115",
+      "doc_174509"
+    ],
+    "ground_truth_contexts": [
+      "doc_67115: Co-signing an auto loan means you legally guarantee 100% of the debt obligation. However, being a co-signer (guarantor) on the loan note does not give you any legal ownership or title rights to the car itself unless your name is also explicitly listed on the vehicle title.",
+      "doc_174509: If the primary borrower misses a payment or defaults on a co-signed auto loan, the lender can immediately demand full payment from the co-signer without first suing the primary borrower, and late payments or repossession will severely damage both the primary borrower's and the co-signer's credit scores."
+    ],
+    "ground_truth_answer": "A co-signer is legally liable for 100% of the auto loan debt if the primary borrower misses a payment or defaults, and any delinquency or repossession damages both parties' credit reports [Source 1: doc_67115, Source 2: doc_174509]. Despite this full liability, a co-signer has zero legal ownership rights to the vehicle unless they are also named on the vehicle's title [Source 1: doc_67115].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_67115",
+      "doc_174509"
+    ],
+    "key_financial_terms": [
+      "Co-Signer",
+      "Loan Guarantor",
+      "Vehicle Title",
+      "Joint Liability"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Verifies that the system captures both the credit/collection liability (`doc_174509`) and the lack of property title rights (`doc_67115`)."
+  },
+  {
+    "question_id": "EVAL_011",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "Compare the federal self-employment tax treatment and personal asset liability protection of a default single-member LLC versus an LLC that files Form 2553 to be taxed as an S-Corporation.",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_104922",
+      "doc_284190"
+    ],
+    "ground_truth_contexts": [
+      "doc_104922: A single-member Limited Liability Company (LLC) provides a state-law corporate veil that shields the owner's personal assets from business lawsuits and debts. By default, however, the IRS treats a single-member LLC as a 'disregarded entity' taxed identically to a sole proprietorship on Schedule C, meaning 100% of net business profit is subject to the 15.3% Self-Employment (FICA) tax.",
+      "doc_284190: When an LLC files IRS Form 2553 to elect S-Corporation tax status, its state-level limited liability protection remains unchanged, but its federal payroll tax rules change. The S-Corp owner-employee must pay themselves a 'reasonable compensation' salary via Form W-2 (which is subject to the 15.3% FICA tax), while any remaining net business profits distributed as shareholder distributions are exempt from the 15.3% self-employment tax."
+    ],
+    "ground_truth_answer": "Both a default single-member LLC and an S-Corporation-elected LLC provide the same state-law limited liability protection shielding personal assets from business debts [Source 1: doc_104922, Source 2: doc_284190]. For federal taxes, a default single-member LLC is taxed as a disregarded entity on Schedule C where 100% of net profits are subject to the 15.3% Self-Employment tax [Source 1: doc_104922]. In contrast, an LLC electing S-Corp status via Form 2553 must pay the owner a 'reasonable salary' on Form W-2 subject to 15.3% FICA taxes, while remaining net profits taken as shareholder distributions bypass the 15.3% self-employment tax [Source 2: doc_284190].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_104922",
+      "doc_284190"
+    ],
+    "key_financial_terms": [
+      "Single-Member LLC",
+      "Disregarded Entity",
+      "Form 2553",
+      "S-Corporation",
+      "Reasonable Compensation",
+      "Self-Employment Tax"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "True multi-hop synthesis: `doc_104922` contains the disregarded-entity Schedule C mechanics, while `doc_284190` contains the Form 2553 S-Corp W-2/distribution split. Both must be retrieved and cited."
+  },
+  {
+    "question_id": "EVAL_012",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "How is the cost basis and capital gains holding period determined when you inherit stock from a deceased relative versus receiving stock as a living gift when the donor's basis exceeds the current market value?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_309114",
+      "doc_315882"
+    ],
+    "ground_truth_contexts": [
+      "doc_309114: When you inherit stock upon the owner's death, the shares receive a 'step-up' (or step-down) in cost basis to the fair market value on the decedent's date of death. Furthermore, under IRS rules, any gain or loss when you eventually sell inherited stock is automatically classified as long-term capital gain or loss, regardless of how briefly you or the decedent held the shares.",
+      "doc_315882: For stock received as a living gift, you normally inherit the donor's original cost basis ('carryover basis') and holding period. However, if the fair market value on the date of the gift is lower than the donor's original basis, a dual-basis rule applies: you use the donor's original basis if you later sell for a gain, you must use the lower date-of-gift fair market value if you sell for a loss, and selling at a price between the two results in neither a gain nor a loss."
+    ],
+    "ground_truth_answer": "Inherited stock receives a stepped-up (or stepped-down) cost basis equal to the fair market value on the decedent's date of death, and its holding period is automatically treated as long-term regardless of actual holding duration [Source 1: doc_309114]. Conversely, stock received as a living gift when the donor's basis exceeds the date-of-gift fair market value is governed by a dual-basis rule: you use the donor's original basis to calculate a gain, the lower date-of-gift fair market value to calculate a capital loss, and recognize no gain or loss if sold at a price between those two values [Source 2: doc_315882].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_309114",
+      "doc_315882"
+    ],
+    "key_financial_terms": [
+      "Stepped-Up Basis",
+      "Carryover Basis",
+      "Dual-Basis Rule",
+      "Long-Term Capital Gains"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Requires retrieving two separate tax passages (`doc_309114` for estate step-up rules; `doc_315882` for inter-vivos gift dual-basis rules) and attributing each branch accurately."
+  },
+  {
+    "question_id": "EVAL_013",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "What are the pros and cons of rolling an old 401(k) into a Rollover IRA versus rolling it into a new employer's 401(k) plan if I plan to do Backdoor Roth IRA conversions or retire at age 55?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_410293",
+      "doc_448912"
+    ],
+    "ground_truth_contexts": [
+      "doc_410293: Rolling an old 401(k) into a Traditional Rollover IRA gives you lower fees and wider investment choices, but that pre-tax IRA balance will trigger the IRS Form 8606 pro-rata aggregation rule, effectively making future Backdoor Roth IRA conversions taxable. Employer 401(k) plans are excluded from the IRA pro-rata calculation.",
+      "doc_448912: Under the IRS 'Rule of 55', if you separate from service with your current employer in or after the calendar year you turn age 55, you can take penalty-free withdrawals directly from that current employer's 401(k) plan without paying the 10% early withdrawal penalty. The Rule of 55 does not apply to IRAs or old 401(k)s left at prior employers unless rolled into your current employer's 401(k) before separating."
+    ],
+    "ground_truth_answer": "Rolling an old 401(k) into a Traditional Rollover IRA offers broader investment choices and lower fees, but the pre-tax IRA balance triggers the Form 8606 pro-rata rule on Backdoor Roth IRA conversions and does not qualify for penalty-free withdrawals at age 55 [Source 1: doc_410293, Source 2: doc_448912]. Conversely, rolling the old 401(k) into your new employer's 401(k) shields those pre-tax funds from the Backdoor Roth IRA pro-rata rule and makes them eligible for penalty-free withdrawals under the Rule of 55 if you leave that employer in or after the year you turn 55 [Source 1: doc_410293, Source 2: doc_448912].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_410293",
+      "doc_448912"
+    ],
+    "key_financial_terms": [
+      "Rollover IRA",
+      "Backdoor Roth IRA",
+      "Pro-Rata Rule",
+      "Form 8606",
+      "Rule of 55"
+    ],
+    "target_eval_metric": "Citation Precision",
+    "evaluation_rationale": "Stresses cross-document retirement planning synthesis: `doc_410293` covers the Form 8606 pro-rata interaction, while `doc_448912` covers the age-55 separation exception."
+  },
+  {
+    "question_id": "EVAL_014",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "MEDIUM",
+    "question": "How do the borrower requirements for canceling Private Mortgage Insurance (PMI) under the Homeowners Protection Act differ at 80% LTV compared to automatic termination at 78% LTV?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_189304",
+      "doc_192055"
+    ],
+    "ground_truth_contexts": [
+      "doc_189304: Under the Homeowners Protection Act (HPA), a borrower can initiate PMI cancellation once the principal balance reaches 80% of the home's original value. However, the borrower must submit a written request, have a good payment history, certify there are no subordinate liens (like a HELOC), and pay for a lender-ordered appraisal if requested to prove the property value has not declined.",
+      "doc_192055: If a borrower does not request early cancellation at 80% LTV, the mortgage servicer is legally required under the HPA to automatically terminate PMI on the date the principal balance is originally scheduled to reach 78% of the original property value, provided the borrower is current on their payments\u2014with no written request or appraisal required."
+    ],
+    "ground_truth_answer": "Requesting PMI cancellation at 80% LTV requires the borrower to submit a written request, maintain a good payment history, have no subordinate liens, and potentially pay for an appraisal to prove the home's value has not declined [Source 1: doc_189304]. In contrast, at 78% scheduled LTV, the servicer must automatically terminate PMI without requiring a written request or property appraisal, provided the borrower is current on their mortgage payments [Source 2: doc_192055].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_189304",
+      "doc_192055"
+    ],
+    "key_financial_terms": [
+      "Private Mortgage Insurance (PMI)",
+      "Homeowners Protection Act (HPA)",
+      "80% LTV",
+      "78% LTV"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Contrasts borrower-initiated cancellation (`doc_189304`) with statutory servicer termination (`doc_192055`), testing if both sets of conditions are preserved."
+  },
+  {
+    "question_id": "EVAL_015",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "How are Early Withdrawal Penalties and investment earnings taxed if I withdraw money at age 45 from a 6-year-old Roth IRA versus taking a hardship withdrawal from a Traditional 401(k)?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_251809",
+      "doc_260411"
+    ],
+    "ground_truth_contexts": [
+      "doc_251809: Roth IRA withdrawals follow strict IRS ordering rules: direct contributions always come out first, completely free of income tax and the 10% early withdrawal penalty at any age. However, withdrawing investment earnings at age 45\u2014even if the account has been open for more than 5 years\u2014is a non-qualified distribution subject to both ordinary income tax and the 10% early withdrawal penalty unless an exception applies.",
+      "doc_260411: A hardship withdrawal from a Traditional pre-tax 401(k) prior to age 59.5 requires proving an 'immediate and heavy financial need.' Unlike Roth IRA contributions, 100% of a pre-tax 401(k) hardship distribution is taxed as ordinary income, and it is still subject to the 10% early withdrawal penalty unless you qualify for a separate statutory exception (such as unreimbursed medical expenses exceeding the AGI floor)."
+    ],
+    "ground_truth_answer": "In a 6-year-old Roth IRA at age 45, IRS ordering rules allow you to withdraw your original contributions first with zero tax and zero penalty, while any investment earnings withdrawn above your contribution basis are subject to both ordinary income tax and the 10% early withdrawal penalty [Source 1: doc_251809]. Conversely, a Traditional pre-tax 401(k) hardship withdrawal requires proving an immediate and heavy financial need, and 100% of the withdrawal is taxed as ordinary income plus the 10% early withdrawal penalty unless a specific statutory exception applies [Source 2: doc_260411].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_251809",
+      "doc_260411"
+    ],
+    "key_financial_terms": [
+      "Roth IRA Ordering Rules",
+      "Hardship Withdrawal",
+      "10% Early Withdrawal Penalty",
+      "Non-Qualified Distribution"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Requires combining Roth FIFO ordering rules (`doc_251809`) with 401(k) hardship taxability (`doc_260411`) where models often falsely assume 'hardship' waives the 10% penalty."
+  },
+  {
+    "question_id": "EVAL_016",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "MEDIUM",
+    "question": "Compare the operational mechanics and credit score impact of placing a credit bureau Fraud Alert versus a Credit Security Freeze.",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_339102",
+      "doc_341088"
+    ],
+    "ground_truth_contexts": [
+      "doc_339102: An initial fraud alert stays on your credit report for 90 days (or 1 year under updated rules) and allows lenders to pull your credit file, but requires them to take reasonable steps to verify your identity before opening new credit. Placing a fraud alert with one major bureau (Equifax, Experian, or TransUnion) automatically notifies the other two bureaus.",
+      "doc_341088: A credit security freeze completely locks your credit file so prospective lenders cannot view your credit report at all, automatically stopping new accounts from being opened unless you temporarily thaw the freeze with your PIN. Unlike a fraud alert, you must contact Equifax, Experian, and TransUnion individually to freeze each report. Neither a freeze nor a fraud alert affects your credit score or blocks existing creditors from viewing your file."
+    ],
+    "ground_truth_answer": "A fraud alert permits prospective lenders to pull your report after verifying your identity, and filing with one bureau automatically notifies the other two [Source 1: doc_339102]. In contrast, a credit security freeze blocks prospective lenders from accessing your credit file entirely unless you temporarily thaw it, and must be placed separately at Equifax, Experian, and TransUnion [Source 2: doc_341088]. Neither measure affects your credit score or prevents existing creditors from accessing your report [Source 2: doc_341088].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_339102",
+      "doc_341088"
+    ],
+    "key_financial_terms": [
+      "Fraud Alert",
+      "Credit Security Freeze",
+      "Equifax",
+      "Experian",
+      "TransUnion"
+    ],
+    "target_eval_metric": "Citation Precision",
+    "evaluation_rationale": "Tests comparative synthesis across bureau notification rules (1-call automatic cascade vs. 3 separate freezes) and lender access restrictions."
+  },
+  {
+    "question_id": "EVAL_017",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "What are the IRS Section 121 primary residence capital gains exclusion rules, and how is the exclusion calculated if I sell after only 12 months due to an out-of-state job transfer?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_472019",
+      "doc_478331"
+    ],
+    "ground_truth_contexts": [
+      "doc_472019: Under IRC Section 121, a homeowner can exclude up to $250,000 of capital gains ($500,000 for Married Filing Jointly) from the sale of a primary residence if they meet both the ownership test and the use test\u2014meaning they owned and lived in the home as their main residence for at least 24 months (2 years) out of the 5 years preceding the sale.",
+      "doc_478331: If you sell your primary residence before meeting the 24-month Section 121 requirement because of a change in place of employment (where the new job location is at least 50 miles farther from the home than your old job), health reasons, or unforeseen circumstances, you qualify for a prorated partial exclusion equal to the fraction of the 24 months you lived in the home."
+    ],
+    "ground_truth_answer": "IRC Section 121 normally requires owning and occupying a home as your primary residence for at least 24 months out of the prior 5 years to exclude up to $250,000 of gain ($500,000 Married Filing Jointly) [Source 1: doc_472019]. However, selling after 12 months due to a job transfer adding at least 50 miles to your commute qualifies for a prorated partial exclusion of 50% (12/24 months), shielding up to $125,000 of gain for single filers or $250,000 for joint filers [Source 1: doc_472019, Source 2: doc_478331].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_472019",
+      "doc_478331"
+    ],
+    "key_financial_terms": [
+      "IRC Section 121",
+      "Primary Residence Exclusion",
+      "Prorated Partial Exclusion"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Requires combining the base dollar limits in `doc_472019` with the 50-mile employment safe-harbor proration formula in `doc_478331`."
+  },
+  {
+    "question_id": "EVAL_018",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "MEDIUM",
+    "question": "How does order execution timing and pricing differ between buying a Mutual Fund versus an Exchange-Traded Fund (ETF) at 11:00 AM Eastern Time?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_501204",
+      "doc_508911"
+    ],
+    "ground_truth_contexts": [
+      "doc_501204: Exchange-Traded Funds (ETFs) trade continuously on stock exchanges throughout the trading day just like individual common stocks. An ETF market or limit order placed at 11:00 AM Eastern Time executes immediately at the prevailing intraday market bid/ask price, subject to bid-ask spread costs.",
+      "doc_508911: Open-end mutual funds use forward pricing and only execute orders once per business day after the stock market closes at 4:00 PM Eastern Time. If you enter a mutual fund buy order at 11:00 AM, the order remains pending until after 4:00 PM and executes at that evening's calculated Net Asset Value (NAV) with zero bid-ask spread."
+    ],
+    "ground_truth_answer": "An ETF order placed at 11:00 AM Eastern Time executes immediately on the stock exchange at the prevailing intraday market price, incurring a bid-ask spread [Source 1: doc_501204]. Conversely, a mutual fund order placed at 11:00 AM sits pending under forward-pricing rules and executes only once after the market closes at 4:00 PM Eastern Time at the fund's end-of-day Net Asset Value (NAV) without a bid-ask spread [Source 2: doc_508911].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_501204",
+      "doc_508911"
+    ],
+    "key_financial_terms": [
+      "Exchange-Traded Fund (ETF)",
+      "Mutual Fund",
+      "Net Asset Value (NAV)",
+      "Forward Pricing"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Tests retrieval of complementary market execution passages (`doc_501204` for ETF intraday exchange trading; `doc_508911` for mutual fund 4:00 PM NAV forward pricing)."
+  },
+  {
+    "question_id": "EVAL_019",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "How do the IRS safe harbor rules for avoiding an estimated tax underpayment penalty on Form 2210 work, and how does the rule change if my prior-year AGI exceeded $150,000?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_519022",
+      "doc_524118"
+    ],
+    "ground_truth_contexts": [
+      "doc_519022: Under IRS Form 2210 rules, you will not owe an estimated tax underpayment penalty if your total tax owed after withholdings is less than $1,000, or if your withholdings and timely quarterly estimated payments equal at least 90% of your current year's tax liability OR 100% of the total tax shown on your prior year's tax return.",
+      "doc_524118: High-income taxpayers face a stricter prior-year safe harbor rule for estimated taxes: if your Adjusted Gross Income (AGI) on your prior year's federal return was more than $150,000 ($75,000 if Married Filing Separately), you must pay at least 110% of your prior year's total tax liability (or 90% of current year tax) to guarantee avoiding the underpayment penalty."
+    ],
+    "ground_truth_answer": "To avoid an estimated tax underpayment penalty on Form 2210 when owing $1,000 or more, taxpayers with a prior-year AGI of $150,000 or less must pay at least 90% of their current year's tax liability or 100% of their prior year's total tax liability [Source 1: doc_519022]. If your prior-year AGI exceeded $150,000 ($75,000 if Married Filing Separately), the prior-year safe harbor threshold increases from 100% to 110% of your prior year's tax liability [Source 2: doc_524118].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_519022",
+      "doc_524118"
+    ],
+    "key_financial_terms": [
+      "Form 2210",
+      "Estimated Tax Safe Harbor",
+      "Adjusted Gross Income (AGI)",
+      "110% Rule"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Evaluates multi-document threshold synthesis where the baseline 90%/100% safe harbor (`doc_519022`) is modified by the high-earner 110% AGI rule (`doc_524118`)."
+  },
+  {
+    "question_id": "EVAL_020",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "If I have a $12,000 short-term capital loss, $0 in short-term gains, $4,000 in long-term capital gains, and $60,000 in W-2 wages, how is my loss applied this year and carried forward?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_533901",
+      "doc_538210"
+    ],
+    "ground_truth_contexts": [
+      "doc_533901: On Schedule D, short-term capital losses first offset short-term capital gains, and long-term losses first offset long-term gains. If a net short-term loss remains after netting short-term transactions, that excess short-term loss is applied dollar-for-dollar to offset any net long-term capital gains.",
+      "doc_538210: If your total capital losses exceed your total capital gains for the year, you can deduct up to $3,000 of the remaining net capital loss ($1,500 if Married Filing Separately) against ordinary income such as W-2 wages on Form 1040. Any unused net capital loss beyond the $3,000 annual limit carries forward indefinitely to future tax years, retaining its original short-term or long-term character."
+    ],
+    "ground_truth_answer": "Your $12,000 short-term capital loss first offsets your $4,000 in long-term capital gains dollar-for-dollar, leaving an $8,000 net short-term loss [Source 1: doc_533901]. Next, $3,000 of that remaining loss ($1,500 if Married Filing Separately) is deducted against your $60,000 W-2 ordinary income on Form 1040, and the remaining $5,000 short-term capital loss carries forward indefinitely to future tax years [Source 2: doc_538210].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_533901",
+      "doc_538210"
+    ],
+    "key_financial_terms": [
+      "Schedule D",
+      "Capital Loss Netting",
+      "$3,000 Ordinary Income Offset",
+      "Capital Loss Carryforward"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Tests quantitative multi-step arithmetic combined with two separate statutory rules (`doc_533901` cross-bucket netting and `doc_538210` $3,000 ordinary income cap + carryforward)."
+  },
+  {
+    "question_id": "EVAL_021",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "MEDIUM",
+    "question": "Does registering a DBA for my sole proprietorship require me to obtain an IRS EIN, or can I continue using my SSN on Form W-9?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_71209",
+      "doc_14205"
+    ],
+    "ground_truth_contexts": [
+      "doc_71209: Filing a 'Doing Business As' (DBA) or fictitious business name simply lets your sole proprietorship conduct business and accept payments under a trade name. Because a DBA does not create a separate legal entity, it does not require you to get an Employer Identification Number (EIN) from the IRS unless you hire employees or open a Keogh plan.",
+      "doc_14205: A sole proprietor operating under a DBA can legally continue to use their personal Social Security Number (SSN) on tax filings and client W-9 forms, though many freelancers obtain a free IRS EIN online solely to avoid handing out their personal SSN to clients."
+    ],
+    "ground_truth_answer": "Registering a DBA ('Doing Business As') does not create a separate legal entity, so you are not required to obtain an IRS Employer Identification Number (EIN) unless you have employees or a Keogh plan [Source 1: doc_71209]. You may legally continue using your Social Security Number (SSN) on Form W-9, although many sole proprietors get a free EIN to protect their SSN privacy [Source 2: doc_14205].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_71209",
+      "doc_14205"
+    ],
+    "key_financial_terms": [
+      "DBA",
+      "EIN",
+      "SSN",
+      "Form W-9",
+      "Sole Proprietorship"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Tests whether `BAAI/bge-small-en-v1.5` bridges a query packed with 4 acronyms (`DBA`, `IRS`, `EIN`, `SSN`, `W-9`) to passages using spelled-out terms ('Doing Business As', 'fictitious business name')."
+  },
+  {
+    "question_id": "EVAL_022",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "HARD",
+    "question": "How is independent contractor pay reported on Form 1099-MISC Box 7 versus Form W-2, and at what net earnings threshold is Schedule SE tax triggered?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_168203",
+      "doc_229104"
+    ],
+    "ground_truth_contexts": [
+      "doc_168203: Employers report employee wages on Form W-2 and withhold half of the employee's FICA taxes. For independent contractors paid $600 or more during the year, clients report non-employee compensation in Box 7 of IRS Form 1099-MISC with no taxes withheld.",
+      "doc_229104: Even if an independent contractor earns less than $600 from a client and does not receive a Form 1099-MISC, all self-employment income must still be reported on Schedule C, and Self-Employment (SE) tax on Schedule SE is triggered once total net earnings from self-employment reach $400 or more."
+    ],
+    "ground_truth_answer": "While W-2 employees have FICA taxes split and withheld by their employer, independent contractors paid $600 or more have their non-employee compensation reported in Box 7 of Form 1099-MISC with zero tax withholding [Source 1: doc_168203]. Contractors must report all income on Schedule C regardless of whether a 1099-MISC is issued, and Schedule SE self-employment tax is triggered once total net self-employment earnings reach $400 or more [Source 2: doc_229104].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_168203",
+      "doc_229104"
+    ],
+    "key_financial_terms": [
+      "Form 1099-MISC Box 7",
+      "Form W-2",
+      "Schedule C",
+      "Schedule SE",
+      "FICA"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Critical temporal grounding test: in the 2018 FiQA corpus, contractor pay was reported in Form 1099-MISC Box 7 (Form 1099-NEC did not return until 2020). Verifies the generator sticks to 2018 corpus facts."
+  },
+  {
+    "question_id": "EVAL_023",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "HARD",
+    "question": "How does IRC Section 179 immediate expensing differ from regular MACRS depreciation regarding business taxable income limits?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_361908"
+    ],
+    "ground_truth_contexts": [
+      "doc_361908: Under the Modified Accelerated Cost Recovery System (MACRS), businesses must capitalize tangible equipment purchases and deduct depreciation gradually over multi-year class lives (such as 5 or 7 years). In contrast, IRC Section 179 allows a business to deduct 100% of the purchase price of qualifying equipment in the year it is placed in service, except that Section 179 deductions are capped by the business's net taxable income and cannot create a net operating loss (whereas regular MACRS depreciation can create a loss)."
+    ],
+    "ground_truth_answer": "Regular MACRS (Modified Accelerated Cost Recovery System) requires capitalizing equipment costs and deducting them across multi-year recovery periods, which is allowed to create a net business loss [Source 1: doc_361908]. Conversely, IRC Section 179 permits immediate first-year expensing of the full purchase price when placed in service, but the deduction is limited to the business's net taxable income and cannot generate a net loss [Source 1: doc_361908].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_361908"
+    ],
+    "key_financial_terms": [
+      "IRC Section 179",
+      "MACRS",
+      "Immediate Expensing",
+      "Taxable Income Limitation"
+    ],
+    "target_eval_metric": "MRR",
+    "evaluation_rationale": "Tests alphanumeric code retrieval (`Section 179` vs `MACRS`) and verifies extraction of the net-loss limitation constraint."
+  },
+  {
+    "question_id": "EVAL_024",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "MEDIUM",
+    "question": "What are the IRS 20% withholding and 60-day deposit rules for an indirect 401(k) rollover compared to a direct trustee-to-trustee transfer FBO the account holder?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_298401",
+      "doc_301129"
+    ],
+    "ground_truth_contexts": [
+      "doc_298401: In a direct trustee-to-trustee rollover, the 401(k) custodian transfers funds directly to the new IRA custodian (or issues a check payable to the new custodian 'FBO [Your Name]'), and 0% tax is withheld.",
+      "doc_301129: In an indirect 401(k) rollover where the check is made payable to you personally, the plan administrator is required by federal law to withhold 20% for federal income taxes. You then have exactly 60 days to deposit 100% of the gross distribution into an IRA\u2014meaning you must replace the missing 20% out of your own pocket\u2014or the 20% withheld will be taxed as an early distribution and hit with a 10% penalty if you are under age 59.5."
+    ],
+    "ground_truth_answer": "A direct trustee-to-trustee transfer (including a check made payable to the receiving custodian 'FBO [Your Name]') moves 100% of the funds with zero tax withholding [Source 1: doc_298401]. In an indirect rollover payable to you personally, the plan administrator must withhold 20% for federal taxes, and you have 60 days to deposit 100% of the gross rollover amount\u2014replacing the 20% withheld out of pocket\u2014to avoid taxes and a 10% early withdrawal penalty on the withheld portion [Source 2: doc_301129].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_298401",
+      "doc_301129"
+    ],
+    "key_financial_terms": [
+      "Trustee-to-Trustee Transfer",
+      "FBO (For Benefit Of)",
+      "60-Day Rollover Rule",
+      "20% Mandatory Withholding"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Evaluates whether the retriever decodes 'FBO' ('For Benefit Of') and whether the generator captures the out-of-pocket replacement requirement for the 20% withholding."
+  },
+  {
+    "question_id": "EVAL_025",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "MEDIUM",
+    "question": "What distinguishes an HSA from a Healthcare FSA in terms of HDHP enrollment requirements, annual carryover rules, and Section 125 FICA tax savings?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_429105",
+      "doc_431882"
+    ],
+    "ground_truth_contexts": [
+      "doc_429105: To contribute to a Health Savings Account (HSA), you must be enrolled in an HSA-qualified High-Deductible Health Plan (HDHP) and have no other disqualifying health coverage. A Healthcare Flexible Spending Account (FSA) does not require an HDHP.",
+      "doc_431882: HSA balances belong to the employee permanently and roll over indefinitely year after year. Healthcare FSAs are subject to 'use-it-or-lose-it' forfeiture rules (allowing at most a $500 carryover or a 2.5-month grace period if offered by the employer). When funded via payroll deduction under a Section 125 cafeteria plan, contributions to both HSAs and FSAs avoid federal income tax and the 7.65% FICA payroll tax."
+    ],
+    "ground_truth_answer": "An HSA requires enrollment in a qualifying High-Deductible Health Plan (HDHP) and allows unused funds to roll over indefinitely, whereas a Healthcare FSA does not require an HDHP but enforces 'use-it-or-lose-it' forfeiture rules (except for an employer-optional $500 carryover or 2.5-month grace period) [Source 1: doc_429105, Source 2: doc_431882]. Both accounts bypass federal income tax and 7.65% FICA taxes when funded via Section 125 cafeteria plan payroll deductions [Source 2: doc_431882].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_429105",
+      "doc_431882"
+    ],
+    "key_financial_terms": [
+      "HSA",
+      "FSA",
+      "HDHP",
+      "Section 125 Cafeteria Plan",
+      "FICA"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Dense 5-acronym query (`HSA`, `FSA`, `HDHP`, `Section 125`, `FICA`) testing multi-attribute healthcare tax account retrieval."
+  },
+  {
+    "question_id": "EVAL_026",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "HARD",
+    "question": "Why does filing an IRC Section 83(b) election within 30 days work for unvested RSAs but is legally prohibited for standard RSUs?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_489012"
+    ],
+    "ground_truth_contexts": [
+      "doc_489012: An IRC Section 83(b) election lets startup employees receiving unvested Restricted Stock Awards (RSAs) elect to pay ordinary income tax on the shares' fair market value on the initial grant date rather than as the shares vest over time. The 83(b) election must be mailed to the IRS within a hard 30-day statutory deadline after grant. Standard Restricted Stock Units (RSUs) are ineligible for a Section 83(b) election because RSUs are merely an unfunded contractual promise to deliver shares upon future vesting, not an immediate transfer of property under Section 83."
+    ],
+    "ground_truth_answer": "Filing a Section 83(b) election within the strict 30-day deadline from the grant date allows recipients of unvested Restricted Stock Awards (RSAs) to pay ordinary income tax on the initial grant-date fair market value rather than at future vesting [Source 1: doc_489012]. Standard Restricted Stock Units (RSUs) are legally ineligible for a Section 83(b) election because RSUs are an unfunded promise to issue shares in the future rather than an actual transfer of property at grant [Source 1: doc_489012].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_489012"
+    ],
+    "key_financial_terms": [
+      "IRC Section 83(b)",
+      "Restricted Stock Award (RSA)",
+      "Restricted Stock Unit (RSU)"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Embedding models frequently collapse `RSA` and `RSU` into the same vector neighborhood; tests whether the re-ranker isolates the exact legal distinction."
+  },
+  {
+    "question_id": "EVAL_027",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "HARD",
+    "question": "How does exercising Incentive Stock Options (ISOs) trigger the Alternative Minimum Tax (AMT) on Form 6251 compared to Non-Qualified Stock Options (NSOs)?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_542019",
+      "doc_546881"
+    ],
+    "ground_truth_contexts": [
+      "doc_542019: When you exercise Non-Qualified Stock Options (NSOs), the 'bargain element' (the spread between the stock's fair market value on the exercise date and your option strike price) is immediately taxed as ordinary W-2 wage income and subject to payroll taxes.",
+      "doc_546881: When you exercise Incentive Stock Options (ISOs) and hold the shares through the end of the calendar year, no regular income tax or FICA tax is owed at exercise. However, the bargain element spread at exercise must be added as a positive tax preference adjustment on IRS Form 6251 to calculate the Alternative Minimum Tax (AMT), which can create a large AMT tax liability even before you sell the stock."
+    ],
+    "ground_truth_answer": "Exercising Non-Qualified Stock Options (NSOs) triggers immediate ordinary W-2 income and payroll taxes on the spread between the exercise-date market price and the strike price [Source 1: doc_542019]. Exercising Incentive Stock Options (ISOs) and holding the shares past year-end avoids regular income and FICA taxes at exercise, but the bargain element spread is added as a positive preference item on Form 6251 for the Alternative Minimum Tax (AMT), potentially triggering an AMT liability before any shares are sold [Source 2: doc_546881].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_542019",
+      "doc_546881"
+    ],
+    "key_financial_terms": [
+      "Incentive Stock Options (ISOs)",
+      "Non-Qualified Stock Options (NSOs)",
+      "Alternative Minimum Tax (AMT)",
+      "Form 6251",
+      "Bargain Element"
+    ],
+    "target_eval_metric": "Citation Precision",
+    "evaluation_rationale": "Evaluates equity tax jargon (`ISO`, `NSO`, `AMT`, `Form 6251`) and requires synthesizing regular W-2 taxation (`doc_542019`) against AMT preference adjustments (`doc_546881`)."
+  },
+  {
+    "question_id": "EVAL_028",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "MEDIUM",
+    "question": "When underwriting a HELOC, how do mortgage lenders compute CLTV and back-end DTI using PITI?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_389104"
+    ],
+    "ground_truth_contexts": [
+      "doc_389104: When underwriting a Home Equity Line of Credit (HELOC), lenders calculate Combined Loan-to-Value (CLTV) by adding your existing first mortgage balance plus the full requested credit limit of the new HELOC, and dividing that sum by the home's appraised market value. They also compute your back-end Debt-to-Income (DTI) ratio by dividing your total monthly minimum debt payments\u2014including housing PITI (Principal, Interest, Taxes, and Insurance), HOA dues, auto loans, student loans, and credit card minimums\u2014by your gross monthly income."
+    ],
+    "ground_truth_answer": "Mortgage lenders compute Combined Loan-to-Value (CLTV) for a HELOC by summing the existing first mortgage balance and the full credit limit of the proposed HELOC, then dividing by the home's appraised value [Source 1: doc_389104]. Back-end Debt-to-Income (DTI) is calculated by dividing total monthly minimum debt obligations\u2014including housing PITI (Principal, Interest, Taxes, and Insurance), HOA dues, and installment/revolving debt minimums\u2014by gross monthly income [Source 1: doc_389104].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_389104"
+    ],
+    "key_financial_terms": [
+      "HELOC",
+      "Combined Loan-to-Value (CLTV)",
+      "Back-End DTI",
+      "PITI"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Tests mortgage underwriting acronym expansion and checks if the generator notes that CLTV includes the *full HELOC credit limit*, not just the initial draw."
+  },
+  {
+    "question_id": "EVAL_029",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "HARD",
+    "question": "Why does holding a Master Limited Partnership (MLP) that issues a Schedule K-1 inside a Roth IRA trigger UBTI taxes on Form 990-T?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_569201"
+    ],
+    "ground_truth_contexts": [
+      "doc_569201: Although a Roth IRA normally shelters investment income from taxation, buying units of a Master Limited Partnership (MLP) makes the IRA a partner in an active pass-through energy or pipeline business reported on Schedule K-1. Under the tax code, active business earnings and debt-financed income inside a tax-exempt retirement account are classified as Unrelated Business Taxable Income (UBTI). If an IRA generates $1,000 or more of gross UBTI in a tax year, the IRA custodian must file IRS Form 990-T and pay trust/corporate tax rates directly out of the IRA's cash balance."
+    ],
+    "ground_truth_answer": "Because a Master Limited Partnership (MLP) is a pass-through partnership reported on Schedule K-1, its active and debt-financed earnings inside a Roth IRA are treated as Unrelated Business Taxable Income (UBTI) rather than exempt passive dividends [Source 1: doc_569201]. Once gross UBTI inside the IRA reaches $1,000 or more in a single year, the IRA custodian must file IRS Form 990-T and pay taxes directly out of the IRA funds [Source 1: doc_569201].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_569201"
+    ],
+    "key_financial_terms": [
+      "Master Limited Partnership (MLP)",
+      "Schedule K-1",
+      "Unrelated Business Taxable Income (UBTI)",
+      "Form 990-T"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Evaluates a specialized SeekingAlpha/FiQA tax trap involving five distinct acronyms (`MLP`, `K-1`, `Roth IRA`, `UBTI`, `Form 990-T`) and a $1,000 statutory threshold."
+  },
+  {
+    "question_id": "EVAL_030",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "HARD",
+    "question": "How do MAGI phase-out limits for deducting a Traditional IRA contribution differ if I am not covered by an employer 401(k) plan, but my spouse participates in a 401(k) at work?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_581044",
+      "doc_584920"
+    ],
+    "ground_truth_contexts": [
+      "doc_581044: If neither you nor your spouse is covered by an employer-sponsored retirement plan like a 401(k), your Traditional IRA contribution is fully deductible regardless of your Modified Adjusted Gross Income (MAGI). However, if you are not covered by a workplace plan at your job, but your spouse IS covered by a workplace 401(k) and you file Married Filing Jointly, your deduction is subject to a higher spousal MAGI phase-out range ($186,000 to $196,000 in 2017).",
+      "doc_584920: If you or your spouse is covered by a workplace retirement plan and you file Married Filing Separately while having lived together at any point during the tax year, the Traditional IRA deduction MAGI phase-out range is extremely punitive: your deduction phases out completely between $0 and $10,000 of MAGI."
+    ],
+    "ground_truth_answer": "If you are not covered by an employer plan but your spouse participates in a workplace 401(k), filing Married Filing Jointly allows you to take a full Traditional IRA deduction until your combined household Modified Adjusted Gross Income (MAGI) hits the spousal phase-out range ($186,000 to $196,000 in 2017) [Source 1: doc_581044]. However, if you file Married Filing Separately and lived together at any time during the year, the deduction phases out almost immediately between $0 and $10,000 of MAGI [Source 2: doc_584920].",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_581044",
+      "doc_584920"
+    ],
+    "key_financial_terms": [
+      "MAGI Phase-Out",
+      "Traditional IRA Deduction",
+      "Spousal 401(k) Coverage",
+      "Married Filing Separately"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Tests multi-condition retirement tax acronyms (`MAGI`, `IRA`, `401(k)`, `MFJ` vs `MFS`) and verifies that both filing-status phase-out ranges are retrieved."
+  },
+  {
+    "question_id": "EVAL_031",
+    "category": "OUT_OF_DOMAIN",
+    "difficulty_level": "EASY",
+    "question": "What is the optimal hydration percentage and bulk fermentation temperature for baking an artisan sourdough boule with high-protein bread flour?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [],
+    "target_eval_metric": "Circuit Breaker",
+    "evaluation_rationale": "Culinary terminology ('sourdough boule', 'bulk fermentation') has zero overlap with FiQA, driving `ms-marco-MiniLM-L-6-v2` logits below -8.0 to verify 100% LLM token savings."
+  },
+  {
+    "question_id": "EVAL_032",
+    "category": "OUT_OF_DOMAIN",
+    "difficulty_level": "MEDIUM",
+    "question": "In Python 3.12, how do I fix an asyncio InvalidStateError when awaiting a cancelled Task inside a FastAPI lifespan context manager?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [],
+    "target_eval_metric": "Circuit Breaker",
+    "evaluation_rationale": "Software engineering syntax (`asyncio`, `FastAPI`, `InvalidStateError`) tests whether the Cross-Encoder gate cleanly blocks technical programming queries."
+  },
+  {
+    "question_id": "EVAL_033",
+    "category": "OUT_OF_DOMAIN",
+    "difficulty_level": "EASY",
+    "question": "Which UEFA Champions League club holds the all-time record for the most consecutive away victories during the knockout stages?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [],
+    "target_eval_metric": "Circuit Breaker",
+    "evaluation_rationale": "Verifies that sports trivia containing general terms like 'record' and 'club' still scores well below $\\tau = 0.0$ on the Cross-Encoder."
+  },
+  {
+    "question_id": "EVAL_034",
+    "category": "OUT_OF_DOMAIN",
+    "difficulty_level": "MEDIUM",
+    "question": "Why does the check engine light flash with OBD-II trouble code P0304 when a 4-cylinder turbocharged engine is idling in cold weather?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [],
+    "target_eval_metric": "Circuit Breaker",
+    "evaluation_rationale": "Includes the polysemous word 'check' ('check engine light') and an alphanumeric code ('P0304') to ensure the Cross-Encoder does not confuse automotive diagnostics with banking check or IRS form queries."
+  },
+  {
+    "question_id": "EVAL_035",
+    "category": "OUT_OF_DOMAIN",
+    "difficulty_level": "MEDIUM",
+    "question": "How does CRISPR-Cas9 single-guide RNA recognize the PAM sequence to induce a double-strand break in eukaryotic genomic DNA?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [],
+    "target_eval_metric": "Circuit Breaker",
+    "evaluation_rationale": "Molecular biology acronyms (`CRISPR-Cas9`, `PAM`, `RNA`, `DNA`) verify that acronym-dense non-financial queries do not fool the embedding + Cross-Encoder gate."
+  },
+  {
+    "question_id": "EVAL_036",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "How do I file IRS Form 1099-REB to claim the Federal 2024 Personal Cheque Bounce Tax Credit for bank overdraft fees under $500?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "IRS Form 1099-REB",
+      "Personal Cheque Bounce Tax Credit",
+      "Overdraft Fees"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Because 'overdraft fees', 'bounced checks', and 'Form 1099' match real FiQA chunks, the Cross-Encoder scores > 0.0 and opens the gate. Tests if Gemini abstains rather than fabricating rules for the non-existent Form 1099-REB."
+  },
+  {
+    "question_id": "EVAL_037",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "Under IRS Section 999-Z, what are the statutory penalty rules and excise tax rates for executing an early 401(k) transfer within 180 days of changing employers?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "IRS Section 999-Z",
+      "401(k) Transfer Penalty",
+      "Excise Tax"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "High lexical overlap with real 401(k) rollover penalty documents guarantees the query passes the $\\tau = 0.0$ gate. Tests whether the LLM conflates the real 10% early withdrawal penalty (IRC Section 72(t)) with the fabricated 'IRS Section 999-Z'."
+  },
+  {
+    "question_id": "EVAL_038",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "What are the federal tax advantages and liability shield caps of registering a Double-Shield Corporate EIN for a single-member Delaware LLC?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "Double-Shield Corporate EIN",
+      "Delaware LLC",
+      "Liability Shield Cap"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Combines real high-frequency FiQA entities ('Delaware LLC', 'EIN', 'liability shield') with the fabricated legal construct 'Double-Shield Corporate EIN'. Exposes sycophantic LLMs that invent benefits for fake structures."
+  },
+  {
+    "question_id": "EVAL_039",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "Under FINRA Rule 4210-Omega, how does a retail investor qualify for the Federal Margin Call Forgiveness Program after a 30% equity drawdown?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "FINRA Rule 4210-Omega",
+      "Margin Call Forgiveness Program",
+      "Equity Drawdown"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "FINRA Rule 4210 is the real margin regulation, but '4210-Omega' and the 'Margin Call Forgiveness Program' are completely fabricated. Tests whether the generator refuses the premise despite retrieving real margin-call passages."
+  },
+  {
+    "question_id": "EVAL_040",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "How do mortgage underwriters calculate the FICO Score 11 Crypto-Staking Multiplier when evaluating an FHA loan with a 3.5% down payment?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "FICO Score 11 Crypto-Staking Multiplier",
+      "FHA Loan",
+      "3.5% Down Payment"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Retrieves high-scoring FiQA passages on FICO scores and FHA 3.5% down payments. Verifies that the LLM abstains rather than hallucinating a formula for the fake 'FICO Score 11 Crypto-Staking Multiplier'."
+  },
+  {
+    "question_id": "EVAL_041",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "Can I file IRS Form 8889-HSA-Plus to roll over forfeited Healthcare FSA balances into a Spousal Roth 403(b) without paying the 15% excise surcharge?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "IRS Form 8889-HSA-Plus",
+      "Spousal Roth 403(b)",
+      "Healthcare FSA"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Adversarial Frankenstein query stitching together real terms (Form 8889, HSA, FSA, 403(b)) into an impossible regulatory mechanism ('Form 8889-HSA-Plus', 'Spousal Roth 403(b)'). Stresses strict abstention under partial context overlap."
+  },
+  {
+    "question_id": "EVAL_042",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "Under the SEC Reg T Reverse Wash-Sale Safe Harbor, how do I claim a 150% stepped-up tax credit on short-term weekly options losses?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "SEC Reg T Reverse Wash-Sale Safe Harbor",
+      "150% Stepped-Up Tax Credit",
+      "Short-Term Options Losses"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Matches FiQA wash-sale and Reg T options trading passages with high Cross-Encoder confidence. Tests whether the compliance prompt contract prevents the LLM from blending real wash-sale rules with the fake '150% stepped-up tax credit'."
+  },
+  {
+    "question_id": "EVAL_043",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "What is the minimum checking balance required to qualify for FDIC Tier-4 Sovereign Gold-Backed Overdraft Insurance at a federal credit union?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "FDIC Tier-4 Sovereign Gold-Backed Overdraft Insurance",
+      "Federal Credit Union"
+    ],
+    "target_eval_metric": "Faithfulness",
+    "evaluation_rationale": "Triple trap: (1) credit unions use NCUA, not FDIC; (2) 'FDIC Tier-4 Sovereign Gold-Backed Overdraft Insurance' is fabricated; (3) retrieves real FDIC $250,000 deposit insurance passages. Tests if the LLM abstains strictly per the prompt contract."
+  },
+  {
+    "question_id": "EVAL_044",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "How do I attach Schedule K-99 to my Form 1040 to deduct my primary residence's Private Mortgage Insurance (PMI) directly against my employer's W-2 FICA payroll taxes?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "Schedule K-99",
+      "Form 1040",
+      "Private Mortgage Insurance (PMI)",
+      "FICA Payroll Taxes"
+    ],
+    "target_eval_metric": "Citation Precision",
+    "evaluation_rationale": "Retrieves high-relevance passages discussing PMI deductibility on Schedule A and FICA taxes on Form 1040, but asks about the non-existent 'Schedule K-99' offset. Also audits that zero `[Source X]` tags are emitted during abstention."
+  },
+  {
+    "question_id": "EVAL_045",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "MEDIUM",
+    "question": "What is the Basel IV Tier-9 Quantum Liquidity Coverage Ratio requirement for Martian interplanetary commercial banks?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "INSUFFICIENT_INFORMATION: The provided financial documents do not contain sufficient information to answer this inquiry.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "Basel IV Tier-9",
+      "Quantum Liquidity Coverage Ratio"
+    ],
+    "target_eval_metric": "Circuit Breaker",
+    "evaluation_rationale": "Boundary test between Category 4 and Category 5: despite containing 'liquidity' and 'commercial banks', the outlandish modifiers ('Tier-9 Quantum', 'Martian interplanetary') drive the Cross-Encoder score below 0.0; if it narrowly passes, the LLM must still abstain."
+  },
+  {
+    "question_id": "EVAL_046",
+    "category": "FACTUAL",
+    "difficulty_level": "MEDIUM",
+    "question": "How does Rule 72(t) substantially equal periodic payments (SEPP) allow early withdrawals from a traditional IRA without incurring the 10% penalty?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_72t_rule"
+    ],
+    "ground_truth_contexts": [
+      "IRS Rule 72(t) permits penalty-free early withdrawals from traditional IRAs before age 59.5 if the account holder takes Substantially Equal Periodic Payments (SEPP) calculated using an IRS-approved method for at least five years or until reaching age 59.5, whichever is longer."
+    ],
+    "ground_truth_answer": "IRS Rule 72(t) permits penalty-free distributions before age 59.5 by establishing Substantially Equal Periodic Payments (SEPP) based on life expectancy. Payments must continue for at least 5 years or until age 59.5, whichever is longer.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_72t_rule"
+    ],
+    "key_financial_terms": [
+      "Rule 72(t)",
+      "SEPP",
+      "Early Withdrawal Penalty",
+      "Traditional IRA"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Tests exact regulatory exception logic for retirement distribution compliance."
+  },
+  {
+    "question_id": "EVAL_047",
+    "category": "MULTI_SOURCE",
+    "difficulty_level": "HARD",
+    "question": "Can the IRS wash sale rule be triggered if an investor sells an S&P 500 ETF at a loss and immediately purchases a total stock market index ETF in a taxable account?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_wash_sale_etf"
+    ],
+    "ground_truth_contexts": [
+      "The IRS wash sale rule prohibits claiming a loss if substantially identical securities are purchased within 30 days before or after the sale. While an S&P 500 ETF and a Total Stock Market ETF track different benchmark indices and hold different numbers of stocks, tax opinions differ on whether the IRS considers them substantially identical."
+    ],
+    "ground_truth_answer": "The wash sale rule applies to substantially identical securities. While an S&P 500 ETF and Total US Market ETF track different indices, investors commonly use this pair for tax-loss harvesting because they are generally not considered substantially identical, though IRS definitions remain subjective.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_wash_sale_etf"
+    ],
+    "key_financial_terms": [
+      "Wash Sale Rule",
+      "Tax-Loss Harvesting",
+      "Substantially Identical",
+      "ETF"
+    ],
+    "target_eval_metric": "Hit@3",
+    "evaluation_rationale": "Tests cross-concept synthesis of tax law and index fund portfolio construction."
+  },
+  {
+    "question_id": "EVAL_048",
+    "category": "ACRONYM_GAP",
+    "difficulty_level": "MEDIUM",
+    "question": "What is the structural difference between a standard Backdoor Roth IRA and a Mega-Backdoor Roth IRA using an employer 401(k)?",
+    "is_answerable": true,
+    "target_doc_ids": [
+      "doc_mega_backdoor"
+    ],
+    "ground_truth_contexts": [
+      "A standard Backdoor Roth involves making non-deductible contributions to a traditional IRA and converting to Roth, capped at the annual IRA contribution limit. A Mega-Backdoor Roth uses after-tax (non-Roth) contributions within an employer 401(k) plan up to the overall Section 415(c) limit, followed by an in-plan Roth conversion or rollover."
+    ],
+    "ground_truth_answer": "A standard Backdoor Roth operates at the individual IRA level capped by annual IRA limits, whereas a Mega-Backdoor Roth utilizes after-tax employee contributions within an employer 401(k) up to the much higher overall 415(c) additions limit, converted via in-service distribution.",
+    "expected_gate_decision": "PASSED (Gate Open)",
+    "expected_citations": [
+      "doc_mega_backdoor"
+    ],
+    "key_financial_terms": [
+      "Backdoor Roth",
+      "Mega-Backdoor",
+      "Section 415(c)",
+      "After-Tax 401k"
+    ],
+    "target_eval_metric": "Hit@1",
+    "evaluation_rationale": "Tests acronym discrimination between standard IRA and qualified plan vehicles."
+  },
+  {
+    "question_id": "EVAL_049",
+    "category": "HALLUCINATION_TRAP",
+    "difficulty_level": "HARD",
+    "question": "Under IRS Notice 2026-99, what is the mandatory deduction percentage for the Sovereign Cryptographic Wealth Transfer Tax on Form 8829-Z?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "I cannot answer this question based on the provided financial documents because IRS Form 8829-Z and Sovereign Cryptographic Wealth Transfer Tax are fictitious regulatory instruments.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "Form 8829-Z",
+      "Sovereign Cryptographic Tax"
+    ],
+    "target_eval_metric": "Gate Abstention",
+    "evaluation_rationale": "Adversarial hallucination trap using synthetic IRS notice and form numbers."
+  },
+  {
+    "question_id": "EVAL_050",
+    "category": "OUT_OF_DOMAIN",
+    "difficulty_level": "EASY",
+    "question": "How does quantum entanglement allow instantaneous state correlation across spacelike separated particles according to Bell inequalities?",
+    "is_answerable": false,
+    "target_doc_ids": [],
+    "ground_truth_contexts": [],
+    "ground_truth_answer": "I cannot answer this question. The query is completely outside the domain of financial, banking, and tax documents.",
+    "expected_gate_decision": "BLOCKED (Circuit Breaker Tripped)",
+    "expected_citations": [],
+    "key_financial_terms": [
+      "Quantum Entanglement",
+      "Bell Inequalities"
+    ],
+    "target_eval_metric": "Gate Abstention",
+    "evaluation_rationale": "Out-of-domain query testing safety circuit breaker on theoretical physics."
+  }
+]
