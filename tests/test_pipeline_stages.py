@@ -1,13 +1,12 @@
-from pathlib import Path
-from src.pipeline.stages import compute_stage_hash, stage_verify_data, stage_chunk, stage_embed, stage_build_index
-from src.schemas import QueryRequest, GateStatus
 from src.pipeline import FinancialRAGPipeline
+from src.pipeline.stages import compute_stage_hash, stage_chunk, stage_verify_data
+from src.schemas import GateStatus, QueryRequest
 
 
 def test_stage_hash_determinism(tmp_path):
     f1 = tmp_path / "test1.txt"
     f1.write_text("sample content")
-    
+
     cfg = {"param": 42}
     h1 = compute_stage_hash([f1], cfg)
     h2 = compute_stage_hash([f1], cfg)

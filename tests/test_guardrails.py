@@ -1,6 +1,7 @@
-from src.guardrails.confidence_gate import ConfidenceGate
 from src.guardrails.citation_auditor import CitationAuditor
+from src.guardrails.confidence_gate import ConfidenceGate
 from src.schemas import GateStatus
+
 
 def test_confidence_gate_passes_high_score():
     gate = ConfidenceGate(threshold=0.0)

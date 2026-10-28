@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+
 import pandas as pd
 import pytest
 
@@ -29,7 +30,7 @@ def test_golden_eval_set_integrity():
     golden_path = DATA_DIR / "golden_eval_set.json"
     assert golden_path.exists(), "golden_eval_set.json must exist in data/"
 
-    with open(golden_path, "r", encoding="utf-8") as f:
+    with open(golden_path, encoding="utf-8") as f:
         data = json.load(f)
 
     assert len(data) == 50, f"Golden set must have exactly 50 items, found {len(data)}"
@@ -51,7 +52,7 @@ def test_eval_new_ground_truth_consistency():
     if not eval_new_path.exists():
         pytest.skip("fiqa_eval_new.json not in data/raw")
 
-    with open(eval_new_path, "r", encoding="utf-8") as f:
+    with open(eval_new_path, encoding="utf-8") as f:
         eval_items = json.load(f)
 
     assert len(eval_items) >= 30, f"Expected >= 30 eval queries, found {len(eval_items)}"
@@ -65,7 +66,7 @@ def test_no_split_overlap():
     if not golden_path.exists():
         return
 
-    with open(golden_path, "r", encoding="utf-8") as f:
+    with open(golden_path, encoding="utf-8") as f:
         golden_qs = {item["question"].strip().lower() for item in json.load(f)}
 
     # Ensure all 50 queries are unique

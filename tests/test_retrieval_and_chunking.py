@@ -1,6 +1,8 @@
 import pytest
+
 from src.data.chunker import chunk_text
 from src.retrieval.hybrid import reciprocal_rank_fusion
+
 
 # -----------------------------------------------------------------------------
 # Unit Tests: Text Chunking

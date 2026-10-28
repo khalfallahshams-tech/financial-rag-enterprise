@@ -1,6 +1,8 @@
 import time
+
 from src.cache import InMemoryQueryCache
-from src.schemas import QueryResponse, GateStatus
+from src.schemas import GateStatus, QueryResponse
+
 
 def create_mock_response(question: str) -> QueryResponse:
     return QueryResponse(

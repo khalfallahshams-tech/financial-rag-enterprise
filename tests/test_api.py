@@ -1,11 +1,13 @@
+from unittest.mock import patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 
 import app as app_module
 from app import app
 from src.cache import query_cache
-from src.schemas import GateStatus, RetrieverType
+from src.schemas import GateStatus
+
 
 @pytest.fixture(scope="module")
 def client():

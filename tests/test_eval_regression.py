@@ -13,12 +13,13 @@ or retrieval logic regression.
 """
 
 from pathlib import Path
+
 import pandas as pd
 import pytest
 
-from src.retrieval.dense import DenseRetriever
 from src.evaluation.metrics import ndcg_at_k
-from src.evaluation.retrieval_eval import parse_ground_truth_contexts, is_chunk_relevant
+from src.evaluation.retrieval_eval import is_chunk_relevant, parse_ground_truth_contexts
+from src.retrieval.dense import DenseRetriever
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 EVAL_CSV = BASE_DIR / "data" / "raw" / "fiqa_eval.csv"

@@ -107,4 +107,5 @@ When evaluating raw substring containment without whitespace normalization (`\s+
 | 2026-10-28 | **Phase 4** | Interactive Streamlit interface (`ui/app.py`) with Live Query, side-by-side retriever comparison, and academic evaluation dashboard | `4d91620` |
 | 2026-10-28 | **Phase 5** | Test suite expanded to 55 tests, hand-computed RRF verification, sliding window chunking tests, data hygiene tests, nDCG@10 regression guard, 73% code coverage | `69a1c8b` |
 | 2026-10-28 | **Phase 6** | Hardened multi-stage Dockerfile (non-root `appuser`, UID 10001), `docker-compose.yml`, GitHub Actions CI workflow (`.github/workflows/ci.yml`), `docker-down` target | `c72692c` |
-| 2026-10-28 | **Phase 7** | Comprehensive documentation suite: `docs/RESULTS.md`, `docs/ARCHITECTURE.md`, `docs/TESTING.md`, `docs/INTERVIEW_NOTES.md` (30 Q&A), updated `README.md` | Active |
+| 2026-10-28 | **Phase 7** | Comprehensive documentation suite: `docs/RESULTS.md`, `docs/ARCHITECTURE.md`, `docs/TESTING.md`, `docs/INTERVIEW_NOTES.md` (30 Q&A), updated `README.md` | `2036c56` |
+| 2026-10-28 | **Stretch** | French multilingual demo (`src/multilingual/`), 30 shop FAQ docs, `paraphrase-multilingual-MiniLM-L12-v2` dense vectors + BM25 RRF, 20 queries eval, 7 tests | Active |

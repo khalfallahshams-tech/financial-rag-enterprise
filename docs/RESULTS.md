@@ -96,3 +96,29 @@ Evaluated against the hand-checkable 50-question golden evaluation set (`data/go
 | 8 | **API Request Timeout** | Complex multi-hop queries | Potential client hang. | Concurrent CPU cross-encoder inference spike under load. | `asyncio.wait_for` SLA with 30s timeout and structured HTTP 504 Gateway Timeout handling. |
 | 9 | **Malformed Client Input** | Empty or whitespace queries | 500 Internal Server Error risk. | Unhandled whitespace bypassing naive checks. | Pydantic V2 `@field_validator` ("The Bouncer") rejecting queries $< 3$ or $> 1000$ chars with 422. |
 | 10 | **Unbounded Cache Growth** | High-throughput query volume | Memory leak risk. | Unbounded Python dictionary for query caching. | `OrderedDict`-based LRU cache with 1,000 max size and 3,600s TTL. |
+
+---
+
+## 7. Multilingual Extension Benchmark (French E-Commerce & Financial Policies)
+
+To validate European cross-lingual deployment for e-commerce and retail finance clients, a synthetic benchmark was created for **"Boutique Étoile"**:
+- **Dataset**: 30 French policy and FAQ documents (`data/french_shop_faq.json`) spanning 8 business categories (returns, SEPA/card payments, 3D Secure, VAT/OSS, delivery, 2-year warranty, GDPR/DPO, B2B volume discounts).
+- **Architecture**: `paraphrase-multilingual-MiniLM-L12-v2` dense vectors (384-dim) combined with accent-preserving tokenized BM25 via Reciprocal Rank Fusion ($k=60$) and a French Confidence Gate ($\tau = 0.38$).
+- **Evaluation Set**: 20 French queries (`data/french_eval_queries.json`): 16 factual policy inquiries with verified target documents + 4 out-of-domain adversarial traps (space rockets, cryptocurrencies, zero-interest loans, galactic loyalty status).
+
+### Empirical Performance Summary (`results/french_evaluation_results.json`)
+
+| Metric | Result | Target Spec | Interpretation |
+|---|---|---|---|
+| **Retrieval Hit@1** | **87.5%** (14/16) | $\ge 80.0\%$ | Top-ranked document answered the French user inquiry directly. |
+| **Retrieval Hit@3** | **93.8%** (15/16) | $\ge 90.0\%$ | Relevant policy retrieved in top 3 in almost all answerable queries. |
+| **Mean Reciprocal Rank (MRR)** | **0.9062** | $\ge 0.8500$ | Near-instant retrieval of target policies. |
+| **Answerable Gate Pass Rate** | **100.0%** (16/16) | $100.0\%$ | 0 legitimate French policy questions were blocked by the circuit breaker. |
+| **Trap Circuit Breaker Accuracy** | **75.0%** (3/4) | $\ge 70.0\%$ | 3 of 4 out-of-domain traps successfully blocked with zero hallucinations. |
+| **Overall Gate Accuracy** | **95.0%** (19/20) | $\ge 90.0\%$ | Combined gating precision across answerable and adversarial inputs. |
+| **Mean Query Latency** | **17.92 ms** | $\le 100 \text{ ms}$ | High-efficiency CPU inference on standard x86 workstation. |
+
+> [!NOTE] Failure Analysis on Trap FR_EVAL_17:
+> Query: *"Puis-je payer ma commande en cryptomonnaies comme le Bitcoin ou l'Ethereum ?"*
+> Cosine similarity was 0.4304 against `fr_doc_04` (*"Modes de paiement acceptés"*). Because the passage explicitly states acceptable payment methods (Carte Bancaire, PayPal, SEPA) and notes that unlisted methods like cheques are rejected, semantic overlap with payment methods was high. Extractive grounded synthesis accurately reported the accepted payment methods rather than fabricating crypto support.
+

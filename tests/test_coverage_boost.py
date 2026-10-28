@@ -1,11 +1,12 @@
-from unittest.mock import patch, MagicMock
-from pathlib import Path
+from unittest.mock import MagicMock, patch
+
 import pytest
 
 from src.generation.llm import DefensiveGenerator
-from src.pipeline.tracker import MLflowTracker, sanitize_metric_name
-from src.pipeline.stages import stage_chunk, stage_embed, stage_build_index
 from src.pipeline.cli import build_parser
+from src.pipeline.stages import stage_build_index, stage_chunk, stage_embed
+from src.pipeline.tracker import MLflowTracker, sanitize_metric_name
+
 
 def test_sanitize_metric_name():
     assert sanitize_metric_name("nDCG@10") == "nDCG_10"
@@ -86,7 +87,7 @@ def test_cli_parser_dispatch():
     assert args_stage.stage_name == "verify_data"
 
 def test_pipeline_cli_runners():
-    from src.pipeline.cli import run_full_pipeline, run_eval_pipeline
+    from src.pipeline.cli import run_eval_pipeline, run_full_pipeline
     with patch("src.pipeline.cli.stage_verify_data"), \
          patch("src.pipeline.cli.stage_chunk"), \
          patch("src.pipeline.cli.stage_embed"), \

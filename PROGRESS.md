@@ -123,9 +123,9 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| S.1 | 30 French FAQ/policy docs | ⏳ TODO | Only after all above done |
-| S.2 | Multilingual embedding model | ⏳ TODO | |
-| S.3 | 20 French questions + evaluation | ⏳ TODO | |
+| S.1 | 30 French FAQ/policy docs | ✅ DONE | `data/french_shop_faq.json` covering 30 e-commerce policies (returns, 3DS, VAT, warranties, GDPR) |
+| S.2 | Multilingual embedding model | ✅ DONE | `paraphrase-multilingual-MiniLM-L12-v2` dense vectors + BM25 tokenized hybrid RRF engine |
+| S.3 | 20 French questions + evaluation | ✅ DONE | 16 factual + 4 trap queries; Hit@1 87.5%, Hit@3 93.8%, MRR 0.9062, Gate 95.0%, Latency 17.9ms |
 
 ---
 
@@ -144,5 +144,5 @@ Numbers in docs **must** match pipeline output. No TODOs. No placeholders.
 
 ---
 
-*Last updated: 2026-10-28 | Phase: 0 — Git Foundation*
+*Last updated: 2026-10-28 | Phase: All Phases + Stretch Complete (Portfolio Ready)*
 

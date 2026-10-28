@@ -1,0 +1,182 @@
+[
+  {
+    "doc_id": "fr_doc_01",
+    "category": "RETOURS_REMBOURSEMENTS",
+    "title": "Délai de rétractation et retour",
+    "content": "Conformément à la législation européenne, vous disposez d'un délai légal de 14 jours francs à compter de la réception de votre commande pour exercer votre droit de rétractation sans avoir à justifier de motifs ni à payer de pénalités. Les articles doivent être retournés neufs, non portés et dans leur emballage d'origine."
+  },
+  {
+    "doc_id": "fr_doc_02",
+    "category": "RETOURS_REMBOURSEMENTS",
+    "title": "Prise en charge des frais de retour",
+    "content": "Les frais de retour sont intégralement offerts pour toute commande livrée en France métropolitaine via l'étiquette prépayée Colissimo téléchargeable dans votre espace client. Pour les retours depuis l'Union Européenne (hors France) et l'international, les frais d'expédition de retour demeurent à la charge de l'acheteur."
+  },
+  {
+    "doc_id": "fr_doc_03",
+    "category": "RETOURS_REMBOURSEMENTS",
+    "title": "Délais et modes de remboursement",
+    "content": "Dès réception et inspection de votre colis retour par notre entrepôt logistique, le remboursement est effectué sous 5 à 7 jours ouvrés. Les fonds sont crédités directement sur le moyen de paiement utilisé lors de l'achat initial (carte bancaire, compte PayPal ou virement)."
+  },
+  {
+    "doc_id": "fr_doc_04",
+    "category": "PAIEMENT_SECURITE",
+    "title": "Modes de paiement acceptés",
+    "content": "Notre boutique accepte les paiements par Carte Bancaire (CB, Visa, Mastercard, American Express), PayPal, Apple Pay, ainsi que les virements bancaires SEPA pour les commandes supérieures à 300 euros. Les chèques bancaires postaux ne sont plus acceptés."
+  },
+  {
+    "doc_id": "fr_doc_05",
+    "category": "PAIEMENT_SECURITE",
+    "title": "Sécurité des transactions et 3D Secure",
+    "content": "Toutes les transactions bancaires sont chiffrées selon le protocole SSL/TLS 256 bits et traitées via la passerelle certifiée PCI-DSS de niveau 1. L'authentification forte 3D Secure (v2) avec validation biométrique ou SMS sur votre application bancaire est systématiquement requise."
+  },
+  {
+    "doc_id": "fr_doc_06",
+    "category": "PAIEMENT_SECURITE",
+    "title": "Paiement en plusieurs fois sans frais",
+    "content": "Nous proposons le paiement fractionné en 3x ou 4x sans frais par carte bancaire pour tout panier d'un montant compris entre 100 et 2000 euros, en partenariat avec notre organisme de crédit partenaire Alma. Une pièce d'identité valide peut être requise."
+  },
+  {
+    "doc_id": "fr_doc_07",
+    "category": "FACTURATION_TVA",
+    "title": "Facturation et TVA applicable",
+    "content": "Tous nos prix sont affichés en euros toutes taxes comprises (TTC). Pour les livraisons en France métropolitaine, le taux standard de TVA appliqué est de 20%. Pour les commandes à destination de l'Union Européenne, la TVA locale du pays de destination est appliquée conformément au guichet unique OSS."
+  },
+  {
+    "doc_id": "fr_doc_08",
+    "category": "FACTURATION_TVA",
+    "title": "Téléchargement de facture",
+    "content": "Votre facture officielle au format PDF comportant le numéro de TVA intracommunautaire, le détail des lignes d'articles et le montant de la TVA est générée automatiquement dès l'expédition du colis. Elle est téléchargeable 24h/24 dans la rubrique 'Mes Commandes'."
+  },
+  {
+    "doc_id": "fr_doc_09",
+    "category": "LIVRAISON_EXPEDITION",
+    "title": "Délais et modes de livraison en France",
+    "content": "Les commandes passées avant 13h du lundi au vendredi sont expédiées le jour même. La livraison standard en point relais (Mondial Relay) prend 3 à 4 jours ouvrés. La livraison à domicile Colissimo avec signature s'effectue sous 48 heures ouvrées."
+  },
+  {
+    "doc_id": "fr_doc_10",
+    "category": "LIVRAISON_EXPEDITION",
+    "title": "Livraison Express Chronopost",
+    "content": "Pour toute commande urgente, la livraison express Chronopost garantit une remise en main propre le lendemain matin avant 13h pour toute commande passée du lundi au jeudi avant 15h. Ce service fait l'objet d'un supplément forfaitaire de 9,90 euros."
+  },
+  {
+    "doc_id": "fr_doc_11",
+    "category": "LIVRAISON_EXPEDITION",
+    "title": "Livraison en Europe et à l'international",
+    "content": "Nous livrons dans l'ensemble des pays de l'Union Européenne ainsi qu'en Suisse et au Royaume-Uni. Les délais indicatifs sont de 4 à 7 jours ouvrés selon le pays. Pour la Suisse et le Royaume-Uni, les droits de douane et taxes d'importation sont acquittés par le destinataire."
+  },
+  {
+    "doc_id": "fr_doc_12",
+    "category": "LIVRAISON_EXPEDITION",
+    "title": "Suivi de colis en temps réel",
+    "content": "Dès l'expédition de votre commande, un e-mail de confirmation contenant votre numéro de suivi unique (tracking number) et un lien direct vers le portail du transporteur vous est envoyé. Le statut d'acheminement est actualisé toutes les 6 heures."
+  },
+  {
+    "doc_id": "fr_doc_13",
+    "category": "LIVRAISON_EXPEDITION",
+    "title": "Colis endommagé ou avarié à la réception",
+    "content": "Si le colis présente des traces manifestes de détérioration ou d'ouverture lors de la livraison, vous devez impérativement refuser le colis ou émettre des réserves écrites précises et motivées sur le bordereau du transporteur, puis contacter notre service client sous 48 heures."
+  },
+  {
+    "doc_id": "fr_doc_14",
+    "category": "FIDELITE_PARRAINAGE",
+    "title": "Fonctionnement du programme de fidélité",
+    "content": "Chaque euro dépensé sur notre boutique vous rapporte 1 point de fidélité. Dès l'accumulation de 100 points, vous bénéficiez d'un bon d'achat de 5 euros déductible sur votre prochaine commande. Les points ont une durée de validité de 12 mois à compter de leur attribution."
+  },
+  {
+    "doc_id": "fr_doc_15",
+    "category": "FIDELITE_PARRAINAGE",
+    "title": "Offre de parrainage",
+    "content": "Invitez vos proches grâce à votre code parrain disponible dans votre profil. Votre filleul reçoit une réduction immédiate de 10 euros sur sa première commande d'un montant minimum de 50 euros. Dès que sa commande est validée, votre compte est crédité de 10 euros en bon d'achat."
+  },
+  {
+    "doc_id": "fr_doc_16",
+    "category": "CARTES_CADEAUX_AVOIRS",
+    "title": "Achat et utilisation de cartes cadeaux",
+    "content": "Nos cartes cadeaux dématérialisées sont disponibles pour des montants de 25, 50, 100 et 200 euros. Elles sont transmises par e-mail immédiatement après paiement et sont valables pendant 1 an sur l'ensemble de notre catalogue, cumulables avec les offres promotionnelles."
+  },
+  {
+    "doc_id": "fr_doc_17",
+    "category": "CARTES_CADEAUX_AVOIRS",
+    "title": "Gestion des avoirs commerciaux",
+    "content": "En cas de retour produit avec demande d'avoir plutôt que de remboursement, un code d'avoir d'une valeur majorée de 10% vous est adressé par courriel. Cet avoir est utilisable en une ou plusieurs fois pendant une durée de 18 mois."
+  },
+  {
+    "doc_id": "fr_doc_18",
+    "category": "GARANTIES_CONFORMITE",
+    "title": "Garantie légale de conformité de 2 ans",
+    "content": "Tous les produits vendus sur notre site bénéficient de la garantie légale de conformité de 2 ans prévue par les articles L. 217-4 et suivants du Code de la consommation. En cas de défaut de conformité avéré, nous procédons gratuitement à la réparation ou au remplacement du produit."
+  },
+  {
+    "doc_id": "fr_doc_19",
+    "category": "GARANTIES_CONFORMITE",
+    "title": "Garantie légale contre les vices cachés",
+    "content": "Vous bénéficiez également de la garantie légale contre les vices cachés au sens des articles 1641 et suivants du Code civil. L'action doit être intentée dans un délai de 2 ans à compter de la découverte du vice caché rendant le produit impropre à son usage normal."
+  },
+  {
+    "doc_id": "fr_doc_20",
+    "category": "GARANTIES_CONFORMITE",
+    "title": "Procédure de service après-vente (SAV)",
+    "content": "Pour toute demande de prise en charge sous garantie, rendez-vous dans la rubrique 'SAV' de votre compte client en joignant une photo ou courte vidéo du problème constaté ainsi qu'une description détaillée. Notre équipe technique vous répond sous 24h ouvrées."
+  },
+  {
+    "doc_id": "fr_doc_21",
+    "category": "DONNEES_RGPD",
+    "title": "Protection des données et conformité RGPD",
+    "content": "Nous respectons rigoureusement le Règlement Général sur la Protection des Données (RGPD 2016/679). Vos données personnelles sont hébergées sur des serveurs sécurisés situés exclusivement en France et en Allemagne et ne sont jamais vendues ni cédées à des tiers."
+  },
+  {
+    "doc_id": "fr_doc_22",
+    "category": "DONNEES_RGPD",
+    "title": "Exercice de vos droits (accès, rectification, effacement)",
+    "content": "Vous disposez d'un droit permanent d'accès, de rectification, de portabilité et de suppression de vos données personnelles. Vous pouvez exercer ce droit à tout moment en adressant un courriel à notre Délégué à la Protection des Données (DPO) à l'adresse dpo@boutique-etoile.fr."
+  },
+  {
+    "doc_id": "fr_doc_23",
+    "category": "DONNEES_RGPD",
+    "title": "Politique d'utilisation des cookies",
+    "content": "Nous utilisons uniquement des cookies strictement nécessaires au fonctionnement du panier et de la session, ainsi que des cookies d'analyse anonymisés exemptés de consentement par la CNIL. Aucun cookie de pistage publicitaire tiers n'est déposé sans votre accord préalable."
+  },
+  {
+    "doc_id": "fr_doc_24",
+    "category": "VENTES_PRO_B2B",
+    "title": "Conditions de vente aux professionnels (B2B)",
+    "content": "Les entreprises et auto-entrepreneurs disposant d'un numéro de SIRET et d'un numéro de TVA intracommunautaire peuvent ouvrir un compte 'Client Pro'. Ce statut ouvre droit à des remises tarifaires dégressives par volume ainsi qu'à la facturation hors taxe pour les entreprises européennes hors France."
+  },
+  {
+    "doc_id": "fr_doc_25",
+    "category": "VENTES_PRO_B2B",
+    "title": "Modalités de règlement pour les entreprises",
+    "content": "Pour les clients professionnels récurrents après acceptation du dossier financier, nous accordons des facilités de paiement à 30 jours fin de mois par virement SEPA ou prélèvement automatique B2B. Des pénalités de retard légales s'appliquent en cas de dépassement d'échéance."
+  },
+  {
+    "doc_id": "fr_doc_26",
+    "category": "SERVICE_CLIENT",
+    "title": "Horaires et canaux de contact du service client",
+    "content": "Notre service client basé à Lyon est joignable du lundi au vendredi de 9h à 18h par téléphone non surtaxé au 04 78 00 00 00, par messagerie instantanée (chat en ligne sur le site), ou par e-mail à support@boutique-etoile.fr avec une réponse garantie sous 4 heures ouvrées."
+  },
+  {
+    "doc_id": "fr_doc_27",
+    "category": "SERVICE_CLIENT",
+    "title": "Procédure de médiation et litiges de la consommation",
+    "content": "En cas de litige non résolu par notre service client, le consommateur peut recourir gratuitement au Médiateur de la consommation du e-commerce (FEVAD) conformément à l'article L. 612-1 du Code de la consommation, ou utiliser la plateforme européenne de règlement en ligne des litiges (RLL)."
+  },
+  {
+    "doc_id": "fr_doc_28",
+    "category": "PRODUITS_STOCKS",
+    "title": "Disponibilité des stocks et réassort",
+    "content": "Tous les articles affichés 'En stock' sont physiquement présents dans notre entrepôt central en France et réservés dès l'ajout au panier pour une durée de 30 minutes. Si un article est temporairement épuisé, vous pouvez activer une alerte e-mail de réassort."
+  },
+  {
+    "doc_id": "fr_doc_29",
+    "category": "PRODUITS_STOCKS",
+    "title": "Emballages écologiques et éco-responsables",
+    "content": "Dans le cadre de notre engagement RSE, 100% de nos cartons d'expédition sont fabriqués à partir de matières recyclées et certifiés FSC. Nous n'utilisons aucun calage plastique : tous nos emballages intérieurs sont en papier kraft biodégradable produit en Europe."
+  },
+  {
+    "doc_id": "fr_doc_30",
+    "category": "MODIFICATION_ANNULATION",
+    "title": "Modification ou annulation d'une commande",
+    "content": "Tant que votre commande n'a pas atteint le statut 'En préparation logistique' (généralement dans les 60 minutes suivant la validation), vous pouvez l'annuler ou modifier l'adresse de livraison directement depuis votre espace client d'un simple clic."
+  }
+]

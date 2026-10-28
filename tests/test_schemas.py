@@ -1,6 +1,8 @@
 import pytest
 from pydantic import ValidationError
+
 from src.schemas import QueryRequest
+
 
 def test_valid_query_request():
     req = QueryRequest(question="How do I endorse a check to a third party?")
