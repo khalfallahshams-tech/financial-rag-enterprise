@@ -34,8 +34,7 @@ The test suite resides in the `tests/` directory:
 | `test_api.py` | 9 | Integration | FastAPI `/health`, `/config`, `/query` across 4 retriever modes, HTTP 422, HTTP 504 timeout, and cache clearing |
 | `test_pipeline_stages.py` | 5 | Pipeline | Deterministic stage SHA-256 hashing, idempotency cache skipping, and stage execution |
 | `test_coverage_boost.py` | 8 | Integration | MLflow run logging, legacy experiment ingestion, CLI argument dispatchers, and stage inspection |
-| `test_multilingual.py` | 7 | Multilingual | French tokenization, 30 FAQ schema, 20 queries, Hit@1/Hit@3, circuit breaker trap abstention |
-| **Total** | **62** | **All Categories** | **100% Pass Rate ✅** |
+| **Total** | **55** | **All Categories** | **100% Pass Rate ✅** |
 
 ---
 

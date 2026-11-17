@@ -89,6 +89,8 @@ logs/
 *.log
 scratch/
 archive/
+to_remove/
+.cache_manifest.json
 
 # ---------------------------------------------------------------------------
 # Docker

@@ -164,3 +164,4 @@ sequenceDiagram
 | **Circuit Breaker** | Cross-Encoder Logit Gate ($\tau=0.0$) | LLM Self-Evaluation / Critic | LLM self-eval adds 1,000-2,000 ms latency and token costs. Cross-Encoder gate executes locally in 0.0 ms incremental latency. |
 | **Caching Layer** | Process In-Memory LRU Cache | Redis / Memcached | Self-contained, zero-infrastructure footprint suitable for local deployments and low operational complexity. |
 | **LLM Provider** | Gemini 3.5 Flash Lite | Local 70B LLM | Blazing speed (P50 < 800 ms), ultra-low token cost ($0.000028/query), and high faithfulness (98.0%). |
+

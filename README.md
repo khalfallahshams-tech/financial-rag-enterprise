@@ -221,51 +221,22 @@ financial-rag-enterprise/
 │   ├── guardrails/
 │   │   ├── confidence_gate.py    # Confidence Gate circuit breaker (tau = 0.0)
 │   │   └── citation_auditor.py   # Regex citation extraction and precision calculation
-│   ├── multilingual/
-│   │   ├── french_engine.py      # Multilingual paraphrase-MiniLM + BM25 RRF engine
-│   │   └── evaluate_french.py    # Evaluation harness for 20 French shop policy queries
-│   ├── pipeline/
-│   │   ├── cli.py                # CLI dispatcher: all, eval, stage <name>, import-legacy
-│   │   ├── orchestrator.py       # Two-stage pipeline orchestrator (sync .run() & async .arun())
-│   │   ├── stages.py             # 7 idempotent pipeline stages with SHA-256 config-hash caching
-│   │   └── tracker.py            # MLflow experiment tracking and legacy run ingestion
 │   ├── ranking/
 │   │   └── reranker.py           # Cross-Encoder neural re-ranking (ms-marco-MiniLM)
-│   │   └── query_expansion.py    # FinancialAcronymExpander for 19 regulatory abbreviations
 │   └── retrieval/
 │       ├── dense.py              # ChromaDB vector retrieval engine
 │       ├── sparse.py             # BM25Okapi lexical retrieval engine
-│       └── hybrid.py             # Deduplicated hybrid pooling and Reciprocal Rank Fusion
-├── tests/                        # 62 automated tests (Unit, Data Hygiene, Regression Guard, API, Multilingual)
+│       ├── hybrid.py             # Deduplicated hybrid pooling and Reciprocal Rank Fusion
+│       └── query_expansion.py    # FinancialAcronymExpander for 19 regulatory abbreviations
+├── tests/                        # 55 automated tests (Unit, Data Hygiene, Regression Guard, API)
 ├── ui/
 │   └── app.py                    # Multi-tab interactive Streamlit intelligence cockpit
 ├── app.py                        # Production FastAPI REST service with structured JSON logging
 ├── Dockerfile                    # Hardened multi-stage non-root container definition
 ├── docker-compose.yml            # Multi-service stack: API (8000), UI (8501), MLflow (5000)
 ├── Makefile                      # Cross-platform automation: setup, data, pipeline, eval, test, run, ui
-├── PROGRESS.md                   # Chronological development tracker across all phases & stretch
-├── AUDIT.md                      # Complete audit trail, assumptions log, and Airflow decision
 └── pyproject.toml                # Project packaging, Ruff linting, and pytest-cov settings
 ```
-
----
-
-## 🇫🇷 Stretch Demo: Multilingual French E-Commerce & Retail Policy Engine
-
-To demonstrate cross-lingual capability for European small-business clients (e-commerce, retail banking, customer support), an integrated French RAG module is included:
-- **Corpus (`data/french_shop_faq.json`)**: 30 synthetic policies for **"Boutique Étoile"** across returns (14-day statutory delay), payments (SEPA, 3D Secure v2, Alma 3x/4x), VAT (20% & EU OSS), deliveries, warranties, and GDPR.
-- **Multilingual Architecture**: Uses `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` dense vectors fused with French-tokenized BM25 via Reciprocal Rank Fusion ($k=60$) and a French Confidence Gate ($\tau = 0.38$).
-- **Benchmark (`data/french_eval_queries.json`)**: 20 queries (16 factual inquiries + 4 out-of-domain traps).
-  - **Hit@1**: **87.5%** (14/16)
-  - **Hit@3**: **93.8%** (15/16)
-  - **MRR**: **0.9062**
-  - **Trap Circuit Breaker**: **75.0%** (3/4 traps blocked)
-  - **Overall Gate Accuracy**: **95.0%** (19/20)
-  - **Average Latency**: **17.92 ms** on CPU
-- **Run French Evaluation**:
-  ```bash
-  python -m src.multilingual.evaluate_french
-  ```
 
 ---
 

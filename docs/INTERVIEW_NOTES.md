@@ -203,3 +203,4 @@ Our verification script drops nulls and validates 57,598 unique valid documents 
 
 ### Q30: What is the single biggest lesson learned from building this project?
 **Answer:** **The primacy of data hygiene and metric grounding over model complexity.** Before implementing sophisticated neural rerankers, fixing invisible whitespace discrepancies in evaluation datasets and mapping domain acronyms produced massive improvements in retrieval accuracy. In production DS/MLOps, empirical rigor, deterministic caching, and honest confidence intervals are what separate fragile prototypes from resilient enterprise software.
+

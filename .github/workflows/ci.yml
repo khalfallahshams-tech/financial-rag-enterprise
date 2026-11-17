@@ -86,3 +86,4 @@ jobs:
           context: .
           push: false
           tags: fiqa-financial-rag:latest
+
