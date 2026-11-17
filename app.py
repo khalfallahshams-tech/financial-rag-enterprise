@@ -1,17 +1,19 @@
 import asyncio
-from contextlib import asynccontextmanager
-from datetime import datetime, timezone
 import json
 import logging
 import sys
 import time
-from typing import Dict, Any
+from contextlib import asynccontextmanager
+from datetime import datetime, timezone
+from typing import Any
 
+import uvicorn
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
+from src.cache import query_cache
 from src.config import settings
+from src.pipeline import FinancialRAGPipeline
 from src.schemas import (
     ConfigResponse,
     HealthResponse,
@@ -19,14 +21,13 @@ from src.schemas import (
     QueryResponse,
     RetrieverType,
 )
-from src.pipeline import FinancialRAGPipeline
-from src.cache import query_cache
+
 
 # Structured JSON Logger Setup
 class JSONFormatter(logging.Formatter):
     """Formats log records as structured, machine-parseable JSON."""
     def format(self, record: logging.LogRecord) -> str:
-        log_payload: Dict[str, Any] = {
+        log_payload: dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "level": record.levelname,
             "logger": record.name,
@@ -55,6 +56,12 @@ async def lifespan(app: FastAPI):
     global pipeline
     logger.info("Initializing Enterprise Financial RAG Service models and vector index...")
     pipeline = FinancialRAGPipeline()
+    # Explicit warm-up of ChromaDB index and neural re-ranker to eliminate cold-start query latency
+    try:
+        pipeline.retriever.retrieve("warmup test query", top_k=1)
+        pipeline.reranker.rerank("warmup test query", [{"text": "warmup sample text", "id": "0"}], top_n=1)
+    except Exception as e:
+        logger.warning(f"Lifespan warmup encountered notice: {e}")
     logger.info("Service initialized: Models, ChromaDB vector store, and BM25 index ready!")
     yield
     logger.info("Shutting down Financial RAG Service...")
