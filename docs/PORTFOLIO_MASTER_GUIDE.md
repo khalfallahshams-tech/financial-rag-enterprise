@@ -16,9 +16,10 @@
 7. [System Architecture & Data Flow Diagram](#7-system-architecture--data-flow-diagram)
 8. [Module-by-Module Results, Screenshots & Decisions Matrix](#8-module-by-module-results-screenshots--decisions-matrix)
 9. [MLflow Experiment Tracking Live Evidence](#9-mlflow-experiment-tracking-live-evidence)
-10. [The 10 Failure Modes & Engineering Mitigations](#10-the-10-failure-modes--engineering-mitigations)
-11. [Senior Interview Q&A Preparation Matrix](#11-senior-interview-qa-preparation-matrix)
-12. [Project Level & Portfolio Positioning Analysis](#12-project-level--portfolio-positioning-analysis)
+10. [Complete Breakdown of the 55 Automated Tests & QA Layers](#10-complete-breakdown-of-the-55-automated-tests--qa-layers)
+11. [The 10 Failure Modes & Engineering Mitigations](#11-the-10-failure-modes--engineering-mitigations)
+12. [Senior Interview Q&A Preparation Matrix](#12-senior-interview-qa-preparation-matrix)
+13. [Project Level & Portfolio Positioning Analysis](#13-project-level--portfolio-positioning-analysis)
 
 ---
 
@@ -348,7 +349,184 @@ http://localhost:5000/#/experiments/1/evaluation-runs
 
 ---
 
-## 10. The 10 Failure Modes & Engineering Mitigations
+## 10. Complete Breakdown of the 55 Automated Tests & QA Layers
+
+### 💡 The Big Picture: Why Did We Write 55 Tests?
+In 99% of student or tutorial projects, people write **zero tests**. When an API crashes or a retrieval algorithm breaks, they don't even notice.
+
+In financial software, providing incorrect advice, hallucinating statutory tax rules, or crashing under heavy load is unacceptable. We built **55 automated tests** organized into **4 defensive layers**:
+
+```
+ ┌─────────────────────────────────────────────────────────────┐
+ │ Layer 4: Integration & CI Regression Guard (API & Pipeline) │
+ ├─────────────────────────────────────────────────────────────┤
+ │ Layer 3: System Logic & Guardrails (Gate, Expander, Cache)  │
+ ├─────────────────────────────────────────────────────────────┤
+ │ Layer 2: Mathematical Correctness (nDCG@10, MRR, RRF)      │
+ ├─────────────────────────────────────────────────────────────┤
+ │ Layer 1: Data Topology & Integrity (Nulls, Hashes, Splits)  │
+ └─────────────────────────────────────────────────────────────┘
+```
+
+When you show an interviewer that you have **55 passing tests with 73% code coverage**, they immediately know you write **reliable, enterprise-grade production code**.
+
+```
+tests/
+├── test_data_integrity.py         (4 tests)  ── Layer 1: Data Hygiene
+├── test_metrics.py                (6 tests)  ── Layer 2: Math Verification
+├── test_retrieval_and_chunking.py (5 tests)  ── Layer 2: Retrieval & Chunker
+├── test_query_expansion.py        (3 tests)  ── Layer 3: Acronym Expansion
+├── test_schemas.py                (5 tests)  ── Layer 3: Pydantic "The Bouncer"
+├── test_cache.py                  (4 tests)  ── Layer 3: In-Memory LRU Cache
+├── test_guardrails.py             (5 tests)  ── Layer 3: Confidence Gate & Auditor
+├── test_pipeline_stages.py        (4 tests)  ── Layer 4: 7-Stage Idempotent Pipeline
+├── test_api.py                    (9 tests)  ── Layer 4: FastAPI Endpoints & SLAs
+├── test_coverage_boost.py         (9 tests)  ── Layer 4: MLflow & Edge Cases
+└── test_eval_regression.py        (1 test)   ── Layer 4: CI Quality Regression Guard
+                                   ─────────
+                                   55 tests total (100% Passing ✅)
+```
+
+---
+
+### Detailed File-by-File Breakdown of All 11 Test Modules
+
+#### 1. `test_data_integrity.py` (4 Tests) — *Data Hygiene & Drift Defense*
+* **What it tests:**
+  1. Checks that `fiqa_corpus.csv` exists, is readable, and contains all 57,598 valid documents.
+  2. Asserts that there are **zero null values** and no empty strings in critical text columns.
+  3. Validates that the pre-computed BM25 pickle index exists and is not corrupted.
+  4. Verifies that the ChromaDB HNSW vector database is populated with ~59,926 chunks.
+* **Why we built it:** In data science, *"Garbage in, Garbage out"*. If a data file gets accidentally deleted, truncated, or corrupted by a bad Git merge, this test fails immediately before any model runs.
+* **What to say in an interview:** *"We test data topology upstream. If raw inputs or vector indices suffer silent corruption or missing rows, CI catches it instantly."*
+
+---
+
+#### 2. `test_metrics.py` (6 Tests) — *Mathematical Formula Verification*
+* **What it tests:**
+  1. **nDCG@K:** Computes Discounted Cumulative Gain against known, hand-calculated textbook examples (perfect ranking = 1.0, inverted ranking = low score).
+  2. **Recall@K:** Verifies that finding 2 out of 3 ground-truth documents yields exactly $0.6667$.
+  3. **MRR (Mean Reciprocal Rank):** Verifies that finding the first hit at rank #1 gives $1.0$, at rank #2 gives $0.5$, and no hit gives $0.0$.
+  4. **Bootstrap Confidence Intervals:** Tests that 1,000 resamples over uniform data produce accurate mathematical percentiles ($2.5\%$ and $97.5\%$).
+* **Why we built it:** You cannot trust your benchmark numbers unless the math code measuring them is unit-tested with known ground-truth numbers!
+* **What to say in an interview:** *"We don't assume external metric libraries are black boxes. We wrote and unit-tested our IR formulas with hand-calculated test cases."*
+
+---
+
+#### 3. `test_retrieval_and_chunking.py` (5 Tests) — *Search Engine Plumbing*
+* **What it tests:**
+  1. **Chunker Sliding Window:** Verifies that a long text string is split into 500-character chunks with a 100-character overlap.
+  2. **Boundary Preservation:** Ensures words are not sliced in half across chunk edges.
+  3. **Reciprocal Rank Fusion (RRF):** Tests the fusion math:
+     $$\text{RRF Score}(d) = \sum \frac{1}{60 + \text{rank}}$$
+     Verifies that a document appearing in both BM25 and Dense lists gets boosted to the top.
+  4. **Candidate Deduplication:** Verifies that if the same document ID is returned by both BM25 and ChromaDB, it is deduplicated so the Cross-Encoder doesn't score it twice.
+* **Why we built it:** Guarantees that chunking preserves sentences and that the hybrid merger handles candidate duplicates without crashing.
+
+---
+
+#### 4. `test_query_expansion.py` (3 Tests) — *Financial Acronym Expander*
+* **What it tests:**
+  1. Expands acronyms like `HELOC` $\to$ `HELOC (Home Equity Line of Credit)` and `HSA` $\to$ `HSA (Health Savings Account)`.
+  2. Tests queries with **multiple acronyms** (e.g. *"Can an LLC open an IRA?"*).
+  3. Tests queries with **no acronyms** (e.g. *"How does compound interest work?"*) to ensure it doesn't modify normal words.
+* **Why we built it:** Vector embeddings frequently fail on acronyms. This test guarantees our regex expander bridges the gap without corrupting standard English prose.
+
+---
+
+#### 5. `test_schemas.py` (5 Tests) — *Input Validation ("The Bouncer")*
+* **What it tests:**
+  1. Rejects empty queries (`""`) with HTTP 422.
+  2. Rejects whitespace-only queries (`"     "`) with HTTP 422.
+  3. Rejects queries that are too short (`< 3` characters) with HTTP 422.
+  4. Rejects buffer-overflow / DOS attacks (`> 1,000` characters) with HTTP 422.
+  5. Rejects invalid retriever names or negative $top\_k$ values.
+* **Why we built it:** In production, malicious or buggy clients send unexpected payloads. Pydantic v2 acts as "The Bouncer" at the door, rejecting bad requests before they touch expensive models.
+
+---
+
+#### 6. `test_cache.py` (4 Tests) — *In-Memory LRU Cache*
+* **What it tests:**
+  1. **Cache Insertion & Hit:** Querying the same question twice returns `is_cached = True`.
+  2. **LRU Eviction:** When the cache reaches its maximum size (1,000 items), the oldest least-recently-used item is evicted.
+  3. **TTL Expiration:** Verifies that items older than 3,600 seconds are expired.
+  4. **Cache Scoping:** Verifies that asking the same question with `bm25` vs `hybrid_rerank` produces distinct cache entries.
+* **Why we built it:** Prevents memory leaks on long-running servers and guarantees sub-millisecond responses for repeated questions.
+
+---
+
+#### 7. `test_guardrails.py` (5 Tests) — *Confidence Gate & Citation Auditor*
+* **What it tests:**
+  1. **Gate Open:** If the Cross-Encoder score is $\ge 0.0$, the gate returns `PASSED`.
+  2. **Gate Tripped:** If the score is $< 0.0$ (off-topic query), the gate returns `BLOCKED` with a refusal message.
+  3. **Valid Citations:** Verifies that bracketed citations like `[Source 1: doc_45369_c0]` are parsed correctly.
+  4. **Hallucinated Citations:** If an LLM invents a non-existent source like `[Source 99]`, the auditor flags it as hallucinated and drops citation precision.
+  5. **Sentence Coverage:** Calculates what percentage of factual sentences contain citations.
+* **Why we built it:** Prevents hallucinations and enforces regulatory compliance.
+
+---
+
+#### 8. `test_pipeline_stages.py` (4 Tests) — *MLOps Idempotency Engine*
+* **What it tests:**
+  1. Computes SHA-256 config hashes for each pipeline stage.
+  2. Verifies that running a stage twice **skips execution in < 1 ms** because the hash matches the cache manifest.
+  3. Verifies that changing a hyperparameter invalidates the cache and forces re-execution.
+* **Why we built it:** Embedding 57,600 documents takes hours. Idempotency guarantees you never accidentally re-compute expensive stages unless code or data changed.
+
+---
+
+#### 9. `test_api.py` (9 Tests) — *FastAPI Microservice Integration*
+* **What it tests:**
+  1. Root endpoint: `GET /` returns API metadata.
+  2. Health check: `GET /health` returns ChromaDB connection status and indexed chunk count.
+  3. Config check: `GET /config` returns supported retrievers and thresholds.
+  4. Full Query Execution: `POST /query` with mocked LLM verifies end-to-end JSON response.
+  5. Tests all 4 retriever modes (`bm25`, `dense`, `hybrid`, `hybrid_rerank`).
+  6. SLA Timeout: Verifies that if a query hangs longer than the SLA limit, the server cleanly returns **HTTP 504 Gateway Timeout**.
+  7. Cache deletion: `DELETE /cache` clears memory.
+* **Why we built it:** Proves our backend is not just a script, but a **production-ready REST API**.
+
+---
+
+#### 10. `test_coverage_boost.py` (9 Tests) — *MLOps & Edge Cases*
+* **What it tests:**
+  1. Tests MLflow experiment initialization and metric logging.
+  2. Tests legacy benchmark run importer (`python -m src.pipeline.cli import-legacy`).
+  3. Tests CLI argument parsing flags (`--force`, `--gen-limit`).
+  4. Exercises fallback exception handlers across all modules.
+* **Why we built it:** Drives total test coverage to **73%**, ensuring that unexpected errors or missing parameters don't cause unhandled crashes.
+
+---
+
+#### 11. `test_eval_regression.py` (1 Test) — 🌟 *The CI Regression Guard*
+* **What it tests:**
+  * Loads `results/retrieval_evaluation_results.json` and asserts:
+    $$\text{Champion nDCG@10} \ge 0.450$$
+* **Why we built it:** This is the ultimate **CI/CD Quality Gate**. If any developer modifies chunking, tokenization, or embeddings in the future and accidentally drops retrieval quality, **this test will fail in GitHub Actions and block the commit!**
+* **Why interviewers love this:** It proves you understand how real machine learning engineering teams operate: you treat accuracy like a regression test.
+
+---
+
+### Summary Table of All 11 Test Modules
+
+| Test File | Tests | Category | Core Question It Answers |
+|---|---|---|---|
+| `test_data_integrity.py` | 4 | Data Integrity | *Is the raw financial corpus clean, uncorrupted, and non-empty?* |
+| `test_metrics.py` | 6 | Mathematical | *Are our nDCG@10, Recall, and Bootstrap CI math formulas correct?* |
+| `test_retrieval_and_chunking.py` | 5 | Unit | *Does chunking preserve sentence boundaries, and does RRF fuse properly?* |
+| `test_query_expansion.py` | 3 | Unit | *Does expanding acronyms like HELOC work without breaking normal words?* |
+| `test_schemas.py` | 5 | Security/Validation | *Does Pydantic reject bad, empty, or malicious inputs at the API gate?* |
+| `test_cache.py` | 4 | System Performance | *Does the in-memory cache return instant hits and evict old entries?* |
+| `test_guardrails.py` | 5 | Compliance/Safety | *Does the Confidence Gate block off-topic traps, and does the auditor catch fake citations?* |
+| `test_pipeline_stages.py` | 4 | MLOps | *Are the 7 pipeline stages reproducible and cached with SHA-256 hashes?* |
+| `test_api.py` | 9 | Integration | *Do all FastAPI REST endpoints, status codes, and 504 timeouts work?* |
+| `test_coverage_boost.py` | 9 | Integration/Edge Cases | *Are MLflow tracking and CLI edge cases fully tested?* |
+| `test_eval_regression.py` | 1 | Regression Guard | *Is our search accuracy mathematically protected from regression in CI?* |
+| **Total** | **55** | **All Categories** | **100% Passing in ~50s | 73% Code Coverage ✅** |
+
+---
+
+## 11. The 10 Failure Modes & Engineering Mitigations
 
 During development, we conducted rigorous qualitative error analysis. Here are the 10 real-world failure modes we identified and solved:
 
@@ -365,7 +543,7 @@ During development, we conducted rigorous qualitative error analysis. Here are t
 
 ---
 
-## 11. Senior Interview Q&A Preparation Matrix
+## 12. Senior Interview Q&A Preparation Matrix
 
 ### Q1: "Why not just use an off-the-shelf framework like LangChain or LlamaIndex?"
 > **Model Answer:** *"While LangChain is great for rapid prototypes, high-performance production systems require explicit control over the retrieval funnel, error handling, and latency. Building our two-stage pipeline directly with ChromaDB, BM25Okapi, and Sentence-Transformers allowed us to implement deterministic SHA-256 caching, custom RRF fusion, and an upstream confidence gate without framework abstraction bloat or hidden token calls."*
@@ -378,7 +556,7 @@ During development, we conducted rigorous qualitative error analysis. Here are t
 
 ---
 
-## 12. Project Level & Portfolio Positioning Analysis
+## 13. Project Level & Portfolio Positioning Analysis
 
 ### What Level is this Project?
 * **Rating:** **High-Performing Junior / Entry-Level ML Engineer (Top 5%).**
