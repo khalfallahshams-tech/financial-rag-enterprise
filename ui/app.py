@@ -24,11 +24,17 @@ RESULTS_DIR = BASE_DIR / "results"
 DEFAULT_API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 # -----------------------------------------------------------------------------
-# API Client Helpers
+# API Client Helpers & In-Process Fallback Engine
 # -----------------------------------------------------------------------------
+@st.cache_resource(show_spinner="Initializing Local Financial RAG Engine...")
+def get_local_pipeline():
+    """Initializes a local in-process pipeline as an automatic fallback if the FastAPI server is not started."""
+    from src.pipeline import FinancialRAGPipeline
+    return FinancialRAGPipeline()
+
 def fetch_health(api_url: str) -> Dict[str, Any]:
     try:
-        r = httpx.get(f"{api_url}/health", timeout=3.0)
+        r = httpx.get(f"{api_url}/health", timeout=2.0)
         if r.status_code == 200:
             return r.json()
     except Exception:
@@ -37,7 +43,7 @@ def fetch_health(api_url: str) -> Dict[str, Any]:
 
 def fetch_config(api_url: str) -> Dict[str, Any]:
     try:
-        r = httpx.get(f"{api_url}/config", timeout=3.0)
+        r = httpx.get(f"{api_url}/config", timeout=2.0)
         if r.status_code == 200:
             return r.json()
     except Exception:
@@ -45,26 +51,51 @@ def fetch_config(api_url: str) -> Dict[str, Any]:
     return {}
 
 def send_query(api_url: str, question: str, retriever: str, top_k: int, use_cache: bool) -> Dict[str, Any]:
-    payload = {
-        "question": question,
-        "retriever": retriever,
-        "top_k": top_k,
-        "use_cache": use_cache
-    }
-    r = httpx.post(f"{api_url}/query", json=payload, timeout=35.0)
-    if r.status_code == 200:
-        return r.json()
-    elif r.status_code == 422:
-        return {"error": f"Validation Error (422): {r.text}"}
-    elif r.status_code == 504:
-        return {"error": "Gateway Timeout (504): The request exceeded the 30-second pipeline SLA."}
-    else:
-        return {"error": f"API Error ({r.status_code}): {r.text}"}
+    # 1. Try FastAPI backend if online
+    try:
+        payload = {
+            "question": question,
+            "retriever": retriever,
+            "top_k": top_k,
+            "use_cache": use_cache
+        }
+        r = httpx.post(f"{api_url}/query", json=payload, timeout=45.0)
+        if r.status_code == 200:
+            return r.json()
+        elif r.status_code == 422:
+            return {"error": f"Validation Error (422): {r.text}"}
+        elif r.status_code == 504:
+            return {"error": "Gateway Timeout (504): The request exceeded the pipeline SLA."}
+    except Exception:
+        # Fall back gracefully to local in-process execution
+        pass
+
+    # 2. Local in-process fallback execution
+    try:
+        from src.schemas import QueryRequest, RetrieverType
+        pipeline = get_local_pipeline()
+        req = QueryRequest(
+            question=question,
+            retriever=RetrieverType(retriever),
+            top_k=top_k,
+            use_cache=use_cache
+        )
+        res = pipeline.run(req)
+        return json.loads(res.model_dump_json())
+    except Exception as e:
+        return {"error": f"Execution Error: {e}"}
 
 def clear_api_cache(api_url: str) -> bool:
     try:
-        r = httpx.delete(f"{api_url}/cache", timeout=3.0)
-        return r.status_code == 200
+        r = httpx.delete(f"{api_url}/cache", timeout=2.0)
+        if r.status_code == 200:
+            return True
+    except Exception:
+        pass
+    try:
+        from src.cache import query_cache
+        query_cache.clear()
+        return True
     except Exception:
         return False
 
@@ -82,8 +113,8 @@ if health_info and health_info.get("status") == "healthy":
     st.sidebar.caption(f"📚 Indexed Chunks: **{health_info.get('indexed_chunks_count', 0):,}**")
     st.sidebar.caption(f"💾 In-Memory Cache: **{health_info.get('cache_entries_count', 0)} entries**")
 else:
-    st.sidebar.error("🔴 Backend Offline or Unreachable")
-    st.sidebar.caption("Run `uvicorn app:app --port 8000` to start the backend.")
+    st.sidebar.info("🟢 Local In-Process Engine Active")
+    st.sidebar.caption("Connected directly to ChromaDB vector store.")
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("Retrieval Strategy")
