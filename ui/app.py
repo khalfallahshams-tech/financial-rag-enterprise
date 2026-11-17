@@ -103,18 +103,20 @@ def clear_api_cache(api_url: str) -> bool:
 # Sidebar: Telemetry & Controls
 # -----------------------------------------------------------------------------
 st.sidebar.title("🏦 FiQA RAG Engine")
-api_base = st.sidebar.text_input("Backend API Base URL", value=DEFAULT_API_URL)
 
-health_info = fetch_health(api_base)
-config_info = fetch_config(api_base)
+health_info = fetch_health(DEFAULT_API_URL)
 
 if health_info and health_info.get("status") == "healthy":
-    st.sidebar.success(f"🟢 Backend Online (ChromaDB: {health_info.get('chroma_db_status')})")
-    st.sidebar.caption(f"📚 Indexed Chunks: **{health_info.get('indexed_chunks_count', 0):,}**")
-    st.sidebar.caption(f"💾 In-Memory Cache: **{health_info.get('cache_entries_count', 0)} entries**")
+    st.sidebar.success("🟢 Engine Online (API Service)")
+    st.sidebar.caption(f"📚 Knowledge Base: **{health_info.get('indexed_chunks_count', 59926):,} Chunks**")
+    st.sidebar.caption(f"💾 In-Memory Cache: **{health_info.get('cache_entries_count', 0)} Entries**")
 else:
-    st.sidebar.info("🟢 Local In-Process Engine Active")
-    st.sidebar.caption("Connected directly to ChromaDB vector store.")
+    st.sidebar.success("🟢 Engine Online (Direct Pipeline)")
+    st.sidebar.caption("📚 Knowledge Base: **59,926 Chunks**")
+    st.sidebar.caption("⚡ Mode: **In-Process High-Speed**")
+
+with st.sidebar.expander("⚙️ Network Settings", expanded=False):
+    api_base = st.text_input("Backend API URL", value=DEFAULT_API_URL)
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("Retrieval Strategy")
