@@ -120,18 +120,10 @@ with st.sidebar.expander("⚙️ Network Settings", expanded=False):
     api_base = st.text_input("Backend API URL", value=DEFAULT_API_URL)
 
 st.sidebar.markdown("---")
-st.sidebar.subheader("Retrieval Strategy")
-retriever_option = st.sidebar.radio(
-    "Choose Strategy:",
-    options=["hybrid_rerank", "hybrid", "dense", "bm25"],
-    format_func=lambda x: {
-        "hybrid_rerank": "🌟 Hybrid + Re-Ranker (Champion)",
-        "hybrid": "⚡ Hybrid RRF (Dense + BM25)",
-        "dense": "🔍 Pure Dense (MiniLM / BGE)",
-        "bm25": "📖 Pure Sparse (BM25Okapi)"
-    }[x],
-    index=0
-)
+st.sidebar.subheader("Active Architecture")
+st.sidebar.success("🌟 Champion Two-Stage Engine")
+st.sidebar.caption("Hybrid RRF (BM25 + BGE) + Cross-Encoder Reranker + tau=0.0 Circuit Breaker")
+retriever_option = "hybrid_rerank"
 
 top_k_val = st.sidebar.slider("Top-K Sources to Return", min_value=1, max_value=8, value=3)
 use_cache_val = st.sidebar.checkbox("Enable In-Memory Cache", value=True)
@@ -151,9 +143,8 @@ st.markdown(
     "fused into a **Cross-Encoder neural re-ranker** with **tau=0.0 circuit breaker guardrails** and citation attribution."
 )
 
-tab_query, tab_compare, tab_eval = st.tabs([
+tab_query, tab_eval = st.tabs([
     "💬 Live Financial Query",
-    "⚖️ Compare Retrievers Side-by-Side",
     "📊 Evaluation & Academic Benchmarks"
 ])
 
@@ -174,7 +165,8 @@ with tab_query:
 
     selected_sample = st.selectbox(
         "💡 Quick-fill example questions:",
-        options=["-- Type custom question below --"] + sample_queries
+        options=["-- Type custom question below --"] + sample_queries,
+        index=1
     )
 
     default_text = "" if selected_sample.startswith("--") else selected_sample
@@ -278,106 +270,7 @@ with tab_query:
                             st.write(src["text"])
 
 # -----------------------------------------------------------------------------
-# TAB 2: Compare Retrievers Side-by-Side
-# -----------------------------------------------------------------------------
-with tab_compare:
-    st.subheader("⚖️ Side-by-Side Retriever Benchmark Comparison")
-    st.caption("Compare how Pure BM25, Pure Dense, Hybrid RRF, and Champion Hybrid + Cross-Encoder handle the same query.")
-
-    comp_query = st.text_input(
-        "Comparison Query:",
-        value="What is a HELOC and how are its payments structured?",
-        key="comp_query_input"
-    )
-
-    if st.button("⚡ Compare All 4 Retrievers", type="secondary"):
-        if not comp_query.strip():
-            st.warning("Please enter a query.")
-        else:
-            strategies = [
-                ("bm25", "📖 BM25 (Lexical)"),
-                ("dense", "🔍 Dense (MiniLM)"),
-                ("hybrid", "⚡ Hybrid RRF"),
-                ("hybrid_rerank", "🌟 Hybrid + Re-Ranker")
-            ]
-
-            results_comp = []
-            progress_bar = st.progress(0.0)
-
-            for idx, (strat_code, strat_label) in enumerate(strategies):
-                t0 = time.time()
-                res = send_query(api_base, comp_query.strip(), strat_code, top_k=2, use_cache=False)
-                latency = round((time.time() - t0) * 1000, 1)
-
-                if "error" in res:
-                    results_comp.append({
-                        "Retriever": strat_label,
-                        "Latency (ms)": latency,
-                        "Relevance / Confidence": "N/A",
-                        "Raw Model Score": "0.00",
-                        "Behavioral Assessment": "Query Failed / Offline",
-                        "Top Retrieved Passage": "N/A",
-                        "Generated Answer": res["error"][:100]
-                    })
-                else:
-                    top_src = res["sources"][0]["text"][:120] + "..." if res.get("sources") else "No source"
-                    score_val = res.get("confidence_score", 0.0)
-
-                    if strat_code == "bm25":
-                        relevance_str = "Rank #1 (Lexical)"
-                        raw_score_str = "1.00 (Rank 1)"
-                        eval_str = "Keyword match only (blind to synonyms)"
-                    elif strat_code == "dense":
-                        pct = max(0.0, min(100.0, score_val * 100))
-                        relevance_str = f"{pct:.1f}% (Cosine Sim)"
-                        raw_score_str = f"{score_val:.3f}"
-                        eval_str = "Semantic neighborhood; lacks exact keyword recall"
-                    elif strat_code == "hybrid":
-                        relevance_str = "Top Fused Candidate"
-                        raw_score_str = "RRF Rank 1"
-                        eval_str = "Reciprocal Rank Fusion pool (keyword + vector)"
-                    else:  # hybrid_rerank (Two-Stage Champion)
-                        try:
-                            prob = 1.0 / (1.0 + math.exp(-score_val))
-                            prob_pct = prob * 100
-                        except Exception:
-                            prob_pct = 99.9
-                        relevance_str = f"🔥 {prob_pct:.1f}% Match"
-                        raw_score_str = f"Logit: {score_val:+.2f}"
-                        eval_str = "🌟 Champion Match (Cross-Attention verified)"
-
-                    results_comp.append({
-                        "Retriever": strat_label,
-                        "Latency (ms)": res.get("latency_ms", latency),
-                        "Relevance / Confidence": relevance_str,
-                        "Raw Model Score": raw_score_str,
-                        "Behavioral Assessment": eval_str,
-                        "Top Retrieved Passage": top_src,
-                        "Generated Answer": res.get("answer", "")[:130] + "..."
-                    })
-                progress_bar.progress((idx + 1) / len(strategies))
-
-            df_comp = pd.DataFrame(results_comp)
-            st.dataframe(df_comp, use_container_width=True)
-
-            # Chart comparing latencies
-            st.bar_chart(df_comp.set_index("Retriever")["Latency (ms)"])
-
-            with st.expander("ℹ️ How to Interpret Retriever Scores & Ranges", expanded=True):
-                st.markdown(r"""
-                ### 🔬 Why do these scores look different?
-                Different retrieval architectures use completely different mathematical formulations:
-                
-                1. **📖 BM25 (Lexical):** Matches exact keywords (TF-IDF). It does not compute probabilities. `Rank #1` means this was the top document matching keywords.
-                2. **🔍 Dense Embeddings:** Calculates **Cosine Similarity** ($\cos(\vec{u}, \vec{v}) \in [0.0, 1.0]$). A score of **72.4%** represents strong semantic proximity in vector space.
-                3. **⚡ Hybrid RRF:** Merges candidate lists using **Reciprocal Rank Fusion** ($1 / (60 + \\text{rank})$) to ensure neither rare keywords nor semantic phrases are dropped.
-                4. **🌟 Champion Cross-Encoder:** Feeds the `[Query, Passage]` together through full joint self-attention (`ms-marco-MiniLM-L-6-v2`) and outputs an **unnormalized logit** ($z$).
-                   * When passed through the Sigmoid activation $\sigma(z) = \\frac{1}{1 + e^{-z}}$, a logit of **`+8.39` converts to 99.98% certainty**!
-                   * Logits $< 0.0$ represent irrelevant noise or adversarial traps (which trip our $\\tau=0.0$ Confidence Gate circuit breaker).
-                """)
-
-# -----------------------------------------------------------------------------
-# TAB 3: Academic Benchmarks & Evaluation Reports
+# TAB 2: Academic Benchmarks & Evaluation Reports
 # -----------------------------------------------------------------------------
 with tab_eval:
     st.subheader("📊 Rigorous Evaluation & Academic Benchmarks")
