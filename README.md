@@ -190,15 +190,15 @@ For every module in the pipeline, we evaluated empirical data before making arch
 
 Every benchmark execution, hyperparameter sweep, and evaluation run is tracked systematically in **MLflow**.
 
-### Visual Proof: MLflow Evaluation Runs Dashboard
-The screenshot below shows our evaluation runs tracked in MLflow (`http://localhost:5000/#/experiments/1/evaluation-runs`), including exact faithfulness, relevancy, gate accuracy, and token costs:
+### 1. Strategy Comparison Plot (Lifting Retrieval Accuracy by +183%)
+The Parallel Coordinates chart below tracks the lift across our benchmarked retrieval architectures. Standalone BM25 achieved **0.173 nDCG@10**, whereas the Champion Two-Stage Cross-Encoder surged to **0.490 nDCG@10** (highlighted in red):
 
-![MLflow Evaluation Runs](docs/mlflow_evaluation_runs.png)
+![MLflow Parallel Coordinates Comparison](docs/mlflow_dashboard.png)
 
-### Visual Proof: MLflow GenAI Experiment Overview
-The screenshot below shows the experiment overview page tracking traces, latencies, and run metadata:
+### 2. Champion Run Details: Parameters, Latency & 13 Empirical Metrics
+The screenshot below shows the run details for the **Two-Stage (Hybrid + Cross-Encoder)** pipeline, logging 13 distinct academic metrics with 95% bootstrap confidence intervals and sub-second rerank latency:
 
-![MLflow Experiment Overview](docs/mlflow_dashboard.png)
+![MLflow Champion Run Details](docs/mlflow_training_view.png)
 
 ### Launch MLflow Locally:
 ```bash
@@ -211,12 +211,37 @@ http://localhost:5000
 
 ---
 
-## 🖥️ Streamlit Interactive Cockpit (`ui/app.py`)
+## 🖥️ Streamlit Interactive Cockpit & Visual Product Tour
 
-The Streamlit interface provides a full interactive cockpit for stakeholders, recruiters, and evaluators:
-1. **Live Financial Querying:** Enter complex financial questions with quick-fill suggestions, inspect highlighted citations, and view latency decomposition (Retrieval vs Re-Rank vs Generation).
-2. **Side-by-Side Retriever Comparison:** Compare Pure BM25, Pure Dense, Hybrid RRF, and Two-Stage Champion simultaneously on the same question with a real-time latency bar chart.
-3. **Academic Evaluation Dashboard:** Dynamically parses and renders all saved benchmark reports, candidate depth sweeps, and 95% bootstrap confidence intervals.
+The Streamlit interface provides a complete, interactive cockpit for stakeholders, recruiters, and evaluators:
+
+### 1. Live Grounded Financial Query & Sentence-Level Citations
+Users select or enter complex financial questions. The engine retrieves candidates, reranks with cross-attention, evaluates confidence, and synthesizes answers with deterministic `[Source X: doc_id]` sentence-level citations:
+
+![Live Query Synthesis with Citations](docs/streamlit_ui.png)
+
+### 2. Zero-Cost Hallucination Circuit Breaker on Adversarial Traps
+When an off-topic or out-of-domain trap query is submitted (*e.g., "What are supersymmetric multiversal string quantum states?"*), the upstream neural confidence gate ($\tau = 0.0$) trips immediately. It halts execution at **$0.00 LLM token cost**, preventing hallucinations and protecting company compute budgets:
+
+![Circuit Breaker Refusal](docs/streamlit_circuit_breaker.png)
+
+### 3. Head-to-Head Retriever Comparison
+Allows users to compare Pure BM25, Pure Dense, Hybrid RRF, and Two-Stage Champion simultaneously on the exact same question with real-time latency breakdowns:
+
+![Side-by-Side Retriever Comparison](docs/streamlit_compare.png)
+
+### 4. Rigorous Academic Benchmarks & Evaluation Dashboard
+Dynamically visualizes all 5 benchmarked models, 50-item golden evaluation metrics (Faithfulness **98.0%**, Answer Relevancy **96.1%**, Gate Accuracy **94.0%**), candidate depth sweeps ($K=8, 12, 16$), and acronym expansion deltas:
+
+![Academic Evaluation Dashboard](docs/streamlit_dashboard.png)
+
+---
+
+## 🚀 Production FastAPI REST Service (`app.py`)
+
+The platform is served via a high-performance **FastAPI** gateway with Pydantic V2 input validation ("The Bouncer"), CORS middleware, and automatic OpenAPI documentation:
+
+![FastAPI Interactive Swagger Docs](docs/fastapi_swagger_docs.png)
 
 ---
 
@@ -232,11 +257,13 @@ financial-rag-enterprise/
 │   ├── golden_eval_set.json      # Hand-checkable 50-item golden evaluation benchmark
 │   └── bm25_index.pkl            # Serialized BM25Okapi lexical index (91.34 MB)
 ├── docs/                         # Embedded visual evidence and UI screenshots
-│   ├── mlflow_ui.png             # Screenshot: MLflow experiment tracking interface
-│   ├── mlflow_evaluation_runs.png # Screenshot: Live MLflow evaluation benchmark runs
-│   ├── mlflow_dashboard.png      # Screenshot: Live MLflow GenAI dashboard
-│   ├── streamlit_ui.png          # Screenshot: Streamlit interactive query interface
-│   └── streamlit_dashboard.png   # Screenshot: Streamlit evaluation benchmark cockpit
+│   ├── streamlit_ui.png          # Screenshot: Live query synthesis with grounded citations
+│   ├── streamlit_circuit_breaker.png # Screenshot: Zero-cost circuit breaker on adversarial trap
+│   ├── streamlit_compare.png     # Screenshot: Side-by-side retriever comparison
+│   ├── streamlit_dashboard.png   # Screenshot: Academic evaluation & benchmark dashboard
+│   ├── fastapi_swagger_docs.png  # Screenshot: FastAPI Swagger OpenAPI interactive docs
+│   ├── mlflow_dashboard.png      # Screenshot: MLflow parallel coordinates strategy comparison
+│   └── mlflow_training_view.png  # Screenshot: MLflow champion run details & 13 metrics
 ├── notebooks/
 │   └── 01_data_ingestion_and_eda.ipynb  # Complete 72-cell research & development laboratory
 ├── results/                      # Saved benchmark outputs, reports, and SHA-256 generation cache
