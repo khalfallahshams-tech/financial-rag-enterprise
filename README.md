@@ -226,7 +226,7 @@ When an off-topic or out-of-domain trap query is submitted (*e.g., "What are sup
 ![Circuit Breaker Refusal](docs/streamlit_circuit_breaker.png)
 
 ### 3. Head-to-Head Retriever Comparison
-Allows users to compare Pure BM25, Pure Dense, Hybrid RRF, and Two-Stage Champion simultaneously on the exact same question with real-time latency breakdowns:
+Allows users to compare Pure BM25, Pure Dense, Hybrid RRF, and Two-Stage Champion simultaneously on the exact same question with real-time latency breakdowns, normalized relevance percentages, behavioral assessments, and mathematical score scale guides:
 
 ![Side-by-Side Retriever Comparison](docs/streamlit_compare.png)
 

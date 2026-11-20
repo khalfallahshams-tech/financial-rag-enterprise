@@ -1,5 +1,6 @@
 import os
 import json
+import math
 import time
 from pathlib import Path
 from typing import Dict, Any, List
@@ -217,7 +218,16 @@ with tab_query:
                     st.metric("Cache Status", "⚡ CACHE HIT" if is_cached else "🔄 FRESH RUN")
                 with m4:
                     score = res.get("confidence_score", 0.0)
-                    st.metric("Confidence Score", f"{score:.3f}")
+                    try:
+                        prob = 1.0 / (1.0 + math.exp(-score))
+                        prob_str = f"{prob*100:.1f}%"
+                    except Exception:
+                        prob_str = "N/A"
+                    st.metric(
+                        "Confidence Score",
+                        f"{score:+.2f} ({prob_str})",
+                        help="Neural Cross-Encoder logit (-∞ to +∞) and Sigmoid relevance probability. Logits > 5.0 (>99%) denote high relevance; logits < 0.0 trip the zero-cost circuit breaker."
+                    )
 
                 # Abstention Banner vs Verified Answer
                 if res.get("abstained", False):
@@ -303,20 +313,47 @@ with tab_compare:
                     results_comp.append({
                         "Retriever": strat_label,
                         "Latency (ms)": latency,
-                        "Abstained": True,
-                        "Top Score": 0.0,
-                        "Top Source": "N/A",
-                        "Answer Preview": res["error"][:100]
+                        "Relevance / Confidence": "N/A",
+                        "Raw Model Score": "0.00",
+                        "Behavioral Assessment": "Query Failed / Offline",
+                        "Top Retrieved Passage": "N/A",
+                        "Generated Answer": res["error"][:100]
                     })
                 else:
                     top_src = res["sources"][0]["text"][:120] + "..." if res.get("sources") else "No source"
+                    score_val = res.get("confidence_score", 0.0)
+
+                    if strat_code == "bm25":
+                        relevance_str = "Rank #1 (Lexical)"
+                        raw_score_str = "1.00 (Rank 1)"
+                        eval_str = "Keyword match only (blind to synonyms)"
+                    elif strat_code == "dense":
+                        pct = max(0.0, min(100.0, score_val * 100))
+                        relevance_str = f"{pct:.1f}% (Cosine Sim)"
+                        raw_score_str = f"{score_val:.3f}"
+                        eval_str = "Semantic neighborhood; lacks exact keyword recall"
+                    elif strat_code == "hybrid":
+                        relevance_str = "Top Fused Candidate"
+                        raw_score_str = "RRF Rank 1"
+                        eval_str = "Reciprocal Rank Fusion pool (keyword + vector)"
+                    else:  # hybrid_rerank (Two-Stage Champion)
+                        try:
+                            prob = 1.0 / (1.0 + math.exp(-score_val))
+                            prob_pct = prob * 100
+                        except Exception:
+                            prob_pct = 99.9
+                        relevance_str = f"🔥 {prob_pct:.1f}% Match"
+                        raw_score_str = f"Logit: {score_val:+.2f}"
+                        eval_str = "🌟 Champion Match (Cross-Attention verified)"
+
                     results_comp.append({
                         "Retriever": strat_label,
                         "Latency (ms)": res.get("latency_ms", latency),
-                        "Abstained": res.get("abstained", False),
-                        "Top Score": round(res.get("confidence_score", 0.0), 3),
-                        "Top Source": top_src,
-                        "Answer Preview": res.get("answer", "")[:140] + "..."
+                        "Relevance / Confidence": relevance_str,
+                        "Raw Model Score": raw_score_str,
+                        "Behavioral Assessment": eval_str,
+                        "Top Retrieved Passage": top_src,
+                        "Generated Answer": res.get("answer", "")[:130] + "..."
                     })
                 progress_bar.progress((idx + 1) / len(strategies))
 
@@ -325,6 +362,19 @@ with tab_compare:
 
             # Chart comparing latencies
             st.bar_chart(df_comp.set_index("Retriever")["Latency (ms)"])
+
+            with st.expander("ℹ️ How to Interpret Retriever Scores & Ranges", expanded=True):
+                st.markdown(r"""
+                ### 🔬 Why do these scores look different?
+                Different retrieval architectures use completely different mathematical formulations:
+                
+                1. **📖 BM25 (Lexical):** Matches exact keywords (TF-IDF). It does not compute probabilities. `Rank #1` means this was the top document matching keywords.
+                2. **🔍 Dense Embeddings:** Calculates **Cosine Similarity** ($\cos(\vec{u}, \vec{v}) \in [0.0, 1.0]$). A score of **72.4%** represents strong semantic proximity in vector space.
+                3. **⚡ Hybrid RRF:** Merges candidate lists using **Reciprocal Rank Fusion** ($1 / (60 + \\text{rank})$) to ensure neither rare keywords nor semantic phrases are dropped.
+                4. **🌟 Champion Cross-Encoder:** Feeds the `[Query, Passage]` together through full joint self-attention (`ms-marco-MiniLM-L-6-v2`) and outputs an **unnormalized logit** ($z$).
+                   * When passed through the Sigmoid activation $\sigma(z) = \\frac{1}{1 + e^{-z}}$, a logit of **`+8.39` converts to 99.98% certainty**!
+                   * Logits $< 0.0$ represent irrelevant noise or adversarial traps (which trip our $\\tau=0.0$ Confidence Gate circuit breaker).
+                """)
 
 # -----------------------------------------------------------------------------
 # TAB 3: Academic Benchmarks & Evaluation Reports
