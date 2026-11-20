@@ -238,7 +238,7 @@ with tab_query:
                     st.caption(f"🔍 **Domain Acronyms Expanded:** `{', '.join(acronyms)}`")
 
                 # Latency Decomposition
-                with st.expander("⏱️ Latency Decomposition Breakdown", expanded=False):
+                with st.expander("⏱️ Latency Decomposition Breakdown", expanded=True):
                     l_cols = st.columns(4)
                     l_cols[0].metric("Retrieval (Dense+BM25)", f"{res.get('retrieval_latency_ms', 0):.1f} ms")
                     l_cols[1].metric("Cross-Encoder Rerank", f"{res.get('rerank_latency_ms', 0):.1f} ms")
@@ -248,7 +248,7 @@ with tab_query:
                 # Citation Audit
                 audit = res.get("citation_audit", {})
                 if audit:
-                    with st.expander("🛡️ Citation Attribution Audit", expanded=False):
+                    with st.expander("🛡️ Citation Attribution Audit", expanded=True):
                         a_cols = st.columns(3)
                         a_cols[0].metric("Citation Precision", f"{audit.get('citation_precision', 1.0)*100:.1f}%")
                         a_cols[1].metric("Valid Citations", f"{audit.get('valid_citations', 0)} / {audit.get('total_citations', 0)}")
