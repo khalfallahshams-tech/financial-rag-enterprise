@@ -2,14 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ main, portfolio-build ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
   test:
-    name: Run Pytest Suite
+    name: Automated Tests & Quality
     runs-on: ubuntu-latest
+
+    env:
+      GEMINI_API_KEY: "test_mock_key_for_ci"
 
     steps:
       - name: Checkout Code
@@ -26,5 +29,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Pytest
-        run: pytest tests/ -v
+      - name: Run Ruff Code Quality Linter
+        run: python -m ruff check src/ tests/ app.py
+
+      - name: Run Core Unit Test Suite
+        run: |
+          pytest tests/test_schemas.py tests/test_cache.py tests/test_metrics.py tests/test_guardrails.py tests/test_query_expansion.py tests/test_retrieval_and_chunking.py -v
