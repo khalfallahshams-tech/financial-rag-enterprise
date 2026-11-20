@@ -8,7 +8,7 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-HNSW_Vector_Store-orange.svg)](https://www.trychroma.com/)
 [![MLflow](https://img.shields.io/badge/MLflow-Experiment_Tracking-0194E2.svg?logo=mlflow&logoColor=white)](https://mlflow.org/)
 [![Tests](https://img.shields.io/badge/Pytest-55%2F55%20Passed%20(73%25%20Coverage)-brightgreen.svg?logo=pytest&logoColor=white)](https://pytest.org/)
-[![Docker](https://img.shields.io/badge/Docker-Multi--Stage%20Non--Root-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -19,7 +19,7 @@
 > 
 > Rather than relying on naive vector search, I engineered a **two-stage hybrid retriever** combining BM25 keyword matching and dense embeddings (`bge-small-en-v1.5`) via Reciprocal Rank Fusion, followed by a neural Cross-Encoder re-ranker (`ms-marco-MiniLM-L-6-v2`). This achieved a **0.490 nDCG@10**, delivering a **+183% relative lift** over standard BM25 baselines and matching published academic research.
 > 
-> To protect against hallucinations and compute waste, I added an upstream Cross-Encoder confidence gate ($\tau = 0.0$) that rejects off-topic queries at **$0.00 token cost**, followed by defensive few-shot generation that scored **98.0% faithfulness**. I packaged the entire platform into a FastAPI service, a Streamlit interactive cockpit, 55 automated tests with a CI regression guard, and multi-stage Docker containerization."*
+> To protect against hallucinations and compute waste, I added an upstream Cross-Encoder confidence gate ($\tau = 0.0$) that rejects off-topic queries at **$0.00 token cost**, followed by defensive few-shot generation that scored **98.0% faithfulness**. I packaged the entire platform into a FastAPI service, a Streamlit interactive cockpit, 55 automated tests with a CI regression guard, and Docker containerization."*
 
 📖 **For deep technical interview preparation and file-by-file explanations, see the [Portfolio Master Guide](docs/PORTFOLIO_MASTER_GUIDE.md).**
 
@@ -278,8 +278,8 @@ financial-rag-enterprise/
 ├── ui/
 │   └── app.py                    # Multi-tab interactive Streamlit intelligence cockpit
 ├── app.py                        # Production FastAPI REST service with structured JSON logging
-├── Dockerfile                    # Hardened multi-stage non-root container definition (UID 10001)
-├── docker-compose.yml            # Multi-service stack: API (8000), UI (8501), MLflow (5000)
+├── Dockerfile                    # Container configuration for reproducible deployment
+├── docker-compose.yml            # Multi-service stack: API (8000), UI (8501)
 ├── Makefile                      # Cross-platform automation: setup, data, pipeline, eval, test, run, ui
 └── pyproject.toml                # Project packaging, Ruff linting, and pytest-cov settings
 ```

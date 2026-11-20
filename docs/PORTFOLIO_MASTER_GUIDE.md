@@ -29,7 +29,7 @@
 > 
 > Rather than relying on naive vector search, I engineered a two-stage hybrid retriever combining BM25 keyword matching and dense embeddings via Reciprocal Rank Fusion, followed by a neural Cross-Encoder reranker. This achieved a **0.490 nDCG@10**, delivering a **+183% relative lift** over standard BM25 baselines and matching top published academic research.
 > 
-> To protect against hallucinations and compute waste, I added an upstream Cross-Encoder confidence gate that rejects off-topic queries at $0.00 token cost, followed by defensive few-shot generation that scored **98% faithfulness**. I packaged the entire platform into a FastAPI service, a Streamlit interactive cockpit, 55 automated tests with a CI regression guard, and multi-stage Docker containerization."*
+> To protect against hallucinations and compute waste, I added an upstream Cross-Encoder confidence gate that rejects off-topic queries at $0.00 token cost, followed by defensive few-shot generation that scored **98% faithfulness**. I packaged the entire platform into a FastAPI service, a Streamlit interactive cockpit, 55 automated tests with a CI regression guard, and Docker containerization."*
 
 ---
 
@@ -91,8 +91,8 @@ Think of this project as taking a student from guessing answers to becoming a to
 | `src/pipeline/tracker.py` | MLOps | MLflow experiment tracking connector. | *"Logs hyperparameters, evaluation metrics, latency, and artifact JSONs to local MLflow runs."* |
 | `src/evaluation/metrics.py` | Mathematics | Math functions for nDCG@K, Recall@K, MRR, and Bootstrap CIs. | *"Pure, unit-tested implementations of academic Information Retrieval and statistical formulas."* |
 | `tests/` (11 files) | Testing | 55 automated Pytest unit and integration tests. | *"Maintains 73% code coverage and guards against regression in CI on every Git commit."* |
-| `Dockerfile` | Deployment | Multi-stage, secure non-root Docker container. | *"Hardens container security using UID 10001 (appuser) and pins dependencies cleanly."* |
-| `docker-compose.yml` | Deployment | Orchestrates API (8000), UI (8501), and MLflow (5000). | *"Spins up the entire production stack in a single command on any developer laptop."* |
+| `Dockerfile` | Deployment | Clean container definition for reproducible local & cloud deployment. | *"Eliminates 'it works on my machine' issues by packaging FastAPI and Streamlit into a reproducible container."* |
+| `docker-compose.yml` | Deployment | Microservice orchestration (API + Streamlit UI). | *"Spins up the full platform with a single command (`docker compose up`), networking the API and UI together seamlessly."* |
 | `Makefile` | Developer Tool | Automation shortcuts (`make test`, `make run`, `make ui`). | *"Standardizes CLI developer workflows across Windows and Linux environments."* |
 
 ---

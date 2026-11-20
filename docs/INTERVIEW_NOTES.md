@@ -169,11 +169,10 @@ Hit@1 plateaued at $K=8$. Increasing to $K=16$ added nearly a full second of neu
 ```
 These logs can be ingested directly by Datadog, Grafana Loki, or Google Cloud Logging for real-time alerting on circuit breaker trip spikes, latency regressions, or cache hit ratios.
 
-### Q25: How does your containerization strategy ensure production security?
-**Answer:** In `Dockerfile`:
-1. **Multi-Stage Build:** Dependencies and build tools are compiled in an isolated `builder` stage, keeping the final production image minimal.
-2. **Non-Root Execution:** We explicitly create a non-root system user `appuser` (UID 10001) and run the container with `USER appuser`. This prevents container breakout exploits from obtaining root privileges on the host kernel.
-3. **Built-in Healthchecks:** A native `HEALTHCHECK` periodically verifies `http://localhost:8000/health`, allowing Docker Compose or Kubernetes to automatically restart unhealthy pods.
+### Q25: How does your containerization and CI setup ensure reproducible deployment?
+**Answer:** 
+1. **Docker Containerization (`Dockerfile` & `docker-compose.yml`):** Uses a clean Python 3.11 base image to package dependencies, FastAPI, and Streamlit. This guarantees that all model libraries (ChromaDB, sentence-transformers, PyTorch) run identically across any operating system without dependency or version conflicts.
+2. **Automated CI/CD (`.github/workflows/ci.yml`):** Every push or pull request to `main` automatically spins up a clean Ubuntu runner to install dependencies and execute the full 55-test suite with `pytest`, ensuring that no breaking changes or retrieval regressions enter production.
 
 ---
 
