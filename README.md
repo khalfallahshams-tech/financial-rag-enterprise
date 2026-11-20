@@ -21,7 +21,6 @@
 > 
 > To protect against hallucinations and compute waste, I added an upstream Cross-Encoder confidence gate ($\tau = 0.0$) that rejects off-topic queries at **$0.00 token cost**, followed by defensive few-shot generation that scored **98.0% faithfulness**. I packaged the entire platform into a FastAPI service, a Streamlit interactive cockpit, 55 automated tests with a CI regression guard, and Docker containerization."*
 
-📖 **For deep technical interview preparation and file-by-file explanations, see the [Portfolio Master Guide](docs/PORTFOLIO_MASTER_GUIDE.md).**
 
 ---
 
@@ -232,14 +231,12 @@ financial-rag-enterprise/
 │   ├── chroma_db/                # 59,926-chunk persistent ChromaDB HNSW store
 │   ├── golden_eval_set.json      # Hand-checkable 50-item golden evaluation benchmark
 │   └── bm25_index.pkl            # Serialized BM25Okapi lexical index (91.34 MB)
-├── docs/
-│   ├── PORTFOLIO_MASTER_GUIDE.md # 🎓 Master interview guide: plain English story & full Q&A
-│   ├── PIPELINE.md               # 7-stage idempotent CLI pipeline & MLflow documentation
-│   ├── RESULTS.md                # Full empirical tables, ablations, 10 categorized failure modes
-│   ├── ARCHITECTURE.md           # System components, sequence diagram, design decisions & trade-offs
-│   ├── TESTING.md                # 55-test suite breakdown, 73% coverage report, regression guard
+├── docs/                         # Embedded visual evidence and UI screenshots
+│   ├── mlflow_ui.png             # Screenshot: MLflow experiment tracking interface
 │   ├── mlflow_evaluation_runs.png # Screenshot: Live MLflow evaluation benchmark runs
-│   └── mlflow_dashboard.png      # Screenshot: Live MLflow GenAI dashboard
+│   ├── mlflow_dashboard.png      # Screenshot: Live MLflow GenAI dashboard
+│   ├── streamlit_ui.png          # Screenshot: Streamlit interactive query interface
+│   └── streamlit_dashboard.png   # Screenshot: Streamlit evaluation benchmark cockpit
 ├── notebooks/
 │   └── 01_data_ingestion_and_eda.ipynb  # Complete 72-cell research & development laboratory
 ├── results/                      # Saved benchmark outputs, reports, and SHA-256 generation cache
